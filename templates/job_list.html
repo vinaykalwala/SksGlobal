@@ -1,0 +1,142 @@
+{% extends 'base.html' %}
+
+{% block title %}Jobs - Job Portal{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-3">
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <i class="fas fa-filter"></i> Filter Jobs
+                </h5>
+                <form method="get">
+                    <div class="mb-3">
+                        <label for="type" class="form-label">Job Type</label>
+                        <select name="type" id="type" class="form-select">
+                            <option value="">All Types</option>
+                            {% for value, label in job_types %}
+                            <option value="{{ value }}" {% if request.GET.type == value %}selected{% endif %}>
+                                {{ label }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="location" class="form-label">Location</label>
+                        <input type="text" name="location" id="location" class="form-control" 
+                               value="{{ request.GET.location }}" placeholder="e.g., New York, Remote">
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">
+                        <i class="fas fa-search"></i> Apply Filters
+                    </button>
+                    {% if request.GET.type or request.GET.location %}
+                    <a href="{% url ' job_list' %}" class="btn btn-secondary w-100 mt-2">
+                        <i class="fas fa-times"></i> Clear Filters
+                    </a>
+                    {% endif %}
+                </form>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <i class="fas fa-info-circle"></i> Why Join Us?
+                </h5>
+                <ul class="list-unstyled">
+                    <li><i class="fas fa-check text-success"></i> Competitive Salary</li>
+                    <li><i class="fas fa-check text-success"></i> Health Insurance</li>
+                    <li><i class="fas fa-check text-success"></i> Flexible Hours</li>
+                    <li><i class="fas fa-check text-success"></i> Career Growth</li>
+                    <li><i class="fas fa-check text-success"></i> Remote Options</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-9">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1>Open Positions</h1>
+            <span class="badge bg-primary">{{ page_obj.paginator.count }} Jobs Found</span>
+        </div>
+        
+        {% for job in jobs %}
+        <div class="card job-card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-9">
+                        <h5 class="card-title">
+                            <a href="{% url ' job_detail' job.slug %}" class="text-decoration-none">
+                                {{ job.title }}
+                            </a>
+                        </h5>
+                        <p class="card-text">
+                            <i class="fas fa-map-marker-alt"></i> {{ job.location }} |
+                            <i class="fas fa-clock"></i> {{ job.get_job_type_display }} |
+                            <i class="fas fa-chart-line"></i> {{ job.experience }}
+                        </p>
+                        <p class="card-text">{{ job.description|truncatewords:30|safe }}</p>
+                        <div class="mt-2">
+                            <span class="badge bg-secondary">
+                                <i class="fas fa-tag"></i> {{ job.skills|truncatechars:50 }}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-md-3 text-end">
+                        <h5 class="text-primary">{{ job.salary|default:"Negotiable" }}</h5>
+                        <a href="{% url ' job_detail' job.slug %}" class="btn btn-primary btn-sm mt-2">
+                            View Details <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="alert alert-info text-center">
+            <i class="fas fa-info-circle"></i> No jobs found matching your criteria.
+        </div>
+        {% endfor %}
+        
+        {% if is_paginated %}
+        <nav aria-label="Page navigation" class="mt-4">
+            <ul class="pagination justify-content-center">
+                {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if request.GET.type %}&type={{ request.GET.type }}{% endif %}{% if request.GET.location %}&location={{ request.GET.location }}{% endif %}">
+                        <i class="fas fa-chevron-left"></i> Previous
+                    </a>
+                </li>
+                {% else %}
+                <li class="page-item disabled">
+                    <span class="page-link"><i class="fas fa-chevron-left"></i> Previous</span>
+                </li>
+                {% endif %}
+                
+                {% for num in page_obj.paginator.page_range %}
+                    {% if page_obj.number == num %}
+                    <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+                    {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ num }}{% if request.GET.type %}&type={{ request.GET.type }}{% endif %}{% if request.GET.location %}&location={{ request.GET.location }}{% endif %}">{{ num }}</a>
+                    </li>
+                    {% endif %}
+                {% endfor %}
+                
+                {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if request.GET.type %}&type={{ request.GET.type }}{% endif %}{% if request.GET.location %}&location={{ request.GET.location }}{% endif %}">
+                        Next <i class="fas fa-chevron-right"></i>
+                    </a>
+                </li>
+                {% else %}
+                <li class="page-item disabled">
+                    <span class="page-link">Next <i class="fas fa-chevron-right"></i></span>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

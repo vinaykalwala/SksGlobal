@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+
+{% block title %}Contact Messages - Admin{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1><i class="fas fa-envelope"></i> Contact Messages</h1>
+    <span class="badge bg-primary">Total: {{ messages.paginator.count }}</span>
+</div>
+
+<div class="card mb-4">
+    <div class="card-body">
+        <form method="get" class="row">
+            <div class="col-md-4">
+                <label for="status">Filter by Status</label>
+                <select name="status" id="status" class="form-select">
+                    <option value="">All Status</option>
+                    {% for value, label in status_choices %}
+                    <option value="{{ value }}" {% if request.GET.status == value %}selected{% endif %}>
+                        {{ label }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label for="subject">Filter by Subject</label>
+                <select name="subject" id="subject" class="form-select">
+                    <option value="">All Subjects</option>
+                    {% for value, label in subject_choices %}
+                    <option value="{{ value }}" {% if request.GET.subject == value %}selected{% endif %}>
+                        {{ label }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-4 d-flex align-items-end">
+                <button type="submit" class="btn btn-primary w-100">
+                    <i class="fas fa-search"></i> Apply Filters
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Subject</th>
+                <th>Status</th>
+                <th>Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for message in messages %}
+            <tr>
+                <td>{{ message.id }}</td>
+                <td>{{ message.name }}</td>
+                <td>{{ message.email }}</td>
+                <td>{{ message.get_subject_display }}</td>
+                <td>
+                    <span class="badge bg-{% if message.status == 'new' %}danger{% elif message.status == 'contacted' %}warning{% elif message.status == 'qualified' %}info{% elif message.status == 'converted' %}success{% else %}secondary{% endif %}">
+                        {{ message.get_status_display }}
+                    </span>
+                </td>
+                <td>{{ message.created_at|date:"M d, Y" }}</td>
+                <td>
+                    <a href="{% url ' contact_message_detail' message.pk %}" class="btn btn-sm btn-info">
+                        <i class="fas fa-eye"></i>
+                    </a>
+                    <a href="{% url ' contact_message_delete' message.pk %}" class="btn btn-sm btn-danger">
+                        <i class="fas fa-trash"></i>
+                    </a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="7" class="text-center">No messages found.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% if messages.has_other_pages %}
+<nav aria-label="Page navigation">
+    <ul class="pagination justify-content-center">
+        {% if messages.has_previous %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ messages.previous_page_number }}{% if request.GET.status %}&status={{ request.GET.status }}{% endif %}{% if request.GET.subject %}&subject={{ request.GET.subject }}{% endif %}">
+                Previous
+            </a>
+        </li>
+        {% endif %}
+        
+        {% for num in messages.paginator.page_range %}
+        <li class="page-item {% if messages.number == num %}active{% endif %}">
+            <a class="page-link" href="?page={{ num }}{% if request.GET.status %}&status={{ request.GET.status }}{% endif %}{% if request.GET.subject %}&subject={{ request.GET.subject }}{% endif %}">
+                {{ num }}
+            </a>
+        </li>
+        {% endfor %}
+        
+        {% if messages.has_next %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ messages.next_page_number }}{% if request.GET.status %}&status={{ request.GET.status }}{% endif %}{% if request.GET.subject %}&subject={{ request.GET.subject }}{% endif %}">
+                Next
+            </a>
+        </li>
+        {% endif %}
+    </ul>
+</nav>
+{% endif %}
+{% endblock %}

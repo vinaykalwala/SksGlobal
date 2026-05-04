@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+
+{% block title %}Lead Details - {{ lead.company_name }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h3 class="mb-0"><i class="fas fa-building"></i> Employer Lead Details</h3>
+            </div>
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div class="col-md-3 fw-bold">Company Name:</div>
+                    <div class="col-md-9">{{ lead.company_name }}</div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-3 fw-bold">Contact Person:</div>
+                    <div class="col-md-9">{{ lead.contact_person }}</div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-3 fw-bold">Email:</div>
+                    <div class="col-md-9">{{ lead.email }}</div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-3 fw-bold">Phone:</div>
+                    <div class="col-md-9">{{ lead.phone }}</div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-3 fw-bold">Status:</div>
+                    <div class="col-md-9">
+                        <span class="badge bg-{% if lead.status == 'new' %}primary{% elif lead.status == 'contacted' %}info{% elif lead.status == 'in_progress' %}warning{% else %}success{% endif %}">
+                            {{ lead.get_status_display }}
+                        </span>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-3 fw-bold">Hiring Type:</div>
+                    <div class="col-md-9">{{ lead.hiring_type|default:"Not specified" }}</div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-3 fw-bold">Tech Stack:</div>
+                    <div class="col-md-9">{{ lead.tech_stack|default:"Not specified" }}</div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-3 fw-bold">Requirements:</div>
+                    <div class="col-md-9">{{ lead.requirement|linebreaks }}</div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-3 fw-bold">Created:</div>
+                    <div class="col-md-9">{{ lead.created_at|date:"F d, Y H:i" }}</div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-3 fw-bold">Last Updated:</div>
+                    <div class="col-md-9">{{ lead.updated_at|date:"F d, Y H:i" }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0"><i class="fas fa-cog"></i> Actions</h5>
+            </div>
+            <div class="card-body">
+                <div class="d-grid gap-2">
+                    <a href="{% url ' employer_lead_update' lead.pk %}" class="btn btn-primary">
+                        <i class="fas fa-edit"></i> Edit Lead
+                    </a>
+                    <a href="mailto:{{ lead.email }}" class="btn btn-success">
+                        <i class="fas fa-envelope"></i> Send Email
+                    </a>
+                    <a href="tel:{{ lead.phone }}" class="btn btn-info">
+                        <i class="fas fa-phone"></i> Call Lead
+                    </a>
+                    <a href="{% url ' employer_lead_delete' lead.pk %}" class="btn btn-danger">
+                        <i class="fas fa-trash"></i> Delete Lead
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card mt-3">
+            <div class="card-header bg-warning">
+                <h5 class="mb-0"><i class="fas fa-clock"></i> Follow-up Reminder</h5>
+            </div>
+            <div class="card-body">
+                <input type="datetime-local" class="form-control mb-2">
+                <button class="btn btn-sm btn-primary w-100">Set Reminder</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

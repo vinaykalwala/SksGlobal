@@ -1,0 +1,331 @@
+{% extends ' base.html' %}
+
+{% block title %}About Us - JobPortal{% endblock %}
+
+{% block extra_css %}
+<style>
+    .about-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 80px 0;
+        margin-bottom: 50px;
+    }
+    .mission-section {
+        background: #f8f9fa;
+        padding: 60px 0;
+        margin: 50px 0;
+        border-radius: 20px;
+    }
+    .value-card {
+        text-align: center;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        height: 100%;
+        transition: transform 0.3s;
+    }
+    .value-card:hover {
+        transform: translateY(-10px);
+    }
+    .value-icon {
+        font-size: 3rem;
+        color: #007bff;
+        margin-bottom: 20px;
+    }
+    .team-card {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+    .team-img {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-bottom: 15px;
+    }
+    .timeline-item {
+        padding: 20px;
+        border-left: 3px solid #007bff;
+        margin-bottom: 30px;
+        background: #f8f9fa;
+        border-radius: 5px;
+    }
+    .timeline-year {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #007bff;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Header -->
+<section class="about-header">
+    <div class="container text-center">
+        <h1 class="display-4">About JobPortal</h1>
+        <p class="lead">Connecting talent with opportunity since 2015</p>
+    </div>
+</section>
+
+<!-- Our Story -->
+<div class="container mb-5">
+    <div class="row">
+        <div class="col-md-6">
+            <h2>Our Story</h2>
+            <p class="lead">Founded with a mission to transform the staffing industry</p>
+            <p>JobPortal was established in 2015 by a team of recruitment experts who saw the need for a more efficient, transparent, and user-friendly staffing platform. What started as a small agency has grown into a trusted partner for hundreds of companies and thousands of job seekers.</p>
+            <p>We believe that the right job can change a person's life, and the right employee can transform a business. Our platform bridges the gap between talented professionals and forward-thinking employers, creating success stories every day.</p>
+            <p>Today, we're proud to be one of the fastest-growing staffing solutions providers, specializing in technology, creative, and professional services placements.</p>
+        </div>
+        <div class="col-md-6">
+            <img src="https://via.placeholder.com/600x400?text=Our+Office" alt="Our Office" class="img-fluid rounded shadow">
+        </div>
+    </div>
+</div>
+
+<!-- Mission & Vision -->
+<section class="mission-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <i class="fas fa-bullseye" style="font-size: 3rem; color: #007bff;"></i>
+                        <h3 class="mt-3">Our Mission</h3>
+                        <p>To empower businesses and professionals by providing innovative staffing solutions that drive growth, success, and career fulfillment.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <i class="fas fa-eye" style="font-size: 3rem; color: #007bff;"></i>
+                        <h3 class="mt-3">Our Vision</h3>
+                        <p>To become the global leader in talent acquisition, setting new standards for excellence in recruitment and staffing services.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Our Values -->
+<div class="container mb-5">
+    <div class="text-center mb-5">
+        <h2>Our Core Values</h2>
+        <p class="lead">What drives us every day</p>
+    </div>
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <div class="value-card">
+                <i class="fas fa-handshake value-icon"></i>
+                <h4>Integrity</h4>
+                <p>We operate with honesty, transparency, and ethical practices in all our dealings.</p>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="value-card">
+                <i class="fas fa-star value-icon"></i>
+                <h4>Excellence</h4>
+                <p>We strive for excellence in everything we do, from candidate screening to client service.</p>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="value-card">
+                <i class="fas fa-lightbulb value-icon"></i>
+                <h4>Innovation</h4>
+                <p>We embrace technology and innovative approaches to improve the recruitment process.</p>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="value-card">
+                <i class="fas fa-users value-icon"></i>
+                <h4>Collaboration</h4>
+                <p>We believe in building strong partnerships with clients, candidates, and team members.</p>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="value-card">
+                <i class="fas fa-heart value-icon"></i>
+                <h4>Empathy</h4>
+                <p>We understand the importance of career decisions and treat every person with respect.</p>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="value-card">
+                <i class="fas fa-chart-line value-icon"></i>
+                <h4>Growth</h4>
+                <p>We are committed to continuous learning, improvement, and helping others grow.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Our Journey -->
+<div class="container mb-5">
+    <div class="text-center mb-5">
+        <h2>Our Journey</h2>
+        <p class="lead">Milestones that shaped our success</p>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="timeline-item">
+                <div class="timeline-year">2015</div>
+                <h5>Company Founded</h5>
+                <p>JobPortal launched with a small team of 5 recruitment specialists.</p>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-year">2017</div>
+                <h5>1000th Placement</h5>
+                <p>Achieved our 1000th successful job placement milestone.</p>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-year">2019</div>
+                <h5>Expansion</h5>
+                <p>Opened new offices in 3 major cities and expanded our team to 50+ experts.</p>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="timeline-item">
+                <div class="timeline-year">2020</div>
+                <h5>Digital Transformation</h5>
+                <p>Launched our advanced AI-powered matching platform.</p>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-year">2022</div>
+                <h5>Global Recognition</h5>
+                <p>Recognized as "Best Staffing Agency" by industry awards.</p>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-year">2024</div>
+                <h5>Future Forward</h5>
+                <p>Continuing to innovate and expand our services globally.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Leadership Team -->
+<div class="container mb-5">
+    <div class="text-center mb-5">
+        <h2>Leadership Team</h2>
+        <p class="lead">Meet the experts behind our success</p>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <div class="team-card">
+                <img src="https://via.placeholder.com/150" alt="Team Member" class="team-img">
+                <h5>John Smith</h5>
+                <p class="text-muted">CEO & Founder</p>
+                <small>20+ years in recruitment</small>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="team-card">
+                <img src="https://via.placeholder.com/150" alt="Team Member" class="team-img">
+                <h5>Jane Doe</h5>
+                <p class="text-muted">Head of Operations</p>
+                <small>15+ years experience</small>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="team-card">
+                <img src="https://via.placeholder.com/150" alt="Team Member" class="team-img">
+                <h5>Mike Johnson</h5>
+                <p class="text-muted">Technical Recruitment Lead</p>
+                <small>Tech recruitment specialist</small>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="team-card">
+                <img src="https://via.placeholder.com/150" alt="Team Member" class="team-img">
+                <h5>Sarah Williams</h5>
+                <p class="text-muted">Client Relations Director</p>
+                <small>Client satisfaction expert</small>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Why Choose Us -->
+<section class="mission-section">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2>Why Choose JobPortal?</h2>
+            <p class="lead">What makes us different</p>
+        </div>
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <div class="d-flex">
+                    <i class="fas fa-check-circle text-success me-3" style="font-size: 2rem;"></i>
+                    <div>
+                        <h5>Quality Candidates</h5>
+                        <p>Rigorous screening process ensures only top talent</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="d-flex">
+                    <i class="fas fa-clock text-success me-3" style="font-size: 2rem;"></i>
+                    <div>
+                        <h5>Fast Placements</h5>
+                        <p>Average time-to-hire of just 2 weeks</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="d-flex">
+                    <i class="fas fa-chart-line text-success me-3" style="font-size: 2rem;"></i>
+                    <div>
+                        <h5>98% Retention Rate</h5>
+                        <p>Long-term placements that work</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="d-flex">
+                    <i class="fas fa-headset text-success me-3" style="font-size: 2rem;"></i>
+                    <div>
+                        <h5>24/7 Support</h5>
+                        <p>Dedicated account managers always available</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="d-flex">
+                    <i class="fas fa-shield-alt text-success me-3" style="font-size: 2rem;"></i>
+                    <div>
+                        <h5>Guaranteed Satisfaction</h5>
+                        <p>90-day replacement guarantee</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="d-flex">
+                    <i class="fas fa-globe text-success me-3" style="font-size: 2rem;"></i>
+                    <div>
+                        <h5>Global Network</h5>
+                        <p>Access to talent pool across multiple countries</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<div class="container mt-5 mb-5">
+    <div class="cta-section">
+        <h2>Ready to Work With Us?</h2>
+        <p class="lead">Let's create success stories together</p>
+        <div class="d-flex gap-3 justify-content-center">
+            <a href="{% url ' contact' %}" class="btn btn-light btn-lg">
+                <i class="fas fa-envelope"></i> Contact Us
+            </a>
+            <a href="{% url ' job_list' %}" class="btn btn-outline-light btn-lg">
+                <i class="fas fa-briefcase"></i> Browse Jobs
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

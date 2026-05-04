@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% block title %}Resources - Job Portal{% endblock %}
+
+{% block content %}
+<div class="text-center mb-5">
+    <h1><i class="fas fa-download"></i> Free Resources</h1>
+    <p class="lead">Download guides, templates, and ebooks to help with your career</p>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-4 mx-auto">
+        <form method="get">
+            <select name="type" class="form-select" onchange="this.form.submit()">
+                <option value="">All Resources</option>
+                {% for value, label in resource_types %}
+                <option value="{{ value }}" {% if request.GET.type == value %}selected{% endif %}>
+                    {{ label }}
+                </option>
+                {% endfor %}
+            </select>
+        </form>
+    </div>
+</div>
+
+<div class="row">
+    {% for resource in resources %}
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+            <div class="card-body text-center">
+                <i class="fas fa-{% if resource.resource_type == 'guide' %}book{% elif resource.resource_type == 'ebook' %}file-pdf{% elif resource.resource_type == 'template' %}file-word{% else %}file-alt{% endif %}" 
+                   style="font-size: 48px; color: #007bff;"></i>
+                <h4 class="card-title mt-3">{{ resource.title }}</h4>
+                <p class="card-text">{{ resource.description|truncatewords:20 }}</p>
+                <span class="badge bg-primary mb-3">{{ resource.get_resource_type_display }}</span>
+                <div>
+                    {% if resource.file %}
+                    <a href="{{ resource.file.url }}" class="btn btn-success" download>
+                        <i class="fas fa-download"></i> Download
+                    </a>
+                    {% elif resource.external_link %}
+                    <a href="{{ resource.external_link }}" class="btn btn-info" target="_blank">
+                        <i class="fas fa-external-link-alt"></i> View Resource
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="col-12">
+        <div class="alert alert-info text-center">No resources found.</div>
+    </div>
+    {% endfor %}
+</div>
+
+{% if is_paginated %}
+<nav aria-label="Page navigation">
+    <ul class="pagination justify-content-center">
+        {% if page_obj.has_previous %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if request.GET.type %}&type={{ request.GET.type }}{% endif %}">Previous</a>
+        </li>
+        {% endif %}
+        
+        {% for num in page_obj.paginator.page_range %}
+        <li class="page-item {% if page_obj.number == num %}active{% endif %}">
+            <a class="page-link" href="?page={{ num }}{% if request.GET.type %}&type={{ request.GET.type }}{% endif %}">{{ num }}</a>
+        </li>
+        {% endfor %}
+        
+        {% if page_obj.has_next %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if request.GET.type %}&type={{ request.GET.type }}{% endif %}">Next</a>
+        </li>
+        {% endif %}
+    </ul>
+</nav>
+{% endif %}
+{% endblock %}

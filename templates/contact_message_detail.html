@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+
+{% block title %}Message Details - {{ message.name }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h3 class="mb-0"><i class="fas fa-envelope"></i> Message Details</h3>
+            </div>
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div class="col-md-3 fw-bold">Name:</div>
+                    <div class="col-md-9">{{ message.name }}</div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-3 fw-bold">Email:</div>
+                    <div class="col-md-9">{{ message.email }}</div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-3 fw-bold">Phone:</div>
+                    <div class="col-md-9">{{ message.phone|default:"Not provided" }}</div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-3 fw-bold">Company:</div>
+                    <div class="col-md-9">{{ message.company_name|default:"Not provided" }}</div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-3 fw-bold">Subject:</div>
+                    <div class="col-md-9">{{ message.get_subject_display }}</div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-3 fw-bold">Message:</div>
+                    <div class="col-md-9">{{ message.message|linebreaks }}</div>
+                </div>
+                
+                <hr>
+                
+                <h5>Additional Information</h5>
+                <div class="row mb-3">
+                    <div class="col-md-3 fw-bold">Requirement Type:</div>
+                    <div class="col-md-9">{{ message.requirement_type|default:"Not specified" }}</div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-3 fw-bold">Tech Stack:</div>
+                    <div class="col-md-9">{{ message.tech_stack|default:"Not specified" }}</div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-3 fw-bold">Hiring Duration:</div>
+                    <div class="col-md-9">{{ message.hiring_duration|default:"Not specified" }}</div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-3 fw-bold">Budget:</div>
+                    <div class="col-md-9">{{ message.budget|default:"Not specified" }}</div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-3 fw-bold">Services Interested:</div>
+                    <div class="col-md-9">
+                        {% if message.services_interested %}
+                            <ul>
+                            {% for service in message.services_interested %}
+                                <li>{{ service }}</li>
+                            {% endfor %}
+                            </ul>
+                        {% else %}
+                            Not specified
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-3 fw-bold">Source:</div>
+                    <div class="col-md-9">{{ message.get_source_display }}</div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-3 fw-bold">Received:</div>
+                    <div class="col-md-9">{{ message.created_at|date:"F d, Y H:i" }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0"><i class="fas fa-cog"></i> Update Status</h5>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="status" class="form-label">Status</label>
+                        <select name="status" id="status" class="form-select">
+                            {% for value, label in message.STATUS_CHOICES %}
+                            <option value="{{ value }}" {% if message.status == value %}selected{% endif %}>
+                                {{ label }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="admin_notes" class="form-label">Admin Notes</label>
+                        <textarea name="admin_notes" id="admin_notes" class="form-control" rows="5">{{ message.admin_notes }}</textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">
+                        <i class="fas fa-save"></i> Update Message
+                    </button>
+                </form>
+            </div>
+        </div>
+        
+        <div class="card mt-3">
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0"><i class="fas fa-reply"></i> Quick Actions</h5>
+            </div>
+            <div class="card-body">
+                <div class="d-grid gap-2">
+                    <a href="mailto:{{ message.email }}" class="btn btn-success">
+                        <i class="fas fa-envelope"></i> Reply via Email
+                    </a>
+                    <a href="tel:{{ message.phone }}" class="btn btn-info">
+                        <i class="fas fa-phone"></i> Call {{ message.name }}
+                    </a>
+                    <a href="{% url ' contact_message_delete' message.pk %}" class="btn btn-danger">
+                        <i class="fas fa-trash"></i> Delete Message
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

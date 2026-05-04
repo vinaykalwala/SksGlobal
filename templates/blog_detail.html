@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ blog.title }} - Job Portal{% endblock %}
+
+{% block meta %}
+<meta name="description" content="{{ blog.meta_description|default:blog.excerpt|striptags }}">
+<meta name="keywords" content="{{ blog.keywords }}">
+{% if blog.meta_title %}
+<meta property="og:title" content="{{ blog.meta_title }}">
+{% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8">
+        <article>
+            <h1 class="mb-3">{{ blog.title }}</h1>
+            <p class="text-muted">
+                <i class="fas fa-user"></i> {{ blog.author }} | 
+                <i class="fas fa-calendar"></i> {{ blog.created_at|date:"F d, Y" }} |
+                <i class="fas fa-clock"></i> {{ blog.updated_at|date:"F d, Y" }}
+            </p>
+            
+            {% if blog.featured_image %}
+            <img src="{{ blog.featured_image.url }}" class="img-fluid rounded mb-4" alt="{{ blog.title }}">
+            {% endif %}
+            
+            <div class="blog-content">
+                {{ blog.content|safe|linebreaks }}
+            </div>
+            
+            {% if blog.keywords %}
+            <div class="mt-4">
+                <strong>Tags:</strong>
+                {% for keyword in blog.keywords.split|slice:":5" %}
+                <span class="badge bg-secondary">{{ keyword }}</span>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </article>
+        
+        <hr>
+        
+        <div class="comments-section mt-4">
+            <h4>Leave a Comment</h4>
+            <form>
+                <div class="mb-3">
+                    <label for="name" class="form-label">Name</label>
+                    <input type="text" class="form-control" id="name">
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="email">
+                </div>
+                <div class="mb-3">
+                    <label for="comment" class="form-label">Comment</label>
+                    <textarea class="form-control" id="comment" rows="3"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Post Comment</button>
+            </form>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5>About the Author</h5>
+                <p>{{ blog.author }} is a career expert with years of experience in recruitment.</p>
+            </div>
+        </div>
+        
+        <div class="card mt-3">
+            <div class="card-body">
+                <h5>Share this post</h5>
+                <div class="btn-group w-100">
+                    <a href="#" class="btn btn-outline-primary">Facebook</a>
+                    <a href="#" class="btn btn-outline-info">Twitter</a>
+                    <a href="#" class="btn btn-outline-secondary">LinkedIn</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

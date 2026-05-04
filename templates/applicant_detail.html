@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+
+{% block title %}Applicant Details - {{ applicant.name }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h3 class="mb-0"><i class="fas fa-user-circle"></i> Applicant Information</h3>
+            </div>
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div class="col-md-4 fw-bold">Full Name:</div>
+                    <div class="col-md-8">{{ applicant.name }}</div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-4 fw-bold">Email:</div>
+                    <div class="col-md-8">{{ applicant.email }}</div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-4 fw-bold">Phone:</div>
+                    <div class="col-md-8">{{ applicant.phone }}</div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-4 fw-bold">Applied for:</div>
+                    <div class="col-md-8">
+                        <a href="{% url ' job_detail' applicant.job.slug %}">{{ applicant.job.title }}</a>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-4 fw-bold">Status:</div>
+                    <div class="col-md-8">
+                        <span class="badge bg-{% if applicant.status == 'new' %}primary{% elif applicant.status == 'screening' %}info{% elif applicant.status == 'interview' %}warning{% elif applicant.status == 'selected' %}success{% else %}danger{% endif %}">
+                            {{ applicant.get_status_display }}
+                        </span>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-4 fw-bold">Experience:</div>
+                    <div class="col-md-8">{{ applicant.experience|default:"Not specified" }}</div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-4 fw-bold">Skills:</div>
+                    <div class="col-md-8">{{ applicant.skills|default:"Not specified"|linebreaks }}</div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-4 fw-bold">Resume:</div>
+                    <div class="col-md-8">
+                        <a href="{{ applicant.resume.url }}" class="btn btn-sm btn-success" target="_blank">
+                            <i class="fas fa-download"></i> Download Resume
+                        </a>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-4 fw-bold">Applied Date:</div>
+                    <div class="col-md-8">{{ applicant.created_at|date:"F d, Y H:i" }}</div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-4 fw-bold">Last Updated:</div>
+                    <div class="col-md-8">{{ applicant.updated_at|date:"F d, Y H:i" }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0"><i class="fas fa-cog"></i> Actions</h5>
+            </div>
+            <div class="card-body">
+                <div class="d-grid gap-2">
+                    <a href="{% url ' applicant_update' applicant.pk %}" class="btn btn-primary">
+                        <i class="fas fa-edit"></i> Edit Applicant
+                    </a>
+                    <a href="mailto:{{ applicant.email }}" class="btn btn-success">
+                        <i class="fas fa-envelope"></i> Send Email
+                    </a>
+                    <a href="tel:{{ applicant.phone }}" class="btn btn-info">
+                        <i class="fas fa-phone"></i> Call Applicant
+                    </a>
+                    <button class="btn btn-secondary" onclick="window.print()">
+                        <i class="fas fa-print"></i> Print Details
+                    </button>
+                    <a href="{% url ' applicant_delete' applicant.pk %}" class="btn btn-danger">
+                        <i class="fas fa-trash"></i> Delete Applicant
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card mt-3">
+            <div class="card-header bg-warning">
+                <h5 class="mb-0"><i class="fas fa-sticky-note"></i> Quick Notes</h5>
+            </div>
+            <div class="card-body">
+                <textarea class="form-control" rows="5" placeholder="Add notes about this applicant..."></textarea>
+                <button class="btn btn-sm btn-primary mt-2">Save Notes</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

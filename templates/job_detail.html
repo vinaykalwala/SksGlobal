@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ job.title }} - {{ job.location }} | Job Portal{% endblock %}
+
+{% block extra_css %}
+<style>
+    .job-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 40px 0;
+        margin-bottom: 30px;
+        border-radius: 10px;
+    }
+    .job-meta {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+        margin: 20px 0;
+    }
+    .job-meta-item {
+        background: #f8f9fa;
+        padding: 10px 15px;
+        border-radius: 5px;
+    }
+    .section-title {
+        border-left: 4px solid #007bff;
+        padding-left: 15px;
+        margin: 30px 0 20px;
+    }
+    .apply-btn {
+        position: sticky;
+        top: 20px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="job-header">
+    <div class="container">
+        <h1>{{ job.title }}</h1>
+        <p class="lead">{{ job.location }}</p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-body">
+                <div class="job-meta">
+                    <div class="job-meta-item">
+                        <i class="fas fa-briefcase"></i> {{ job.get_job_type_display }}
+                    </div>
+                    <div class="job-meta-item">
+                        <i class="fas fa-chart-line"></i> {{ job.experience }}
+                    </div>
+                    <div class="job-meta-item">
+                        <i class="fas fa-dollar-sign"></i> {{ job.salary|default:"Negotiable" }}
+                    </div>
+                    <div class="job-meta-item">
+                        <i class="fas fa-calendar"></i> Posted: {{ job.created_at|date:"M d, Y" }}
+                    </div>
+                </div>
+                
+                <h3 class="section-title">Job Description</h3>
+                <div>{{ job.description|linebreaks }}</div>
+                
+                <h3 class="section-title">Required Skills</h3>
+                <div class="mb-4">
+                    {% for skill in job.skills.split|slice:":10" %}
+                    <span class="badge bg-info me-2 mb-2">{{ skill }}</span>
+                    {% endfor %}
+                </div>
+                
+                {% if job.responsibilities %}
+                <h3 class="section-title">Key Responsibilities</h3>
+                <div>{{ job.responsibilities|linebreaks }}</div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card apply-btn">
+            <div class="card-body text-center">
+                <h4>Interested in this position?</h4>
+                <a href="{% url ' apply_for_job' job.slug %}" class="btn btn-success btn-lg w-100 mt-3">
+                    <i class="fas fa-paper-plane"></i> Apply Now
+                </a>
+                <hr>
+                <div class="text-start mt-3">
+                    <p><i class="fas fa-share-alt"></i> Share this job:</p>
+                    <div class="btn-group w-100">
+                        <a href="#" class="btn btn-outline-primary btn-sm">LinkedIn</a>
+                        <a href="#" class="btn btn-outline-info btn-sm">Twitter</a>
+                        <a href="#" class="btn btn-outline-secondary btn-sm">Email</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card mt-3">
+            <div class="card-body">
+                <h5><i class="fas fa-building"></i> About the Company</h5>
+                <p>We are a leading technology company focused on innovation and excellence. Join our team and be part of something great!</p>
+                <button class="btn btn-outline-primary btn-sm w-100">Learn More</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,429 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Home - SKS GLOBAL IT SERVICES{% endblock %}
+
+{% block extra_css %}
+<style>
+    .hero-section {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 100px 0;
+        margin-bottom: 50px;
+        border-radius: 0 0 50px 50px;
+    }
+    .hero-title {
+        font-size: 3.5rem;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+    .hero-subtitle {
+        font-size: 1.2rem;
+        margin-bottom: 30px;
+    }
+    .stat-card {
+        text-align: center;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        transition: transform 0.3s;
+        background: white;
+    }
+    .stat-card:hover {
+        transform: translateY(-10px);
+    }
+    .stat-number {
+        font-size: 2.5rem;
+        font-weight: bold;
+        color: #007bff;
+    }
+    .service-card {
+        text-align: center;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        margin-bottom: 30px;
+        transition: all 0.3s;
+    }
+    .service-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+    }
+    .service-icon {
+        font-size: 3rem;
+        color: #007bff;
+        margin-bottom: 20px;
+    }
+    .testimonial-card {
+        background: #f8f9fa;
+        padding: 30px;
+        border-radius: 10px;
+        margin: 20px;
+        text-align: center;
+    }
+    .testimonial-text {
+        font-style: italic;
+        margin-bottom: 20px;
+    }
+    .feature-section {
+        background: #f8f9fa;
+        padding: 60px 0;
+        margin: 50px 0;
+        border-radius: 20px;
+    }
+    .job-category {
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        text-align: center;
+        transition: all 0.3s;
+    }
+    .job-category:hover {
+        background: #007bff;
+        color: white;
+        transform: translateY(-5px);
+    }
+    .job-category i {
+        font-size: 2rem;
+        margin-bottom: 10px;
+    }
+    .cta-section {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 60px 0;
+        border-radius: 20px;
+        text-align: center;
+    }
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    .animate {
+        animation: fadeInUp 0.6s ease-out;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-7 animate">
+                <h1 class="hero-title">Find Your Dream Job Today</h1>
+                <p class="hero-subtitle">Connect with top employers and discover opportunities that match your skills and career goals.</p>
+                <div class="d-flex gap-3">
+                    <a href="{% url 'job_list' %}" class="btn btn-light btn-lg">
+                        <i class="fas fa-search"></i> Browse Jobs
+                    </a>
+                    <a href="{% url 'contact' %}" class="btn btn-outline-light btn-lg">
+                        <i class="fas fa-briefcase"></i> Hire Talent
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-5 animate">
+                <div class="card shadow">
+                    <div class="card-body">
+                        <h4>Quick Job Search</h4>
+                        <form action="{% url 'job_list' %}" method="get">
+                            <div class="mb-3">
+                                <input type="text" name="location" class="form-control" placeholder="Location">
+                            </div>
+                            <div class="mb-3">
+                                <select name="type" class="form-select">
+                                    <option value="">All Job Types</option>
+                                    <option value="full_time">Full Time</option>
+                                    <option value="contract">Contract</option>
+                                    <option value="contract_to_hire">Contract to Hire</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">
+                                <i class="fas fa-search"></i> Search Jobs
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Stats Section -->
+<section class="container mb-5">
+    <div class="row">
+        <div class="col-md-3 mb-3">
+            <div class="stat-card">
+                <div class="stat-number">{{ total_jobs|default:"500+" }}</div>
+                <div>Active Jobs</div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="stat-card">
+                <div class="stat-number">{{ total_companies|default:"300+" }}</div>
+                <div>Companies</div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="stat-card">
+                <div class="stat-number">{{ total_placements|default:"1000+" }}</div>
+                <div>Successful Placements</div>
+            </div>
+        </div>
+        <div class="col-md-3 mb-3">
+            <div class="stat-card">
+                <div class="stat-number">{{ satisfaction_rate|default:"98%" }}</div>
+                <div>Client Satisfaction</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Services Section -->
+<section class="container mb-5">
+    <div class="text-center mb-5">
+        <h2>Our Services</h2>
+        <p class="lead">Comprehensive staffing solutions tailored to your needs</p>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="service-card">
+                <i class="fas fa-users service-icon"></i>
+                <h4>Temporary Staffing</h4>
+                <p>Flexible staffing solutions for short-term projects and seasonal demands.</p>
+                <a href="{% url 'contact' %}" class="btn btn-link">Learn More →</a>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="service-card">
+                <i class="fas fa-handshake service-icon"></i>
+                <h4>Contract-to-Hire</h4>
+                <p>Try before you hire with our contract-to-hire placement services.</p>
+                <a href="{% url 'contact' %}" class="btn btn-link">Learn More →</a>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="service-card">
+                <i class="fas fa-user-tie service-icon"></i>
+                <h4>Direct Hire</h4>
+                <p>Permanent placement solutions for long-term staffing needs.</p>
+                <a href="{% url 'contact' %}" class="btn btn-link">Learn More →</a>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="service-card">
+                <i class="fas fa-chart-line service-icon"></i>
+                <h4>Payrolling Services</h4>
+                <p>Streamlined payroll management for your contract workforce.</p>
+                <a href="{% url 'contact' %}" class="btn btn-link">Learn More →</a>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="service-card">
+                <i class="fas fa-laptop-code service-icon"></i>
+                <h4>Dedicated Teams</h4>
+                <p>Build dedicated development teams for your projects.</p>
+                <a href="{% url 'contact' %}" class="btn btn-link">Learn More →</a>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="service-card">
+                <i class="fas fa-chalkboard-teacher service-icon"></i>
+                <h4>Training & Development</h4>
+                <p>Upskill your workforce with our training programs.</p>
+                <a href="{% url 'contact' %}" class="btn btn-link">Learn More →</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Jobs Section -->
+<section class="container mb-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Featured Jobs</h2>
+        <a href="{% url 'job_list' %}" class="btn btn-outline-primary">View All Jobs →</a>
+    </div>
+    <div class="row">
+        {% for job in featured_jobs|slice:":6" %}
+        <div class="col-md-6 mb-3">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <h5 class="card-title">
+                            <a href="{% url 'job_detail' job.slug %}" class="text-decoration-none">
+                                {{ job.title }}
+                            </a>
+                        </h5>
+                        <span class="badge bg-primary">{{ job.get_job_type_display }}</span>
+                    </div>
+                    <p class="card-text">
+                        <i class="fas fa-map-marker-alt"></i> {{ job.location }}<br>
+                        <i class="fas fa-chart-line"></i> {{ job.experience }}<br>
+                        <i class="fas fa-dollar-sign"></i> {{ job.salary|default:"Negotiable" }}
+                    </p>
+                    <a href="{% url 'job_detail' job.slug %}" class="btn btn-sm btn-primary">
+                        Apply Now <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <div class="alert alert-info">No featured jobs available at the moment.</div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- Job Categories -->
+<section class="feature-section">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2>Popular Job Categories</h2>
+            <p class="lead">Explore opportunities in your field</p>
+        </div>
+        <div class="row">
+            <div class="col-md-2 col-6 mb-3">
+                <div class="job-category">
+                    <i class="fas fa-code"></i>
+                    <div>Development</div>
+                </div>
+            </div>
+            <div class="col-md-2 col-6 mb-3">
+                <div class="job-category">
+                    <i class="fas fa-paint-brush"></i>
+                    <div>Design</div>
+                </div>
+            </div>
+            <div class="col-md-2 col-6 mb-3">
+                <div class="job-category">
+                    <i class="fas fa-chart-line"></i>
+                    <div>Marketing</div>
+                </div>
+            </div>
+            <div class="col-md-2 col-6 mb-3">
+                <div class="job-category">
+                    <i class="fas fa-chart-bar"></i>
+                    <div>Sales</div>
+                </div>
+            </div>
+            <div class="col-md-2 col-6 mb-3">
+                <div class="job-category">
+                    <i class="fas fa-headset"></i>
+                    <div>Support</div>
+                </div>
+            </div>
+            <div class="col-md-2 col-6 mb-3">
+                <div class="job-category">
+                    <i class="fas fa-shield-alt"></i>
+                    <div>Management</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials -->
+<section class="container mb-5">
+    <div class="text-center mb-5">
+        <h2>What Our Clients Say</h2>
+        <p class="lead">Success stories from job seekers and employers</p>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="testimonial-card">
+                <i class="fas fa-quote-left" style="font-size: 2rem; color: #007bff;"></i>
+                <p class="testimonial-text mt-3">"JobPortal helped me find the perfect candidate within just two weeks. Their screening process is exceptional!"</p>
+                <h6>- Sarah Johnson</h6>
+                <small>HR Manager, Tech Corp</small>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="testimonial-card">
+                <i class="fas fa-quote-left" style="font-size: 2rem; color: #007bff;"></i>
+                <p class="testimonial-text mt-3">"I landed my dream job through JobPortal. The platform is easy to use and the support team is very helpful."</p>
+                <h6>- Michael Chen</h6>
+                <small>Software Engineer</small>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="testimonial-card">
+                <i class="fas fa-quote-left" style="font-size: 2rem; color: #007bff;"></i>
+                <p class="testimonial-text mt-3">"Best staffing agency we've worked with. Professional, responsive, and results-driven."</p>
+                <h6>- Emily Rodriguez</h6>
+                <small>CEO, Startup Inc</small>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Blog Section -->
+<section class="container mb-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Latest from Our Blog</h2>
+        <a href="{% url 'blog_list' %}" class="btn btn-outline-primary">View All →</a>
+    </div>
+    <div class="row">
+        {% for blog in recent_blogs|slice:":3" %}
+        <div class="col-md-4 mb-3">
+            <div class="card h-100">
+                {% if blog.featured_image %}
+                <img src="{{ blog.featured_image.url }}" class="card-img-top" alt="{{ blog.title }}" style="height: 200px; object-fit: cover;">
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ blog.title }}</h5>
+                    <p class="card-text">{{ blog.excerpt|truncatewords:20|default:blog.content|truncatewords:20 }}</p>
+                    <a href="{% url 'blog_detail' blog.slug %}" class="btn btn-sm btn-primary">Read More</a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <div class="alert alert-info">No blog posts available.</div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="container mb-5">
+    <div class="cta-section">
+        <h2>Ready to Start Your Journey?</h2>
+        <p class="lead">Whether you're looking for talent or your next career opportunity, we're here to help.</p>
+        <div class="d-flex gap-3 justify-content-center">
+            <a href="{% url 'job_list' %}" class="btn btn-light btn-lg">
+                <i class="fas fa-search"></i> Find Jobs
+            </a>
+            <a href="{% url 'contact' %}" class="btn btn-outline-light btn-lg">
+                <i class="fas fa-building"></i> Post a Job
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Animate stats when they come into view
+    const observerOptions = {
+        threshold: 0.5
+    };
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animate');
+            }
+        });
+    }, observerOptions);
+    
+    document.querySelectorAll('.stat-card, .service-card, .testimonial-card').forEach(el => {
+        observer.observe(el);
+    });
+</script>
+{% endblock %}

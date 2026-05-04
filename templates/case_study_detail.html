@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ case_study.title }} - Case Study{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 mx-auto">
+        <article>
+            <h1 class="mb-3">{{ case_study.title }}</h1>
+            {% if case_study.client_name %}
+            <p class="lead">Client: {{ case_study.client_name }}</p>
+            {% endif %}
+            
+            {% if case_study.featured_image %}
+            <img src="{{ case_study.featured_image.url }}" class="img-fluid rounded mb-4" alt="{{ case_study.title }}">
+            {% endif %}
+            
+            <div class="mb-4">
+                <h3>The Challenge</h3>
+                <div class="alert alert-warning">
+                    {{ case_study.problem|linebreaks }}
+                </div>
+            </div>
+            
+            <div class="mb-4">
+                <h3>The Solution</h3>
+                <div class="alert alert-info">
+                    {{ case_study.solution|linebreaks }}
+                </div>
+            </div>
+            
+            <div class="mb-4">
+                <h3>The Results</h3>
+                <div class="alert alert-success">
+                    {{ case_study.result|linebreaks }}
+                </div>
+            </div>
+            
+            {% if case_study.metrics %}
+            <div class="card bg-primary text-white mb-4">
+                <div class="card-body text-center">
+                    <h4>Key Metrics</h4>
+                    <p class="mb-0">{{ case_study.metrics }}</p>
+                </div>
+            </div>
+            {% endif %}
+            
+            <div class="text-center mt-5">
+                <a href="{% url ' contact' %}" class="btn btn-success btn-lg">
+                    <i class="fas fa-envelope"></i> Get Similar Results
+                </a>
+                <a href="{% url ' case_study_list' %}" class="btn btn-secondary btn-lg">
+                    <i class="fas fa-arrow-left"></i> View All Case Studies
+                </a>
+            </div>
+        </article>
+    </div>
+</div>
+{% endblock %}

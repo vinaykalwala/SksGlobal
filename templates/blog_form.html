@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if form.instance.pk %}Edit Blog{% else %}Create Blog Post{% endif %} - Admin{% endblock %}
+
+{% block extra_css %}
+<style>
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+    .errorlist {
+        color: red;
+        list-style: none;
+        padding: 0;
+        margin: 5px 0 0;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-10">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h3 class="mb-0">
+                    <i class="fas fa-{% if form.instance.pk %}edit{% else %}plus-circle{% endif %}"></i>
+                    {% if form.instance.pk %}Edit Blog Post{% else %}Create New Blog Post{% endif %}
+                </h3>
+            </div>
+            <div class="card-body">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    
+                    {% for field in form %}
+                    <div class="form-group">
+                        <label for="{{ field.id_for_label }}" class="form-label">
+                            {{ field.label }}
+                            {% if field.field.required %}<span class="text-danger">*</span>{% endif %}
+                        </label>
+                        {{ field.errors }}
+                        {% if field.field.widget.input_type == 'textarea' %}
+                            <textarea name="{{ field.name }}" id="{{ field.id_for_label }}" 
+                                      class="form-control" rows="{% if field.name == 'content' %}10{% else %}3{% endif %}">{{ field.value|default:'' }}</textarea>
+                        {% elif field.field.widget.input_type == 'file' %}
+                            {% if field.value %}
+                            <div class="mb-2">
+                                <small>Current: <a href="{{ field.value.url }}">{{ field.value.name }}</a></small>
+                            </div>
+                            {% endif %}
+                            <input type="file" name="{{ field.name }}" id="{{ field.id_for_label }}" 
+                                   class="form-control">
+                        {% elif field.field.widget.input_type == 'checkbox' %}
+                            <div class="form-check">
+                                <input type="checkbox" name="{{ field.name }}" id="{{ field.id_for_label }}" 
+                                       class="form-check-input" {% if field.value %}checked{% endif %}>
+                                <label class="form-check-label" for="{{ field.id_for_label }}">
+                                    {{ field.label }}
+                                </label>
+                            </div>
+                        {% else %}
+                            <input type="{{ field.field.widget.input_type }}" 
+                                   name="{{ field.name }}" id="{{ field.id_for_label }}" 
+                                   class="form-control" value="{{ field.value|default:'' }}">
+                        {% endif %}
+                        {% if field.help_text %}
+                        <small class="form-text text-muted">{{ field.help_text }}</small>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                    
+                    <div class="mt-4">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Save Blog Post
+                        </button>
+                        <a href="{% url ' blog_list' %}" class="btn btn-secondary">
+                            <i class="fas fa-times"></i> Cancel
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

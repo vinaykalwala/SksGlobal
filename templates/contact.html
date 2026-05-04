@@ -1,0 +1,203 @@
+{% extends 'base.html' %}
+
+{% block title %}Contact Us - Job Portal{% endblock %}
+
+{% block extra_css %}
+<style>
+    .contact-form {
+        background: #f8f9fa;
+        padding: 30px;
+        border-radius: 10px;
+    }
+    .required-field::after {
+        content: "*";
+        color: red;
+        margin-left: 5px;
+    }
+    .checkbox-group {
+        max-height: 200px;
+        overflow-y: auto;
+        border: 1px solid #ced4da;
+        border-radius: 0.25rem;
+        padding: 10px;
+    }
+    .checkbox-group .form-check {
+        margin-bottom: 5px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6">
+        <div class="contact-form">
+            <h2><i class="fas fa-envelope"></i> Get in Touch</h2>
+            <p>Fill out the form and we'll get back to you within 24 hours.</p>
+            
+            <form method="post">
+                {% csrf_token %}
+                
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="{{ form.name.id_for_label }}" class="required-field">Name</label>
+                        {{ form.name.errors }}
+                        <input type="text" name="name" id="{{ form.name.id_for_label }}" 
+                               class="form-control" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="{{ form.email.id_for_label }}" class="required-field">Email</label>
+                        {{ form.email.errors }}
+                        <input type="email" name="email" id="{{ form.email.id_for_label }}" 
+                               class="form-control" required>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="{{ form.phone.id_for_label }}">Phone</label>
+                        {{ form.phone.errors }}
+                        <input type="text" name="phone" id="{{ form.phone.id_for_label }}" 
+                               class="form-control">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="{{ form.company_name.id_for_label }}">Company Name</label>
+                        {{ form.company_name.errors }}
+                        <input type="text" name="company_name" id="{{ form.company_name.id_for_label }}" 
+                               class="form-control">
+                    </div>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="{{ form.subject.id_for_label }}" class="required-field">Subject</label>
+                    {{ form.subject.errors }}
+                    <select name="subject" id="{{ form.subject.id_for_label }}" class="form-select" required>
+                        {% for value, label in form.fields.subject.choices %}
+                        <option value="{{ value }}">{{ label }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="{{ form.message.id_for_label }}" class="required-field">Message</label>
+                    {{ form.message.errors }}
+                    <textarea name="message" id="{{ form.message.id_for_label }}" 
+                              class="form-control" rows="4" required></textarea>
+                </div>
+                
+                <div class="mb-3">
+                    <label>Services Interested In</label>
+                    <div class="checkbox-group">
+                        {{ form.services_interested }}
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="{{ form.requirement_type.id_for_label }}">Requirement Type</label>
+                        {{ form.requirement_type.errors }}
+                        <input type="text" name="requirement_type" id="{{ form.requirement_type.id_for_label }}" 
+                               class="form-control" placeholder="e.g., Frontend Developer">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="{{ form.tech_stack.id_for_label }}">Tech Stack</label>
+                        {{ form.tech_stack.errors }}
+                        <input type="text" name="tech_stack" id="{{ form.tech_stack.id_for_label }}" 
+                               class="form-control" placeholder="e.g., Python, React">
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="{{ form.hiring_duration.id_for_label }}">Hiring Duration</label>
+                        {{ form.hiring_duration.errors }}
+                        <input type="text" name="hiring_duration" id="{{ form.hiring_duration.id_for_label }}" 
+                               class="form-control" placeholder="e.g., 2 weeks">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="{{ form.budget.id_for_label }}">Budget</label>
+                        {{ form.budget.errors }}
+                        <input type="text" name="budget" id="{{ form.budget.id_for_label }}" 
+                               class="form-control" placeholder="e.g., $50,000 - $70,000">
+                    </div>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="{{ form.source.id_for_label }}">How did you hear about us?</label>
+                    {{ form.source.errors }}
+                    <select name="source" id="{{ form.source.id_for_label }}" class="form-select">
+                        {% for value, label in form.fields.source.choices %}
+                        <option value="{{ value }}">{{ label }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                
+                <button type="submit" class="btn btn-primary btn-lg w-100">
+                    <i class="fas fa-paper-plane"></i> Send Message
+                </button>
+            </form>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <div class="card mb-4">
+            <div class="card-body">
+                <h4><i class="fas fa-map-marker-alt"></i> Our Office</h4>
+                <p>123 Business Avenue<br>Suite 100<br>New York, NY 10001</p>
+                
+                <h4><i class="fas fa-phone"></i> Phone</h4>
+                <p>+1 (555) 123-4567</p>
+                
+                <h4><i class="fas fa-envelope"></i> Email</h4>
+                <p>info@jobportal.com</p>
+                
+                <h4><i class="fas fa-clock"></i> Business Hours</h4>
+                <p>Monday - Friday: 9:00 AM - 6:00 PM<br>Saturday - Sunday: Closed</p>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-body">
+                <h4><i class="fas fa-question-circle"></i> Frequently Asked Questions</h4>
+                <div class="accordion" id="faqAccordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                                How quickly do you respond?
+                            </button>
+                        </h2>
+                        <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                We typically respond within 24 hours during business days.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                                Do you offer remote positions?
+                            </button>
+                        </h2>
+                        <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Yes, we have both on-site and remote opportunities available.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                                What services do you offer?
+                            </button>
+                        </h2>
+                        <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                We offer temporary staffing, contract-to-hire, direct hire, payrolling, and dedicated teams.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
