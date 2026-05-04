@@ -1,4 +1,4 @@
-{% extends ' base.html' %}
+{% extends 'base.html' %}
 
 {% block title %}About Us - JobPortal{% endblock %}
 
@@ -319,10 +319,10 @@
         <h2>Ready to Work With Us?</h2>
         <p class="lead">Let's create success stories together</p>
         <div class="d-flex gap-3 justify-content-center">
-            <a href="{% url ' contact' %}" class="btn btn-light btn-lg">
+            <a href="{% url 'contact' %}" class="btn btn-light btn-lg">
                 <i class="fas fa-envelope"></i> Contact Us
             </a>
-            <a href="{% url ' job_list' %}" class="btn btn-outline-light btn-lg">
+            <a href="{% url 'job_list' %}" class="btn btn-outline-light btn-lg">
                 <i class="fas fa-briefcase"></i> Browse Jobs
             </a>
         </div>

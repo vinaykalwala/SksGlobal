@@ -4,6 +4,7 @@ from django.urls import reverse_lazy
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
+from django.contrib.auth import authenticate, login, logout
 from django.core.paginator import Paginator
 from .models import (
     Job, Applicant, EmployerLead, Blog, 
@@ -55,11 +56,12 @@ def login_view(request):
 
         if user is not None:
             login(request, user)
-            return redirect('admin_dashboard')  # change if needed
+            return redirect('admin_dashboard')
         else:
             messages.error(request, "Invalid username or password")
 
     return render(request, 'login.html')
+
 
 def logout_view(request):
     logout(request)
