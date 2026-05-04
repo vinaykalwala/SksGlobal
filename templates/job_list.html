@@ -31,7 +31,7 @@
                         <i class="fas fa-search"></i> Apply Filters
                     </button>
                     {% if request.GET.type or request.GET.location %}
-                    <a href="{% url ' job_list' %}" class="btn btn-secondary w-100 mt-2">
+                    <a href="{% url 'job_list' %}" class="btn btn-secondary w-100 mt-2">
                         <i class="fas fa-times"></i> Clear Filters
                     </a>
                     {% endif %}
@@ -67,7 +67,7 @@
                 <div class="row">
                     <div class="col-md-9">
                         <h5 class="card-title">
-                            <a href="{% url ' job_detail' job.slug %}" class="text-decoration-none">
+                            <a href="{% url 'job_detail' job.slug %}" class="text-decoration-none">
                                 {{ job.title }}
                             </a>
                         </h5>
@@ -85,7 +85,7 @@
                     </div>
                     <div class="col-md-3 text-end">
                         <h5 class="text-primary">{{ job.salary|default:"Negotiable" }}</h5>
-                        <a href="{% url ' job_detail' job.slug %}" class="btn btn-primary btn-sm mt-2">
+                        <a href="{% url 'job_detail' job.slug %}" class="btn btn-primary btn-sm mt-2">
                             View Details <i class="fas fa-arrow-right"></i>
                         </a>
                     </div>
