@@ -34,7 +34,7 @@ class EmployerLeadForm(forms.ModelForm):
         model = EmployerLead
         fields = [
             'company_name', 'contact_person', 'email', 'phone',
-            'requirement', 'tech_stack', 'hiring_type', 'status'
+            'requirement', 'tech_stack', 'hiring_type'
         ]
         widgets = {
             'requirement': forms.Textarea(attrs={'rows': 4}),
