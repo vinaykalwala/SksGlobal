@@ -1,84 +1,463 @@
 {% extends 'base.html' %}
 
 {% block title %}{{ blog.title }} - Job Portal{% endblock %}
-
 {% block meta %}
-<meta name="description" content="{{ blog.meta_description|default:blog.excerpt|striptags }}">
-<meta name="keywords" content="{{ blog.keywords }}">
-{% if blog.meta_title %}
-<meta property="og:title" content="{{ blog.meta_title }}">
+
+<!-- Primary SEO -->
+<meta name="title" content="{{ blog.meta_title|default:blog.title }} | SKS Global IT Services">
+
+<meta name="description" content="{{ blog.meta_description|default:blog.excerpt|striptags|truncatechars:160 }}">
+
+<meta name="keywords"
+    content="{{ blog.keywords|default:'IT Staffing, Tech Careers, Remote Jobs, Software Development, Recruitment, AI, DevOps' }}">
+
+<meta name="author" content="{{ blog.author|default:'SKS Global IT Services' }}">
+
+<meta name="robots" content="index, follow">
+
+<meta name="language" content="English">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="theme-color" content="#0B2B5E">
+
+<!-- Canonical -->
+<link rel="canonical" href="{{ request.build_absolute_uri }}">
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="article">
+
+<meta property="og:title" content="{{ blog.meta_title|default:blog.title }} | SKS Global IT Services">
+
+<meta property="og:description" content="{{ blog.meta_description|default:blog.excerpt|striptags|truncatechars:180 }}">
+
+<meta property="og:url" content="{{ request.build_absolute_uri }}">
+
+<meta property="og:site_name" content="SKS Global IT Services">
+
+{% if blog.featured_image %}
+<meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{{ blog.featured_image.url }}">
 {% endif %}
+
+<meta property="article:published_time" content="{{ blog.created_at|date:'c' }}">
+
+<meta property="article:modified_time" content="{{ blog.updated_at|date:'c' }}">
+
+<meta property="article:author" content="{{ blog.author }}">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+
+<meta name="twitter:title" content="{{ blog.meta_title|default:blog.title }} | SKS Global IT Services">
+
+<meta name="twitter:description" content="{{ blog.meta_description|default:blog.excerpt|striptags|truncatechars:180 }}">
+
+{% if blog.featured_image %}
+<meta name="twitter:image" content="{{ request.scheme }}://{{ request.get_host }}{{ blog.featured_image.url }}">
+{% endif %}
+
+<!-- Extra SEO -->
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+<meta name="revisit-after" content="7 days">
+
+<!-- Structured Data -->
+<script type="application/ld+json">
+{
+    "@context":"https://schema.org",
+    "@type":"BlogPosting",
+    "headline":"{{ blog.title|escapejs }}",
+    "description":"{{ blog.meta_description|default:blog.excerpt|striptags|truncatechars:180|escapejs }}",
+    "author":{
+        "@type":"Person",
+        "name":"{{ blog.author|escapejs }}"
+    },
+    "publisher":{
+        "@type":"Organization",
+        "name":"SKS Global IT Services"
+    },
+    "datePublished":"{{ blog.created_at|date:'c' }}",
+    "dateModified":"{{ blog.updated_at|date:'c' }}",
+    "mainEntityOfPage":{
+        "@type":"WebPage",
+        "@id":"{{ request.build_absolute_uri }}"
+    }
+    {% if blog.featured_image %}
+    ,
+    "image":"{{ request.scheme }}://{{ request.get_host }}{{ blog.featured_image.url }}"
+    {% endif %}
+}
+</script>
+
 {% endblock %}
 
+
 {% block content %}
-<div class="row">
-    <div class="col-md-8">
-        <article>
-            <h1 class="mb-3">{{ blog.title }}</h1>
-            <p class="text-muted">
-                <i class="fas fa-user"></i> {{ blog.author }} | 
-                <i class="fas fa-calendar"></i> {{ blog.created_at|date:"F d, Y" }} |
-                <i class="fas fa-clock"></i> {{ blog.updated_at|date:"F d, Y" }}
-            </p>
-            
-            {% if blog.featured_image %}
-            <img src="{{ blog.featured_image.url }}" class="img-fluid rounded mb-4" alt="{{ blog.title }}">
-            {% endif %}
-            
-            <div class="blog-content">
-                {{ blog.content|safe|linebreaks }}
+
+<style>
+    :root {
+        --primary-orange: #F15A24;
+        --orange-light: #FF7F4F;
+        --primary-blue: #0B2B5E;
+        --blue-dark: #071F44;
+        --blue-accent: #1B4A8A;
+        --gray-bg: #F8FAFF;
+        --gray-text: #5A6B7C;
+        --dark-text: #1A2A3A;
+        --border-light: #E8EDF2;
+        --white: #FFFFFF;
+    }
+
+    body {
+        background: var(--gray-bg);
+    }
+
+    .blog-wrapper {
+        padding: 40px 0;
+    }
+
+    .blog-main-card {
+        background: var(--white);
+        border-radius: 20px;
+        padding: 35px;
+        box-shadow: 0 10px 30px rgba(11, 43, 94, 0.08);
+        border: 1px solid var(--border-light);
+    }
+
+    .blog-title {
+        font-size: 2.4rem;
+        font-weight: 700;
+        color: var(--primary-blue);
+        line-height: 1.3;
+        margin-bottom: 20px;
+    }
+
+    .blog-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        margin-bottom: 25px;
+        color: var(--gray-text);
+        font-size: 0.95rem;
+    }
+
+    .blog-meta i {
+        color: var(--primary-orange);
+        margin-right: 6px;
+    }
+
+    .blog-image {
+        width: 100%;
+        border-radius: 18px;
+        margin-bottom: 30px;
+        max-height: 450px;
+        object-fit: cover;
+    }
+
+    .blog-content {
+        color: var(--dark-text);
+        font-size: 1.05rem;
+        line-height: 2;
+    }
+
+    .blog-content p {
+        margin-bottom: 20px;
+    }
+
+    .tags-section {
+        margin-top: 35px;
+        padding-top: 20px;
+        border-top: 1px solid var(--border-light);
+    }
+
+    .tag-badge {
+        display: inline-block;
+        background: rgba(241, 90, 36, 0.1);
+        color: var(--primary-orange);
+        padding: 8px 16px;
+        border-radius: 30px;
+        font-size: 0.85rem;
+        margin: 5px;
+        font-weight: 600;
+    }
+
+    .section-divider {
+        margin: 40px 0;
+        border-color: var(--border-light);
+    }
+
+    .comment-box {
+        background: var(--white);
+        padding: 30px;
+        border-radius: 20px;
+        border: 1px solid var(--border-light);
+        box-shadow: 0 10px 25px rgba(11, 43, 94, 0.05);
+    }
+
+    .comment-title {
+        color: var(--primary-blue);
+        font-weight: 700;
+        margin-bottom: 25px;
+    }
+
+    .form-label {
+        color: var(--dark-text);
+        font-weight: 600;
+        margin-bottom: 8px;
+    }
+
+    .form-control {
+        border-radius: 12px;
+        padding: 14px;
+        border: 1px solid var(--border-light);
+        box-shadow: none !important;
+        transition: 0.3s ease;
+    }
+
+    .form-control:focus {
+        border-color: var(--primary-orange);
+    }
+
+    .btn-custom {
+        background: var(--primary-orange);
+        color: var(--white);
+        border: none;
+        padding: 12px 28px;
+        border-radius: 12px;
+        font-weight: 600;
+        transition: 0.3s ease;
+    }
+
+    .btn-custom:hover {
+        background: var(--primary-blue);
+        color: var(--white);
+    }
+
+    .sidebar-card {
+        background: var(--white);
+        border-radius: 20px;
+        padding: 25px;
+        border: 1px solid var(--border-light);
+        box-shadow: 0 10px 25px rgba(11, 43, 94, 0.06);
+        margin-bottom: 25px;
+        position: sticky;
+        top: 100px;
+    }
+
+    .sidebar-title {
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: var(--primary-blue);
+        margin-bottom: 18px;
+        position: relative;
+    }
+
+    .sidebar-title::after {
+        content: '';
+        width: 50px;
+        height: 4px;
+        background: var(--primary-orange);
+        display: block;
+        margin-top: 10px;
+        border-radius: 10px;
+    }
+
+    .author-text {
+        color: var(--gray-text);
+        line-height: 1.8;
+    }
+
+    .share-buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .share-btn {
+        border: 2px solid var(--primary-blue);
+        color: var(--primary-blue);
+        padding: 12px;
+        border-radius: 12px;
+        text-align: center;
+        text-decoration: none;
+        font-weight: 600;
+        transition: 0.3s ease;
+    }
+
+    .share-btn:hover {
+        background: var(--primary-orange);
+        border-color: var(--primary-orange);
+        color: var(--white);
+    }
+
+    @media (max-width: 991px) {
+
+        .sidebar-card {
+            position: relative;
+            top: 0;
+        }
+
+        .blog-title {
+            font-size: 2rem;
+        }
+    }
+
+    @media (max-width: 768px) {
+
+        .blog-main-card,
+        .comment-box,
+        .sidebar-card {
+            padding: 20px;
+        }
+
+        .blog-title {
+            font-size: 1.7rem;
+        }
+
+        .blog-meta {
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .blog-content {
+            font-size: 1rem;
+            line-height: 1.9;
+        }
+    }
+</style>
+
+<div class="container blog-wrapper">
+    <div class="row g-4">
+
+        <div class="col-lg-8">
+
+            <div class="blog-main-card">
+
+                <article>
+
+                    <h1 class="blog-title">{{ blog.title }}</h1>
+
+                    <div class="blog-meta">
+                        <span>
+                            <i class="fas fa-user"></i>
+                            {{ blog.author }}
+                        </span>
+
+                        <span>
+                            <i class="fas fa-calendar"></i>
+                            {{ blog.created_at|date:"F d, Y" }}
+                        </span>
+
+                        <span>
+                            <i class="fas fa-clock"></i>
+                            Updated: {{ blog.updated_at|date:"F d, Y" }}
+                        </span>
+                    </div>
+
+                    {% if blog.featured_image %}
+                    <img src="{{ blog.featured_image.url }}" class="blog-image" alt="{{ blog.title }}">
+                    {% endif %}
+
+                    <div class="blog-content">
+                        {{ blog.content|safe|linebreaks }}
+                    </div>
+
+                    {% if blog.keywords %}
+                    <div class="tags-section">
+                        <strong style="color: var(--primary-blue);">
+                            <i class="fas fa-tags"></i> Tags:
+                        </strong>
+
+                        <div class="mt-3">
+                            {% for keyword in blog.keywords.split|slice:":5" %}
+                            <span class="tag-badge">{{ keyword }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+
+                </article>
+
             </div>
-            
-            {% if blog.keywords %}
-            <div class="mt-4">
-                <strong>Tags:</strong>
-                {% for keyword in blog.keywords.split|slice:":5" %}
-                <span class="badge bg-secondary">{{ keyword }}</span>
-                {% endfor %}
+
+            <hr class="section-divider">
+
+            <div class="comment-box">
+
+                <h4 class="comment-title">
+                    <i class="fas fa-comments"></i>
+                    Leave a Comment
+                </h4>
+
+                <form>
+
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Name</label>
+                        <input type="text" class="form-control" id="name">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="comment" class="form-label">Comment</label>
+                        <textarea class="form-control" id="comment" rows="5"></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-custom">
+                        Post Comment
+                    </button>
+
+                </form>
+
             </div>
-            {% endif %}
-        </article>
-        
-        <hr>
-        
-        <div class="comments-section mt-4">
-            <h4>Leave a Comment</h4>
-            <form>
-                <div class="mb-3">
-                    <label for="name" class="form-label">Name</label>
-                    <input type="text" class="form-control" id="name">
-                </div>
-                <div class="mb-3">
-                    <label for="email" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="email">
-                </div>
-                <div class="mb-3">
-                    <label for="comment" class="form-label">Comment</label>
-                    <textarea class="form-control" id="comment" rows="3"></textarea>
-                </div>
-                <button type="submit" class="btn btn-primary">Post Comment</button>
-            </form>
+
         </div>
-    </div>
-    
-    <div class="col-md-4">
-        <div class="card">
-            <div class="card-body">
-                <h5>About the Author</h5>
-                <p>{{ blog.author }} is a career expert with years of experience in recruitment.</p>
+
+        <div class="col-lg-4">
+
+            <div class="sidebar-card">
+
+                <h5 class="sidebar-title">
+                    About the Author
+                </h5>
+
+                <p class="author-text">
+                    {{ blog.author }} is a career expert with years of experience in recruitment,
+                    helping professionals grow in the IT and software industry.
+                </p>
+
             </div>
-        </div>
-        
-        <div class="card mt-3">
-            <div class="card-body">
-                <h5>Share this post</h5>
-                <div class="btn-group w-100">
-                    <a href="#" class="btn btn-outline-primary">Facebook</a>
-                    <a href="#" class="btn btn-outline-info">Twitter</a>
-                    <a href="#" class="btn btn-outline-secondary">LinkedIn</a>
+
+            <div class="sidebar-card">
+
+                <h5 class="sidebar-title">
+                    Share this Post
+                </h5>
+
+                <div class="share-buttons">
+
+                    <a href="#" class="share-btn">
+                        <i class="fab fa-facebook-f"></i> Facebook
+                    </a>
+
+                    <a href="#" class="share-btn">
+                        <i class="fab fa-twitter"></i> Twitter
+                    </a>
+
+                    <a href="#" class="share-btn">
+                        <i class="fab fa-linkedin-in"></i> LinkedIn
+                    </a>
+
                 </div>
+
             </div>
+
         </div>
+
     </div>
 </div>
+
 {% endblock %}

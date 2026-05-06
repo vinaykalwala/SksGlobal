@@ -23,7 +23,7 @@ class ApplicantForm(forms.ModelForm):
         model = Applicant
         fields = [
             'job', 'name', 'email', 'phone', 
-            'resume', 'skills', 'experience', 'status'
+            'resume', 'skills', 'experience', 
         ]
         widgets = {
             'skills': forms.Textarea(attrs={'rows': 3}),

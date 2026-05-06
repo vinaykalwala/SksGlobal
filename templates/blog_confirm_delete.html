@@ -2,28 +2,255 @@
 
 {% block title %}Delete Blog Post - Admin{% endblock %}
 
+{% block extra_css %}
+<style>
+    :root {
+        --primary-orange: #F15A24;
+        --orange-light: #FF7F4F;
+        --primary-blue: #0B2B5E;
+        --blue-dark: #071F44;
+        --blue-accent: #1B4A8A;
+        --gray-bg: #F8FAFF;
+        --gray-text: #5A6B7C;
+        --dark-text: #1A2A3A;
+        --border-light: #E8EDF2;
+        --white: #FFFFFF;
+    }
+
+    /* Card styling */
+    .delete-card {
+        background: var(--white);
+        border: none;
+        border-radius: 16px;
+        box-shadow: 0 10px 40px rgba(11, 43, 94, 0.08);
+        overflow: hidden;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .delete-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 15px 50px rgba(11, 43, 94, 0.12);
+    }
+
+    /* Header styling */
+    .delete-header {
+        background: linear-gradient(135deg, var(--primary-blue) 0%, var(--blue-dark) 100%);
+        padding: 2rem;
+        text-align: center;
+        border-bottom: 3px solid var(--primary-orange);
+    }
+
+    .delete-header i {
+        font-size: 48px;
+        animation: pulse 1.5s ease-in-out;
+    }
+
+    @keyframes pulse {
+
+        0%,
+        100% {
+            transform: scale(1);
+        }
+
+        50% {
+            transform: scale(1.1);
+        }
+    }
+
+    .delete-header h3 {
+        font-size: 1.5rem;
+        margin-top: 1rem;
+        font-weight: 600;
+        letter-spacing: -0.3px;
+    }
+
+    /* Body styling */
+    .delete-body {
+        padding: 2rem;
+        background: var(--gray-bg);
+    }
+
+    .delete-icon {
+        text-align: center;
+        margin-bottom: 1.5rem;
+    }
+
+    .delete-icon i {
+        font-size: 80px;
+        background: linear-gradient(135deg, var(--primary-orange) 0%, var(--orange-light) 100%);
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        filter: drop-shadow(0 4px 8px rgba(241, 90, 36, 0.2));
+    }
+
+    .delete-title {
+        text-align: center;
+        margin-bottom: 1.5rem;
+    }
+
+    .delete-title h4 {
+        font-size: 1.75rem;
+        font-weight: 600;
+        color: var(--dark-text);
+        margin-bottom: 0.5rem;
+    }
+
+    .delete-title .post-title {
+        font-size: 1.2rem;
+        font-weight: 500;
+        color: var(--primary-blue);
+        background: var(--white);
+        display: inline-block;
+        padding: 8px 20px;
+        border-radius: 50px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        margin-top: 0.5rem;
+    }
+
+    .warning-text {
+        background: linear-gradient(135deg, rgba(241, 90, 36, 0.1) 0%, rgba(255, 127, 79, 0.1) 100%);
+        border-left: 4px solid var(--primary-orange);
+        padding: 1rem;
+        border-radius: 8px;
+        margin: 1.5rem 0;
+    }
+
+    .warning-text p {
+        margin: 0;
+        color: var(--primary-orange);
+        font-weight: 500;
+    }
+
+    /* Button styling */
+    .btn-danger-custom {
+        background: linear-gradient(135deg, var(--primary-orange) 0%, var(--orange-light) 100%);
+        border: none;
+        color: var(--white);
+        padding: 12px 24px;
+        font-weight: 600;
+        border-radius: 50px;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 12px rgba(241, 90, 36, 0.3);
+    }
+
+    .btn-danger-custom:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(241, 90, 36, 0.4);
+        background: linear-gradient(135deg, var(--orange-light) 0%, var(--primary-orange) 100%);
+        color: var(--white);
+    }
+
+    .btn-danger-custom:active {
+        transform: translateY(0);
+    }
+
+    .btn-secondary-custom {
+        background: var(--white);
+        border: 2px solid var(--border-light);
+        color: var(--gray-text);
+        padding: 12px 24px;
+        font-weight: 600;
+        border-radius: 50px;
+        transition: all 0.3s ease;
+    }
+
+    .btn-secondary-custom:hover {
+        background: var(--gray-bg);
+        border-color: var(--primary-blue);
+        color: var(--primary-blue);
+        transform: translateY(-2px);
+    }
+
+    /* Button group */
+    .button-group {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        margin-top: 1.5rem;
+    }
+
+    .button-group form,
+    .button-group a {
+        display: inline-block;
+    }
+
+    /* Animation */
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .delete-card {
+        animation: fadeInUp 0.5s ease-out;
+    }
+
+    .delete-page-container {
+        min-height: calc(100vh - 160px);
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        padding-top: 40px;
+        padding-bottom: 40px;
+    }
+
+    .delete-page-container .row {
+        width: 100%;
+    }
+</style>
+{% endblock %}
 {% block content %}
-<div class="row justify-content-center">
-    <div class="col-md-6">
-        <div class="card">
-            <div class="card-header bg-danger text-white">
-                <h3 class="mb-0"><i class="fas fa-exclamation-triangle"></i> Confirm Delete</h3>
-            </div>
-            <div class="card-body text-center">
-                <i class="fas fa-trash-alt" style="font-size: 64px; color: #dc3545;"></i>
-                <h4 class="mt-3">Delete Blog Post?</h4>
-                <p><strong>{{ form.instance.title }}</strong></p>
-                <p class="text-danger">This action cannot be undone!</p>
-                
-                <form method="post">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-danger">
-                        <i class="fas fa-trash"></i> Yes, Delete
-                    </button>
-                    <a href="{% url ' blog_list' %}" class="btn btn-secondary">
-                        <i class="fas fa-times"></i> Cancel
-                    </a>
-                </form>
+
+<div class="container delete-page-container">
+
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="delete-card">
+                <!-- Card Header -->
+                <div class="delete-header">
+                    <i class="fas fa-exclamation-triangle text-white"></i>
+                    <h3 class="mb-0 text-white">Confirm Deletion</h3>
+                </div>
+
+                <!-- Card Body -->
+                <div class="delete-body">
+                    <div class="delete-icon">
+                        <i class="fas fa-trash-alt"></i>
+                    </div>
+
+                    <div class="delete-title">
+                        <h4>Delete Blog Post?</h4>
+                        <div class="post-title">
+                            <strong>{{ form.instance.title }}</strong>
+                        </div>
+                    </div>
+
+                    <div class="warning-text">
+                        <p>
+                            <i class="fas fa-exclamation-circle"></i>
+                            This action cannot be undone! All post data will be permanently removed.
+                        </p>
+                    </div>
+
+                    <div class="button-group">
+                        <form method="post" style="display: inline-block;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger-custom">
+                                <i class="fas fa-trash"></i> Yes, Delete Post
+                            </button>
+                        </form>
+                        <a href="{% url 'blog_list' %}" class="btn btn-secondary-custom">
+                            <i class="fas fa-times"></i> Cancel
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
