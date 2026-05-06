@@ -1,203 +1,863 @@
 {% extends 'base.html' %}
+{% load static %}
 
-{% block title %}Contact Us - Job Portal{% endblock %}
+{% block title %}Contact Sks Global IT Services | IT Staffing Inquiries | US-Based Support{% endblock %}
+
+{% block meta_description %}
+<meta name="description" content="Get in touch with Sks Global IT Services for IT staffing, payrolling, nearshore teams, or career inquiries. Call, email, or fill out our form. Response within 24 hours.">
+{% endblock %}
 
 {% block extra_css %}
 <style>
-    .contact-form {
-        background: #f8f9fa;
-        padding: 30px;
-        border-radius: 10px;
+    :root {
+        --primary-orange: #F15A24;
+        --orange-light: #FF7F4F;
+        --primary-blue: #0B2B5E;
+        --blue-dark: #071F44;
+        --blue-accent: #1B4A8A;
+        --gray-bg: #F8FAFF;
+        --gray-text: #5A6B7C;
+        --dark-text: #1A2A3A;
+        --border-light: #E8EDF2;
+        --white: #FFFFFF;
     }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    /* Hero Section */
+    .contact-hero {
+        background: linear-gradient(135deg, rgba(11,43,94,0.44), rgba(7,31,68,0.97)),
+                    url('{% static "images/contact.webp" %}');
+        background-size: cover;
+        background-position: center;
+        color: white;
+        padding: 80px 0 80px;
+        text-align: center;
+        position: relative;
+    }
+
+    .contact-hero h1 {
+        font-size: 3rem;
+        font-weight: 800;
+        margin-bottom: 20px;
+        letter-spacing: -0.5px;
+    }
+
+    .contact-hero p {
+        font-size: 1.2rem;
+        opacity: 0.9;
+        max-width: 700px;
+        margin: 0 auto;
+        line-height: 1.6;
+    }
+
+    .hero-buttons {
+        margin-top: 35px;
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .btn-primary-custom {
+        background: var(--primary-orange);
+        color: white;
+        padding: 14px 36px;
+        border-radius: 50px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.3s;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 1rem;
+    }
+
+    .btn-primary-custom:hover {
+        background: #e04a16;
+        transform: translateY(-3px);
+        color: white;
+        box-shadow: 0 10px 25px rgba(241,90,36,0.3);
+    }
+
+    .btn-secondary-custom {
+        background: transparent;
+        border: 2px solid var(--primary-orange);
+        color: white;
+        padding: 14px 36px;
+        border-radius: 50px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.3s;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .btn-secondary-custom:hover {
+        background: var(--primary-orange);
+        color: white;
+        transform: translateY(-3px);
+    }
+
+    /* 3 Numbers Section with Lines */
+    .numbers-section {
+        background: var(--white);
+        padding: 40px 0;
+        border-bottom: 1px solid var(--border-light);
+    }
+
+    .numbers-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 0;
+        flex-wrap: wrap;
+    }
+
+    .number-item {
+        text-align: center;
+        padding: 20px 40px;
+        flex: 1;
+        max-width: 300px;
+    }
+
+    .number-icon {
+        width: 65px;
+        height: 65px;
+        background: linear-gradient(135deg, rgba(241,90,36,0.1), rgba(241,90,36,0.05));
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 15px;
+    }
+
+    .number-icon i {
+        font-size: 28px;
+        color: var(--primary-orange);
+    }
+
+    .number-item h4 {
+        font-size: 0.85rem;
+        color: var(--gray-text);
+        letter-spacing: 1px;
+        margin-bottom: 8px;
+    }
+
+    .number-item .phone {
+        font-size: 1.3rem;
+        font-weight: 800;
+        color: var(--primary-blue);
+        text-decoration: none;
+    }
+
+    .number-item .phone:hover {
+        color: var(--primary-orange);
+    }
+
+    .divider-line {
+        width: 1px;
+        height: 60px;
+        background: linear-gradient(to bottom, transparent, var(--border-light), transparent);
+    }
+
+    /* Main Section - Form + FAQ Side by Side - EQUAL WIDTH */
+    .main-contact-section {
+        padding: 80px 0;
+        background: var(--gray-bg);
+    }
+
+    .two-column-layout {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        max-width: 1300px;
+        margin: 0 auto;
+    }
+
+    /* Form Wrapper */
+    .form-wrapper {
+        background: var(--white);
+        border-radius: 28px;
+        padding: 40px;
+        box-shadow: 0 25px 50px -12px rgba(0,0,0,0.1);
+    }
+
+    .form-header {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .form-header h2 {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: var(--primary-blue);
+        margin-bottom: 8px;
+    }
+
+    .form-header p {
+        color: var(--gray-text);
+        font-size: 0.9rem;
+    }
+
+    /* Form Styles */
+    .contact-form .form-group {
+        margin-bottom: 18px;
+    }
+
+    .contact-form label {
+        font-weight: 600;
+        color: var(--dark-text);
+        margin-bottom: 6px;
+        display: block;
+        font-size: 0.85rem;
+    }
+
     .required-field::after {
         content: "*";
-        color: red;
-        margin-left: 5px;
+        color: var(--primary-orange);
+        margin-left: 4px;
     }
+
+    .contact-form .form-control,
+    .contact-form .form-select {
+        width: 100%;
+        padding: 12px 15px;
+        border: 1px solid var(--border-light);
+        border-radius: 12px;
+        font-size: 0.9rem;
+        transition: all 0.3s;
+        background: var(--white);
+    }
+
+    .contact-form .form-control:focus,
+    .contact-form .form-select:focus {
+        border-color: var(--primary-orange);
+        box-shadow: 0 0 0 3px rgba(241,90,36,0.1);
+        outline: none;
+    }
+
+    .contact-form textarea.form-control {
+        resize: vertical;
+    }
+
     .checkbox-group {
-        max-height: 200px;
-        overflow-y: auto;
-        border: 1px solid #ced4da;
-        border-radius: 0.25rem;
-        padding: 10px;
+    
+        border: 1px solid var(--border-light);
+        border-radius: 12px;
+        padding: 12px;
+        background: var(--white);
     }
+
     .checkbox-group .form-check {
-        margin-bottom: 5px;
+        margin-bottom: 8px;
+    }
+
+    .checkbox-group .form-check:last-child {
+        margin-bottom: 0;
+    }
+
+    .checkbox-group .form-check-input {
+        margin-right: 8px;
+        accent-color: var(--primary-orange);
+    }
+
+    .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+    }
+
+    .btn-submit {
+        width: 100%;
+        background: linear-gradient(135deg, var(--primary-orange), var(--orange-light));
+        border: none;
+        padding: 14px;
+        font-weight: 700;
+        font-size: 1rem;
+        border-radius: 50px;
+        color: white;
+        transition: all 0.3s;
+        margin-top: 10px;
+        cursor: pointer;
+    }
+
+    .btn-submit:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 25px rgba(241,90,36,0.3);
+    }
+
+    /* FAQ Wrapper - BEAUTIFULLY DESIGNED, SAME WIDTH AS FORM */
+    .faq-wrapper {
+        background: var(--white);
+        border-radius: 28px;
+        padding: 40px;
+        box-shadow: 0 25px 50px -12px rgba(0,0,0,0.1);
+    }
+
+    .faq-header {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .faq-header h2 {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: var(--primary-blue);
+        margin-bottom: 8px;
+    }
+
+    .faq-header p {
+        color: var(--gray-text);
+        font-size: 0.9rem;
+    }
+
+    /* Beautiful FAQ List - Card Style */
+    .beautiful-faq-list {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .beautiful-faq-item {
+        background: var(--gray-bg);
+        border-radius: 20px;
+        padding: 20px 24px;
+        transition: all 0.3s;
+        border: 1px solid var(--border-light);
+    }
+
+    .beautiful-faq-item:hover {
+        transform: translateX(5px);
+        border-color: var(--primary-orange);
+        background: var(--white);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+    }
+
+    .faq-question-row {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 10px;
+    }
+
+    .faq-icon {
+        width: 36px;
+        height: 36px;
+        background: linear-gradient(135deg, rgba(241,90,36,0.1), rgba(241,90,36,0.05));
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .faq-icon i {
+        font-size: 18px;
+        color: var(--primary-orange);
+    }
+
+    .faq-question-text {
+        font-weight: 700;
+        font-size: 1rem;
+        color: var(--primary-blue);
+    }
+
+    .faq-answer-text {
+        color: var(--gray-text);
+        line-height: 1.6;
+        font-size: 0.9rem;
+        padding-left: 48px;
+    }
+
+    /* Social Media Section */
+    .social-section {
+        padding: 80px 0 120px 0;
+        background: linear-gradient(135deg, var(--primary-blue), var(--blue-dark));
+        position: relative;
+        overflow: visible;
+    }
+
+
+
+    .social-section::after {
+        content: '';
+        position: absolute;
+        bottom: -25%;
+        left: -10%;
+        width: 350px;
+        height: 350px;
+        background: radial-gradient(circle, rgba(241,90,36,0.08), transparent);
+        border-radius: 50%;
+    }
+
+    .social-container {
+        max-width: 800px;
+        margin: 0 auto;
+        text-align: center;
+        position: relative;
+        z-index: 2;
+    }
+
+    .social-container h2 {
+        color: white;
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 15px;
+    }
+
+    .social-container p {
+        color: rgba(255,255,255,0.8);
+        margin-bottom: 40px;
+        font-size: 1rem;
+    }
+
+    .social-icons-grid {
+        display: flex;
+        justify-content: center;
+        gap: 30px;
+        flex-wrap: wrap;
+    }
+
+    .social-icon-card {
+        width: 90px;
+        height: 90px;
+        background: rgba(255,255,255,0.1);
+        border-radius: 28px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        transition: all 0.3s;
+        text-decoration: none;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .social-icon-card:hover {
+        background: var(--primary-orange);
+        transform: translateY(-8px);
+        border-color: transparent;
+    }
+
+    .social-icon-card i {
+        font-size: 32px;
+        color: white;
+    }
+
+    .social-icon-card span {
+        font-size: 0.75rem;
+        color: white;
+        font-weight: 500;
+    }
+
+    /* 3 Footer Cards - NEAT ALIGNMENT */
+    .footer-cards {
+        position: relative;
+        z-index: 10;
+        margin-top: -70px;
+        padding-bottom: 60px;
+        background: transparent;
+    }
+
+    .cards-container {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 10px;
+    }
+
+    .footer-card {
+        background: var(--white);
+        border-radius:50px 15px 50px 15px;
+        padding: 35px 18px;
+        text-align: center;
+        transition: all 0.3s;
+        border: 1px solid var(--border-light);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        border: 1px solid #F15A24;
+
+    }
+
+    .footer-card:hover {
+        transform: translateY(-8px);
+        border-color: var(--primary-orange);
+        box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+    }
+
+    .footer-card .card-icon {
+        width: 70px;
+        height: 70px;
+        background: linear-gradient(135deg, rgba(241,90,36,0.1), rgba(241,90,36,0.05));
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 20px;
+    }
+
+    .footer-card .card-icon i {
+        font-size: 32px;
+        color: var(--primary-orange);
+    }
+
+    .footer-card h3 {
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: var(--primary-blue);
+        margin-bottom: 15px;
+    }
+
+    .footer-card p {
+        color: var(--gray-text);
+        line-height: 1.7;
+        font-size: 0.9rem;
+    }
+
+    .footer-card .email-link {
+        color: var(--primary-orange);
+        text-decoration: none;
+        font-weight: 500;
+    }
+
+    .footer-card .email-link:hover {
+        text-decoration: underline;
+    }
+
+    /* Responsive */
+    @media (max-width: 992px) {
+        .two-column-layout {
+            grid-template-columns: 1fr;
+            gap: 30px;
+        }
+        .cards-container {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .contact-hero h1 { font-size: 2rem; }
+        .contact-hero { padding: 60px 0 80px; }
+        .form-wrapper, .faq-wrapper { padding: 25px 20px; }
+        .form-row { grid-template-columns: 1fr; gap: 0; }
+        .numbers-container { flex-direction: column; gap: 20px; }
+        .divider-line { display: none; }
+        .number-item { max-width: 100%; }
+        .cards-container { grid-template-columns: 1fr; }
+        .footer-cards { margin-top: -50px; }
+        .social-icon-card { width: 70px; height: 70px; }
+        .social-icon-card i { font-size: 24px; }
+        .beautiful-faq-item { padding: 16px 20px; }
+        .faq-answer-text { padding-left: 0; margin-top: 10px; }
+        .faq-question-row { flex-wrap: wrap; }
+    }
+
+    @media (max-width: 480px) {
+        .hero-buttons { flex-direction: column; align-items: stretch; }
+        .hero-buttons a { text-align: center; justify-content: center; }
+        .footer-cards { margin-top: -40px; }
+        .social-section { padding: 60px 0 100px 0; }
     }
 </style>
 {% endblock %}
 
 {% block content %}
-<div class="row">
-    <div class="col-md-6">
-        <div class="contact-form">
-            <h2><i class="fas fa-envelope"></i> Get in Touch</h2>
-            <p>Fill out the form and we'll get back to you within 24 hours.</p>
+
+<!-- Hero Section -->
+<section class="contact-hero">
+    <div class="container">
+        <h1>Ready to Discuss Your IT Staffing Needs?</h1>
+        <p>Whether you need one developer or an entire nearshore team, we're here to help. Fill out the form below, and a staffing specialist will respond within 24 hours.</p>
+        <div class="hero-buttons">
+            <a href="#contactForm" class="btn-primary-custom"><i class="fas fa-paper-plane"></i> Submit an Inquiry</a>
+            <a href="tel:+18885551234" class="btn-secondary-custom"><i class="fas fa-phone-alt"></i> Call Us Now</a>
+        </div>
+    </div>
+</section>
+
+<!-- 3 Numbers Section with Lines -->
+<section class="numbers-section">
+    <div class="container">
+        <div class="numbers-container">
+            <div class="number-item">
+                <div class="number-icon">
+                    <i class="fas fa-building"></i>
+                </div>
+                <h4>FOR EMPLOYERS</h4>
+                <a href="tel:+18885551234" class="phone">+1 (888) 555-1234</a>
+            </div>
+            <div class="divider-line"></div>
+            <div class="number-item">
+                <div class="number-icon">
+                    <i class="fas fa-user-tie"></i>
+                </div>
+                <h4>FOR JOB SEEKERS</h4>
+                <a href="tel:+18885555678" class="phone">+1 (888) 555-5678</a>
+            </div>
+            <div class="divider-line"></div>
+            <div class="number-item">
+                <div class="number-icon">
+                    <i class="fas fa-file-invoice-dollar"></i>
+                </div>
+                <h4>FOR PAYROLLING</h4>
+                <a href="tel:+18885559012" class="phone">+1 (888) 555-9012</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Main Section: Form + FAQ Side by Side - EQUAL WIDTH -->
+<section class="main-contact-section" id="contactForm">
+    <div class="container">
+        <div class="two-column-layout">
             
-            <form method="post">
-                {% csrf_token %}
-                
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <label for="{{ form.name.id_for_label }}" class="required-field">Name</label>
-                        {{ form.name.errors }}
-                        <input type="text" name="name" id="{{ form.name.id_for_label }}" 
-                               class="form-control" required>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="{{ form.email.id_for_label }}" class="required-field">Email</label>
-                        {{ form.email.errors }}
-                        <input type="email" name="email" id="{{ form.email.id_for_label }}" 
-                               class="form-control" required>
-                    </div>
+            <!-- Left Side: Contact Form -->
+            <div class="form-wrapper">
+                <div class="form-header">
+                    <h2><i class="fas fa-envelope" style="color: var(--primary-orange);"></i> Get in Touch</h2>
+                    <p>Fill out the form and we'll get back to you within 24 hours</p>
                 </div>
                 
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <label for="{{ form.phone.id_for_label }}">Phone</label>
-                        {{ form.phone.errors }}
-                        <input type="text" name="phone" id="{{ form.phone.id_for_label }}" 
-                               class="form-control">
+                <form method="post" class="contact-form">
+                    {% csrf_token %}
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="{{ form.name.id_for_label }}" class="required-field">Full Name</label>
+                            {{ form.name.errors }}
+                            <input type="text" name="name" id="{{ form.name.id_for_label }}" 
+                                   class="form-control" placeholder="John Doe" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="{{ form.email.id_for_label }}" class="required-field">Email Address</label>
+                            {{ form.email.errors }}
+                            <input type="email" name="email" id="{{ form.email.id_for_label }}" 
+                                   class="form-control" placeholder="john@company.com" required>
+                        </div>
                     </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="{{ form.company_name.id_for_label }}">Company Name</label>
-                        {{ form.company_name.errors }}
-                        <input type="text" name="company_name" id="{{ form.company_name.id_for_label }}" 
-                               class="form-control">
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="{{ form.phone.id_for_label }}">Phone Number</label>
+                            {{ form.phone.errors }}
+                            <input type="text" name="phone" id="{{ form.phone.id_for_label }}" 
+                                   class="form-control" placeholder="+1 (555) 000-0000">
+                        </div>
+                        <div class="form-group">
+                            <label for="{{ form.company_name.id_for_label }}">Company Name</label>
+                            {{ form.company_name.errors }}
+                            <input type="text" name="company_name" id="{{ form.company_name.id_for_label }}" 
+                                   class="form-control" placeholder="Your Company">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="{{ form.subject.id_for_label }}" class="required-field">Subject</label>
+                        {{ form.subject.errors }}
+                        <select name="subject" id="{{ form.subject.id_for_label }}" class="form-select" required>
+                            {% for value, label in form.fields.subject.choices %}
+                            <option value="{{ value }}">{{ label }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="{{ form.message.id_for_label }}" class="required-field">Message</label>
+                        {{ form.message.errors }}
+                        <textarea name="message" id="{{ form.message.id_for_label }}" 
+                                  class="form-control" rows="3" placeholder="Tell us about your staffing needs..." required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Services Interested In</label>
+                        <div class="checkbox-group">
+                            {{ form.services_interested }}
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="{{ form.requirement_type.id_for_label }}">Requirement Type</label>
+                            {{ form.requirement_type.errors }}
+                            <input type="text" name="requirement_type" id="{{ form.requirement_type.id_for_label }}" 
+                                   class="form-control" placeholder="e.g., Frontend Developer">
+                        </div>
+                        <div class="form-group">
+                            <label for="{{ form.tech_stack.id_for_label }}">Tech Stack</label>
+                            {{ form.tech_stack.errors }}
+                            <input type="text" name="tech_stack" id="{{ form.tech_stack.id_for_label }}" 
+                                   class="form-control" placeholder="e.g., Python, React">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="{{ form.hiring_duration.id_for_label }}">Hiring Duration</label>
+                            {{ form.hiring_duration.errors }}
+                            <input type="text" name="hiring_duration" id="{{ form.hiring_duration.id_for_label }}" 
+                                   class="form-control" placeholder="e.g., 2 weeks">
+                        </div>
+                        <div class="form-group">
+                            <label for="{{ form.budget.id_for_label }}">Budget Range</label>
+                            {{ form.budget.errors }}
+                            <input type="text" name="budget" id="{{ form.budget.id_for_label }}" 
+                                   class="form-control" placeholder="e.g., $50,000 - $70,000">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="{{ form.source.id_for_label }}">How did you hear about us?</label>
+                        {{ form.source.errors }}
+                        <select name="source" id="{{ form.source.id_for_label }}" class="form-select">
+                            {% for value, label in form.fields.source.choices %}
+                            <option value="{{ value }}">{{ label }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    
+                    <button type="submit" class="btn-submit">
+                        <i class="fas fa-paper-plane"></i> Send Message
+                    </button>
+                </form>
+            </div>
+            
+            <!-- Right Side: Beautiful FAQ - SAME WIDTH AS FORM -->
+            <div class="faq-wrapper">
+                <div class="faq-header">
+                    <h2><i class="fas fa-question-circle" style="color: var(--primary-orange);"></i> Frequently Asked Questions</h2>
+                    <p>Everything you need to know</p>
+                </div>
+                <div class="beautiful-faq-list">
+                    <div class="beautiful-faq-item">
+                        <div class="faq-question-row">
+                            <div class="faq-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <span class="faq-question-text">What is your typical response time?</span>
+                        </div>
+                        <div class="faq-answer-text">
+                            We typically respond within 24 hours during business days. Often much sooner! For urgent inquiries, please call us directly.
+                        </div>
+                    </div>
+                    
+                    <div class="beautiful-faq-item">
+                        <div class="faq-question-row">
+                            <div class="faq-icon">
+                                <i class="fas fa-passport"></i>
+                            </div>
+                            <span class="faq-question-text">Do you sponsor H1-B visas?</span>
+                        </div>
+                        <div class="faq-answer-text">
+                            We do not sponsor H1-B visas directly, but we gladly accept candidates with existing H1-B transfers or other valid work authorization like OPT, CPT, Green Card, or US Citizens.
+                        </div>
+                    </div>
+                    
+                    <div class="beautiful-faq-item">
+                        <div class="faq-question-row">
+                            <div class="faq-icon">
+                                <i class="fas fa-map-marked-alt"></i>
+                            </div>
+                            <span class="faq-question-text">What states do you staff in?</span>
+                        </div>
+                        <div class="faq-answer-text">
+                            We provide IT staffing services across all 50 United States. Our remote and onsite capabilities allow us to serve clients anywhere in the country.
+                        </div>
+                    </div>
+                    
+                    <div class="beautiful-faq-item">
+                        <div class="faq-question-row">
+                            <div class="faq-icon">
+                                <i class="fas fa-dollar-sign"></i>
+                            </div>
+                            <span class="faq-question-text">How much do your services cost?</span>
+                        </div>
+                        <div class="faq-answer-text">
+                            Contract positions: competitive hourly rates. Direct hire: contingency fee ranging from 15-25% of first-year salary. We offer a free consultation to provide exact pricing.
+                        </div>
+                    </div>
+                    
+                    <div class="beautiful-faq-item">
+                        <div class="faq-question-row">
+                            <div class="faq-icon">
+                                <i class="fas fa-file-signature"></i>
+                            </div>
+                            <span class="faq-question-text">Can I get a sample contract or MSA?</span>
+                        </div>
+                        <div class="faq-answer-text">
+                            Yes! After signing a mutual Non-Disclosure Agreement (NDA), we can provide sample contracts and our Master Service Agreement for your legal team to review.
+                        </div>
                     </div>
                 </div>
-                
-                <div class="mb-3">
-                    <label for="{{ form.subject.id_for_label }}" class="required-field">Subject</label>
-                    {{ form.subject.errors }}
-                    <select name="subject" id="{{ form.subject.id_for_label }}" class="form-select" required>
-                        {% for value, label in form.fields.subject.choices %}
-                        <option value="{{ value }}">{{ label }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                
-                <div class="mb-3">
-                    <label for="{{ form.message.id_for_label }}" class="required-field">Message</label>
-                    {{ form.message.errors }}
-                    <textarea name="message" id="{{ form.message.id_for_label }}" 
-                              class="form-control" rows="4" required></textarea>
-                </div>
-                
-                <div class="mb-3">
-                    <label>Services Interested In</label>
-                    <div class="checkbox-group">
-                        {{ form.services_interested }}
-                    </div>
-                </div>
-                
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <label for="{{ form.requirement_type.id_for_label }}">Requirement Type</label>
-                        {{ form.requirement_type.errors }}
-                        <input type="text" name="requirement_type" id="{{ form.requirement_type.id_for_label }}" 
-                               class="form-control" placeholder="e.g., Frontend Developer">
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="{{ form.tech_stack.id_for_label }}">Tech Stack</label>
-                        {{ form.tech_stack.errors }}
-                        <input type="text" name="tech_stack" id="{{ form.tech_stack.id_for_label }}" 
-                               class="form-control" placeholder="e.g., Python, React">
-                    </div>
-                </div>
-                
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <label for="{{ form.hiring_duration.id_for_label }}">Hiring Duration</label>
-                        {{ form.hiring_duration.errors }}
-                        <input type="text" name="hiring_duration" id="{{ form.hiring_duration.id_for_label }}" 
-                               class="form-control" placeholder="e.g., 2 weeks">
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="{{ form.budget.id_for_label }}">Budget</label>
-                        {{ form.budget.errors }}
-                        <input type="text" name="budget" id="{{ form.budget.id_for_label }}" 
-                               class="form-control" placeholder="e.g., $50,000 - $70,000">
-                    </div>
-                </div>
-                
-                <div class="mb-3">
-                    <label for="{{ form.source.id_for_label }}">How did you hear about us?</label>
-                    {{ form.source.errors }}
-                    <select name="source" id="{{ form.source.id_for_label }}" class="form-select">
-                        {% for value, label in form.fields.source.choices %}
-                        <option value="{{ value }}">{{ label }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                
-                <button type="submit" class="btn btn-primary btn-lg w-100">
-                    <i class="fas fa-paper-plane"></i> Send Message
-                </button>
-            </form>
-        </div>
-    </div>
-    
-    <div class="col-md-6">
-        <div class="card mb-4">
-            <div class="card-body">
-                <h4><i class="fas fa-map-marker-alt"></i> Our Office</h4>
-                <p>123 Business Avenue<br>Suite 100<br>New York, NY 10001</p>
-                
-                <h4><i class="fas fa-phone"></i> Phone</h4>
-                <p>+1 (555) 123-4567</p>
-                
-                <h4><i class="fas fa-envelope"></i> Email</h4>
-                <p>info@jobportal.com</p>
-                
-                <h4><i class="fas fa-clock"></i> Business Hours</h4>
-                <p>Monday - Friday: 9:00 AM - 6:00 PM<br>Saturday - Sunday: Closed</p>
             </div>
         </div>
-        
-        <div class="card">
-            <div class="card-body">
-                <h4><i class="fas fa-question-circle"></i> Frequently Asked Questions</h4>
-                <div class="accordion" id="faqAccordion">
-                    <div class="accordion-item">
-                        <h2 class="accordion-header">
-                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
-                                How quickly do you respond?
-                            </button>
-                        </h2>
-                        <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
-                            <div class="accordion-body">
-                                We typically respond within 24 hours during business days.
-                            </div>
-                        </div>
-                    </div>
-                    <div class="accordion-item">
-                        <h2 class="accordion-header">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
-                                Do you offer remote positions?
-                            </button>
-                        </h2>
-                        <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                            <div class="accordion-body">
-                                Yes, we have both on-site and remote opportunities available.
-                            </div>
-                        </div>
-                    </div>
-                    <div class="accordion-item">
-                        <h2 class="accordion-header">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
-                                What services do you offer?
-                            </button>
-                        </h2>
-                        <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                            <div class="accordion-body">
-                                We offer temporary staffing, contract-to-hire, direct hire, payrolling, and dedicated teams.
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    </div>
+</section>
+
+<!-- Social Media Section -->
+<section class="social-section">
+    <div class="container">
+        <div class="social-container">
+            <h2>Connect With Us</h2>
+            <p>Follow us for job postings, market insights, and company updates</p>
+            <div class="social-icons-grid">
+                <a href="#" class="social-icon-card">
+                    <i class="fab fa-linkedin-in"></i>
+                    <span>LinkedIn</span>
+                </a>
+                <a href="#" class="social-icon-card">
+                    <i class="fab fa-twitter"></i>
+                    <span>Twitter</span>
+                </a>
+                <a href="#" class="social-icon-card">
+                    <i class="fab fa-github"></i>
+                    <span>GitHub</span>
+                </a>
+                <a href="#" class="social-icon-card">
+                    <i class="fab fa-instagram"></i>
+                    <span>InstaGram</span>
+                </a>
             </div>
         </div>
     </div>
-</div>
+</section>
+
+<!-- 3 Footer Cards - NEAT AND CLEAN ALIGNMENT -->
+<section class="footer-cards">
+    <div class="container">
+        <div class="cards-container">
+            <div class="footer-card">
+                <div class="card-icon">
+                    <i class="fas fa-map-marker-alt"></i>
+                </div>
+                <h3>Our Headquarters</h3>
+                <p>971 US Hwy 202 N, Ste A<br>Branchburg, NJ 08876<br>United States</p>
+            </div>
+            <div class="footer-card">
+                <div class="card-icon">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <h3>Business Hours</h3>
+                <p>Mon-Fri: 8:00 AM - 8:00 PM ET<br>Sat: 9:00 AM - 2:00 PM ET<br>Sunday: Closed</p>
+            </div>
+            <div class="footer-card">
+                <div class="card-icon">
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <h3>Email Us</h3>
+                <p><a href="mailto:hire@sksglobalits.com" class="email-link">hire@sksglobalits.com</a><br>
+                <a href="mailto:careers@sksglobalits.com" class="email-link">careers@sksglobalits.com</a><br>
+                <a href="mailto:info@sksglobalits.com" class="email-link">info@sksglobalits.com</a></p>
+            </div>
+        </div>
+    </div>
+</section>
+
 {% endblock %}

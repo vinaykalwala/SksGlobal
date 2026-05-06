@@ -2,31 +2,264 @@
 
 {% block title %}Delete Message - Admin{% endblock %}
 
+{% block extra_css %}
+<style>
+
+/* ===== REMOVE BASE SPACING ===== */
+.main-content {
+    padding: 0 !important;
+}
+.main-content .container {
+    max-width: 100% !important;
+    padding: 0 !important;
+}
+
+/* ===== WRAPPER ===== */
+.delete-wrapper {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: #f9fafb;
+}
+
+/* ===== SHAPES ===== */
+.bg-shape {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(90px);
+    opacity: 0.35;
+    z-index: 0;
+    animation: float 10s ease-in-out infinite;
+}
+
+/* TOP LEFT (BLUE) */
+.shape-blue {
+    width: 500px;
+    height: 500px;
+    background: #0b3d91;
+    top: -250px;
+    left: -250px;
+}
+
+/* BOTTOM RIGHT (ORANGE) */
+.shape-orange {
+    width: 450px;
+    height: 450px;
+    background: #ff9c40;
+    bottom: -220px;
+    right: -220px;
+}
+
+/* SIDE SHAPE */
+.shape-side {
+    width: 300px;
+    height: 300px;
+    background: #1e4d9e;
+    top: 40%;
+    left: -150px;
+}
+
+/* FLOAT ANIMATION */
+@keyframes float {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-30px); }
+}
+
+/* ===== CARD ===== */
+.delete-card {
+    position: relative;
+    z-index: 2;
+    width: 480px;
+    max-width: 92%;
+    background: #ffffff;
+    border-radius: 18px;
+    box-shadow: 0 30px 70px rgba(0,0,0,0.12);
+    text-align: center;
+    overflow: hidden;
+    animation: fadeIn 0.4s ease;
+}
+
+/* HEADER */
+.delete-header {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    color: white;
+    padding: 18px;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+/* BODY */
+.delete-body {
+    padding: 30px 25px;
+}
+
+.delete-icon {
+    font-size: 60px;
+    color: #ef4444;
+    margin-bottom: 15px;
+}
+
+.delete-title {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: #1f2937;
+}
+
+.delete-info {
+    font-size: 14px;
+    color: #6b7280;
+    margin-bottom: 8px;
+}
+
+.delete-warning {
+    margin-top: 10px;
+    font-size: 13px;
+    color: #dc2626;
+    font-weight: 600;
+}
+
+/* BUTTONS */
+.btn-group {
+    margin-top: 20px;
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+}
+
+.custom-btn {
+    padding: 10px 18px;
+    border-radius: 8px;
+    border: none;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.btn-danger {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    color: white;
+}
+
+.btn-danger:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 25px rgba(239,68,68,0.4);
+}
+
+.btn-cancel {
+    background: #e5e7eb;
+    color: #374151;
+}
+
+.btn-cancel:hover {
+    background: #d1d5db;
+}
+
+/* ANIMATION */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(25px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+
+    .shape-blue {
+        width: 300px;
+        height: 300px;
+        top: -150px;
+        left: -150px;
+    }
+
+    .shape-orange {
+        width: 260px;
+        height: 260px;
+        bottom: -130px;
+        right: -130px;
+    }
+
+    .shape-side {
+        width: 180px;
+        height: 180px;
+        left: -90px;
+    }
+}
+
+@media (max-width: 480px) {
+
+    .btn-group {
+        flex-direction: column;
+    }
+
+    .custom-btn {
+        width: 100%;
+    }
+}
+
+</style>
+{% endblock %}
+
 {% block content %}
-<div class="row justify-content-center">
-    <div class="col-md-6">
-        <div class="card">
-            <div class="card-header bg-danger text-white">
-                <h3 class="mb-0"><i class="fas fa-exclamation-triangle"></i> Confirm Delete</h3>
-            </div>
-            <div class="card-body text-center">
-                <i class="fas fa-envelope" style="font-size: 64px; color: #dc3545;"></i>
-                <h4 class="mt-3">Delete Message?</h4>
-                <p>From: <strong>{{ message.name }}</strong> ({{ message.email }})</p>
-                <p>Subject: {{ message.get_subject_display }}</p>
-                <p class="text-danger">This action cannot be undone!</p>
-                
-                <form method="post">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-danger">
-                        <i class="fas fa-trash"></i> Yes, Delete
-                    </button>
-                    <a href="{% url ' contact_message_detail' message.pk %}" class="btn btn-secondary">
-                        <i class="fas fa-times"></i> Cancel
-                    </a>
-                </form>
-            </div>
+
+<div class="delete-wrapper">
+
+    <!-- BIG SHAPES -->
+    <div class="bg-shape shape-blue"></div>
+    <div class="bg-shape shape-orange"></div>
+    <div class="bg-shape shape-side"></div>
+
+    <!-- CARD -->
+    <div class="delete-card">
+
+        <div class="delete-header">
+            ⚠ Confirm Deletion
         </div>
+
+        <div class="delete-body">
+
+            <div class="delete-icon">🗑</div>
+
+            <div class="delete-title">Delete Message?</div>
+
+            <div class="delete-info">
+                From: <strong>{{ message.name }}</strong>
+            </div>
+
+            <div class="delete-info">
+                Email: {{ message.email }}
+            </div>
+
+            <div class="delete-info">
+                Subject: {{ message.get_subject_display }}
+            </div>
+
+            <div class="delete-warning">
+                This action cannot be undone!
+            </div>
+
+            <form method="post">
+                {% csrf_token %}
+
+                <div class="btn-group">
+                    <button type="submit" class="custom-btn btn-danger">
+                        Delete
+                    </button>
+
+                    <a href="{% url 'contact_message_detail' message.pk %}" class="custom-btn btn-cancel">
+                        Cancel
+                    </a>
+                </div>
+            </form>
+
+        </div>
+
     </div>
+
 </div>
+
 {% endblock %}

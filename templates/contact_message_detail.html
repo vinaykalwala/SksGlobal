@@ -2,131 +2,591 @@
 
 {% block title %}Message Details - {{ message.name }}{% endblock %}
 
+{% block extra_css %}
+<style>
+/* ========== PREMIUM DETAILS PAGE ========== */
+.detail-premium {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem;
+    background: #f0f2f8;
+    min-height: calc(100vh - 200px);
+}
+
+.detail-premium-layout {
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
+}
+
+/* ========== LEFT COLUMN ========== */
+.detail-premium-left {
+    flex: 1.7;
+    background: #ffffff;
+    border-radius: 32px;
+    box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+}
+
+.detail-premium-header {
+    background: linear-gradient(135deg, #0b3d91, #1e4d9e);
+    padding: 2rem 2rem;
+    position: relative;
+}
+
+.detail-premium-header::before {
+    content: '';
+    position: absolute;
+    top: -30%;
+    right: -10%;
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, rgba(255,156,64,0.15), transparent);
+    border-radius: 50%;
+}
+
+.detail-premium-header h1 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: white;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.detail-premium-header h1 i {
+    color: #ff9c40;
+}
+
+.detail-premium-header p {
+    color: rgba(255,255,255,0.85);
+    font-size: 0.8rem;
+    margin: 0.4rem 0 0 2.4rem;
+}
+
+.detail-premium-scroll {
+    overflow-y: auto;
+    scrollbar-width: thin;
+}
+
+.detail-premium-scroll::-webkit-scrollbar {
+    width: 4px;
+}
+
+.detail-premium-scroll::-webkit-scrollbar-track {
+    background: #eef2f6;
+}
+
+.detail-premium-scroll::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 10px;
+}
+
+/* ========== SECTIONS ========== */
+.detail-premium-section {
+    padding: 1.8rem 2rem;
+    border-bottom: 1px solid #edf2f7;
+}
+
+.detail-premium-section:last-child {
+    border-bottom: none;
+}
+
+.detail-premium-section-title {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 1.5rem;
+}
+
+.detail-premium-section-title i {
+    color: #ff9c40;
+    font-size: 1rem;
+}
+
+.detail-premium-section-title span {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #1a2a3a;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding-bottom: 0.3rem;
+    border-bottom: 2px solid #ff9c40;
+}
+
+/* ========== INFO ROWS WITH PERFECT SPACING ========== */
+.detail-premium-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.detail-premium-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.5rem;
+}
+
+.detail-premium-label {
+    width: 180px;
+    flex-shrink: 0;
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    padding-top: 0.2rem;
+    justify-content: center;
+    align-content: center;
+   
+}
+
+.detail-premium-value {
+    flex: 1;
+    font-size: 0.9rem;
+    color: #1e293b;
+    font-weight: 500;
+    line-height: 1.5;
+    background: #fafbfc;
+    padding: 0.6rem 1rem;
+    border-radius: 12px;
+    word-break: break-word;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.04), inset 0 1px 2px rgba(0, 0, 0, 0.03);
+    border: 1px solid #eef2f6;
+}
+
+.detail-premium-value ul {
+    margin: 0;
+    padding-left: 1.2rem;
+}
+
+.detail-premium-value li {
+    margin: 0.2rem 0;
+}
+
+/* ========== BADGES ========== */
+.detail-premium-badge {
+    display: inline-block;
+    padding: 0.25rem 1rem;
+    background: linear-gradient(135deg, #eef2f6, #e8edf3);
+    border-radius: 40px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #0b3d91;
+}
+
+.detail-premium-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.35rem 1.2rem;
+    border-radius: 40px;
+    font-size: 0.7rem;
+    font-weight: 700;
+}
+
+.status-new { background: #fee2e2; color: #dc2626; }
+.status-contacted { background: #fff7ed; color: #ea580c; }
+.status-qualified { background: #eff6ff; color: #2563eb; }
+.status-converted { background: #ecfdf5; color: #059669; }
+.status-default { background: #f1f5f9; color: #64748b; }
+
+/* ========== RIGHT COLUMN ========== */
+.detail-premium-right {
+    flex: 1;
+    position: sticky;
+    top: 100px;
+}
+
+.detail-premium-card {
+    background: #ffffff;
+    border-radius: 24px;
+    box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.08);
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+}
+
+.detail-premium-card-header {
+    padding: 1.2rem 1.5rem;
+    background: #fafbfc;
+    border-bottom: 1px solid #edf2f7;
+}
+
+.detail-premium-card-header h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #1a2a3a;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.detail-premium-card-header h3 i {
+    color: #ff9c40;
+}
+
+.detail-premium-card-body {
+    padding: 1.5rem;
+}
+
+/* ========== FORM ========== */
+.detail-premium-form-group {
+    margin-bottom: 1.2rem;
+}
+
+.detail-premium-label-form {
+    display: block;
+    font-size: 0.7rem;
+    font-weight: 800;
+    color: #64748b;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+}
+
+.detail-premium-select {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 14px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #1a2a3a;
+    background: white;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.detail-premium-select:focus {
+    outline: none;
+    border-color: #0b3d91;
+    box-shadow: 0 0 0 3px rgba(11,61,145,0.08);
+}
+
+.detail-premium-textarea {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 14px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #1a2a3a;
+    font-family: inherit;
+    resize: vertical;
+    transition: all 0.2s;
+}
+
+.detail-premium-textarea:focus {
+    outline: none;
+    border-color: #0b3d91;
+    box-shadow: 0 0 0 3px rgba(11,61,145,0.08);
+}
+
+/* ========== BUTTONS ========== */
+.detail-premium-btn {
+    width: 100%;
+    background: linear-gradient(135deg, #0b3d91, #1e4d9e);
+    color: white;
+    padding: 0.85rem;
+    border: none;
+    border-radius: 16px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    transition: all 0.3s;
+}
+
+.detail-premium-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(11,61,145,0.25);
+}
+
+.detail-premium-action {
+    width: 100%;
+    padding: 0.8rem;
+    border: none;
+    border-radius: 14px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    text-decoration: none;
+    margin-bottom: 0.8rem;
+    transition: all 0.3s;
+}
+
+.detail-premium-action:last-child {
+    margin-bottom: 0;
+}
+
+.action-email { background: linear-gradient(135deg, #10b981, #059669); color: white; }
+.action-email:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(16,185,129,0.25); }
+
+.action-call { background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; }
+.action-call:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(59,130,246,0.25); }
+
+.action-delete { background: linear-gradient(135deg, #ef4444, #dc2626); color: white; }
+.action-delete:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(239,68,68,0.25); }
+
+.detail-premium-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #e2e8f0, transparent);
+    margin: 1rem 0;
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 1024px) {
+    .detail-premium { padding: 1.5rem; }
+}
+
+@media (max-width: 768px) {
+    .detail-premium { padding: 1rem; }
+    
+    .detail-premium-layout {
+        flex-direction: column;
+    }
+    
+    .detail-premium-right {
+        position: static;
+        width: 100%;
+    }
+    
+    .detail-premium-scroll {
+        max-height: none;
+    }
+    
+    .detail-premium-header {
+        padding: 1rem 1.2rem;
+    }
+    
+    .detail-premium-header h1 { font-size: 1.3rem; }
+    .detail-premium-header p { margin-left: 2rem; }
+    
+    .detail-premium-section {
+        padding: 1rem 1.2rem;
+    }
+    
+    .detail-premium-row {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .detail-premium-label {
+        width: 100%;
+        padding-top: 0;
+    }
+    
+    .detail-premium-value {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .detail-premium-header h1 { font-size: 1.1rem; }
+    .detail-premium-header p { font-size: 0.7rem; margin-left: 1.8rem; }
+}
+</style>
+{% endblock %}
+
 {% block content %}
-<div class="row">
-    <div class="col-md-8">
-        <div class="card">
-            <div class="card-header bg-primary text-white">
-                <h3 class="mb-0"><i class="fas fa-envelope"></i> Message Details</h3>
+<div class="detail-premium">
+    <div class="detail-premium-layout">
+        
+        <!-- LEFT COLUMN -->
+        <div class="detail-premium-left">
+            <div class="detail-premium-header">
+                <h1>
+                    <i class="fas fa-envelope-open-text"></i>
+                    Message Details
+                </h1>
+                <p>Complete customer inquiry information</p>
             </div>
-            <div class="card-body">
-                <div class="row mb-3">
-                    <div class="col-md-3 fw-bold">Name:</div>
-                    <div class="col-md-9">{{ message.name }}</div>
-                </div>
-                <div class="row mb-3">
-                    <div class="col-md-3 fw-bold">Email:</div>
-                    <div class="col-md-9">{{ message.email }}</div>
-                </div>
-                <div class="row mb-3">
-                    <div class="col-md-3 fw-bold">Phone:</div>
-                    <div class="col-md-9">{{ message.phone|default:"Not provided" }}</div>
-                </div>
-                <div class="row mb-3">
-                    <div class="col-md-3 fw-bold">Company:</div>
-                    <div class="col-md-9">{{ message.company_name|default:"Not provided" }}</div>
-                </div>
-                <div class="row mb-3">
-                    <div class="col-md-3 fw-bold">Subject:</div>
-                    <div class="col-md-9">{{ message.get_subject_display }}</div>
-                </div>
-                <div class="row mb-3">
-                    <div class="col-md-3 fw-bold">Message:</div>
-                    <div class="col-md-9">{{ message.message|linebreaks }}</div>
+            
+            <div class="detail-premium-scroll">
+                <!-- Customer Information -->
+                <div class="detail-premium-section">
+                    <div class="detail-premium-section-title">
+                        <i class="fas fa-user-circle"></i>
+                        <span>Customer Information</span>
+                    </div>
+                    <div class="detail-premium-grid">
+                        <div class="detail-premium-row">
+                            <div class="detail-premium-label">Full Name</div>
+                            <div class="detail-premium-value">
+                                <span class="detail-premium-badge">{{ message.name }}</span>
+                            </div>
+                        </div>
+                        <div class="detail-premium-row">
+                            <div class="detail-premium-label">Email Address</div>
+                            <div class="detail-premium-value">{{ message.email }}</div>
+                        </div>
+                        <div class="detail-premium-row">
+                            <div class="detail-premium-label">Phone Number</div>
+                            <div class="detail-premium-value">{{ message.phone|default:"—" }}</div>
+                        </div>
+                        <div class="detail-premium-row">
+                            <div class="detail-premium-label">Company Name</div>
+                            <div class="detail-premium-value">{{ message.company_name|default:"—" }}</div>
+                        </div>
+                    </div>
                 </div>
                 
-                <hr>
+                <!-- Message Information -->
+                <div class="detail-premium-section">
+                    <div class="detail-premium-section-title">
+                        <i class="fas fa-comment-dots"></i>
+                        <span>Message Information</span>
+                    </div>
+                    <div class="detail-premium-grid">
+                        <div class="detail-premium-row">
+                            <div class="detail-premium-label">Subject</div>
+                            <div class="detail-premium-value">
+                                <span class="detail-premium-badge">{{ message.get_subject_display }}</span>
+                            </div>
+                        </div>
+                        <div class="detail-premium-row">
+                            <div class="detail-premium-label">Message Content</div>
+                            <div class="detail-premium-value">{{ message.message|linebreaks }}</div>
+                        </div>
+                        <div class="detail-premium-row">
+                            <div class="detail-premium-label">Source</div>
+                            <div class="detail-premium-value">{{ message.get_source_display }}</div>
+                        </div>
+                        <div class="detail-premium-row">
+                            <div class="detail-premium-label">Received Date</div>
+                            <div class="detail-premium-value">{{ message.created_at|date:"F d, Y · h:i A" }}</div>
+                        </div>
+                        <div class="detail-premium-row">
+                            <div class="detail-premium-label">Current Status</div>
+                            <div class="detail-premium-value">
+                                <span class="detail-premium-status 
+                                    {% if message.status == 'new' %}status-new
+                                    {% elif message.status == 'contacted' %}status-contacted
+                                    {% elif message.status == 'qualified' %}status-qualified
+                                    {% elif message.status == 'converted' %}status-converted
+                                    {% else %}status-default{% endif %}">
+                                    <i class="fas fa-circle" style="font-size: 0.4rem;"></i>
+                                    {{ message.get_status_display }}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 
-                <h5>Additional Information</h5>
-                <div class="row mb-3">
-                    <div class="col-md-3 fw-bold">Requirement Type:</div>
-                    <div class="col-md-9">{{ message.requirement_type|default:"Not specified" }}</div>
-                </div>
-                <div class="row mb-3">
-                    <div class="col-md-3 fw-bold">Tech Stack:</div>
-                    <div class="col-md-9">{{ message.tech_stack|default:"Not specified" }}</div>
-                </div>
-                <div class="row mb-3">
-                    <div class="col-md-3 fw-bold">Hiring Duration:</div>
-                    <div class="col-md-9">{{ message.hiring_duration|default:"Not specified" }}</div>
-                </div>
-                <div class="row mb-3">
-                    <div class="col-md-3 fw-bold">Budget:</div>
-                    <div class="col-md-9">{{ message.budget|default:"Not specified" }}</div>
-                </div>
-                <div class="row mb-3">
-                    <div class="col-md-3 fw-bold">Services Interested:</div>
-                    <div class="col-md-9">
-                        {% if message.services_interested %}
-                            <ul>
-                            {% for service in message.services_interested %}
-                                <li>{{ service }}</li>
-                            {% endfor %}
-                            </ul>
-                        {% else %}
-                            Not specified
+                <!-- Additional Details -->
+                <div class="detail-premium-section">
+                    <div class="detail-premium-section-title">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Additional Details</span>
+                    </div>
+                    <div class="detail-premium-grid">
+                        <div class="detail-premium-row">
+                            <div class="detail-premium-label">Requirement Type</div>
+                            <div class="detail-premium-value">{{ message.requirement_type|default:"—" }}</div>
+                        </div>
+                        <div class="detail-premium-row">
+                            <div class="detail-premium-label">Tech Stack</div>
+                            <div class="detail-premium-value">{{ message.tech_stack|default:"—" }}</div>
+                        </div>
+                        <div class="detail-premium-row">
+                            <div class="detail-premium-label">Hiring Duration</div>
+                            <div class="detail-premium-value">{{ message.hiring_duration|default:"—" }}</div>
+                        </div>
+                        <div class="detail-premium-row">
+                            <div class="detail-premium-label">Budget Range</div>
+                            <div class="detail-premium-value">{{ message.budget|default:"—" }}</div>
+                        </div>
+                        <div class="detail-premium-row">
+                            <div class="detail-premium-label">Services Interested</div>
+                            <div class="detail-premium-value">
+                                {% if message.services_interested %}
+                                    <ul>
+                                    {% for service in message.services_interested %}
+                                        <li>{{ service }}</li>
+                                    {% endfor %}
+                                    </ul>
+                                {% else %}
+                                    —
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% if message.admin_notes %}
+                        <div class="detail-premium-row">
+                            <div class="detail-premium-label">Admin Notes</div>
+                            <div class="detail-premium-value">{{ message.admin_notes|linebreaks }}</div>
+                        </div>
                         {% endif %}
                     </div>
                 </div>
-                <div class="row mb-3">
-                    <div class="col-md-3 fw-bold">Source:</div>
-                    <div class="col-md-9">{{ message.get_source_display }}</div>
-                </div>
-                <div class="row mb-3">
-                    <div class="col-md-3 fw-bold">Received:</div>
-                    <div class="col-md-9">{{ message.created_at|date:"F d, Y H:i" }}</div>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <div class="col-md-4">
-        <div class="card">
-            <div class="card-header bg-info text-white">
-                <h5 class="mb-0"><i class="fas fa-cog"></i> Update Status</h5>
-            </div>
-            <div class="card-body">
-                <form method="post">
-                    {% csrf_token %}
-                    <div class="mb-3">
-                        <label for="status" class="form-label">Status</label>
-                        <select name="status" id="status" class="form-select">
-                            {% for value, label in message.STATUS_CHOICES %}
-                            <option value="{{ value }}" {% if message.status == value %}selected{% endif %}>
-                                {{ label }}
-                            </option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="admin_notes" class="form-label">Admin Notes</label>
-                        <textarea name="admin_notes" id="admin_notes" class="form-control" rows="5">{{ message.admin_notes }}</textarea>
-                    </div>
-                    <button type="submit" class="btn btn-primary w-100">
-                        <i class="fas fa-save"></i> Update Message
-                    </button>
-                </form>
             </div>
         </div>
         
-        <div class="card mt-3">
-            <div class="card-header bg-success text-white">
-                <h5 class="mb-0"><i class="fas fa-reply"></i> Quick Actions</h5>
+        <!-- RIGHT COLUMN -->
+        <div class="detail-premium-right">
+            <!-- Update Status Card -->
+            <div class="detail-premium-card">
+                <div class="detail-premium-card-header">
+                    <h3>
+                        <i class="fas fa-sliders-h"></i>
+                        Update Status
+                    </h3>
+                </div>
+                <div class="detail-premium-card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="detail-premium-form-group">
+                            <label class="detail-premium-label-form" for="status">Status</label>
+                            <select name="status" id="status" class="detail-premium-select">
+                                {% for value, label in message.STATUS_CHOICES %}
+                                <option value="{{ value }}" {% if message.status == value %}selected{% endif %}>
+                                    {{ label }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="detail-premium-form-group">
+                            <label class="detail-premium-label-form" for="admin_notes">Admin Notes</label>
+                            <textarea name="admin_notes" id="admin_notes" class="detail-premium-textarea" rows="4" placeholder="Add internal notes...">{{ message.admin_notes }}</textarea>
+                        </div>
+                        <button type="submit" class="detail-premium-btn">
+                            <i class="fas fa-save"></i> Update Message
+                        </button>
+                    </form>
+                </div>
             </div>
-            <div class="card-body">
-                <div class="d-grid gap-2">
-                    <a href="mailto:{{ message.email }}" class="btn btn-success">
+            
+            <!-- Quick Actions Card -->
+            <div class="detail-premium-card">
+                <div class="detail-premium-card-header">
+                    <h3>
+                        <i class="fas fa-bolt"></i>
+                        Quick Actions
+                    </h3>
+                </div>
+                <div class="detail-premium-card-body">
+                    <a href="mailto:{{ message.email }}" class="detail-premium-action action-email">
                         <i class="fas fa-envelope"></i> Reply via Email
                     </a>
-                    <a href="tel:{{ message.phone }}" class="btn btn-info">
-                        <i class="fas fa-phone"></i> Call {{ message.name }}
+                    <a href="tel:{{ message.phone }}" class="detail-premium-action action-call">
+                        <i class="fas fa-phone-alt"></i> Call {{ message.name|truncatechars:20 }}
                     </a>
-                    <a href="{% url ' contact_message_delete' message.pk %}" class="btn btn-danger">
-                        <i class="fas fa-trash"></i> Delete Message
+                    <div class="detail-premium-divider"></div>
+                    <a href="{% url 'contact_message_delete' message.pk %}" class="detail-premium-action action-delete">
+                        <i class="fas fa-trash-alt"></i> Delete Message
                     </a>
                 </div>
             </div>
         </div>
+        
     </div>
 </div>
 {% endblock %}
