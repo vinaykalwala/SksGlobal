@@ -1,31 +1,256 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Delete Resource - Admin{% endblock %}
 
+{% block extra_css %}
+<style>
+    :root {
+        --primary: #2563eb;
+        --danger: #dc2626;
+        --danger-dark: #b91c1c;
+        --gray-50: #f8fafc;
+        --gray-100: #f1f5f9;
+        --gray-200: #e2e8f0;
+        --gray-700: #334155;
+        --gray-800: #1e293b;
+        --gray-900: #0f172a;
+        --white: #ffffff;
+        --shadow-md: 0 10px 25px -5px rgba(0,0,0,0.08);
+        --shadow-lg: 0 25px 50px -12px rgba(0,0,0,0.15);
+        --radius-lg: 1.25rem;
+        --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+        margin: 0;
+        background: #f8fafc;
+        font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    .delete-page {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem 1.5rem;
+        position: relative;
+        overflow: hidden;
+        background: linear-gradient(135deg, #fef2f2, #fff1f2, #fce7f3);
+        background-size: 400% 400%;
+        animation: bgShift 18s ease infinite;
+    }
+
+    @keyframes bgShift {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
+
+    /* Floating blob */
+    .delete-page::before {
+        content: "";
+        position: absolute;
+        width: 45vw;
+        height: 45vw;
+        max-width: 500px;
+        max-height: 500px;
+        background: radial-gradient(circle, rgba(220, 38, 38, 0.1) 0%, transparent 70%);
+        border-radius: 50%;
+        top: -10%;
+        right: -10%;
+        z-index: 0;
+        pointer-events: none;
+        animation: floatOne 20s ease-in-out infinite;
+    }
+
+    @keyframes floatOne {
+        0%, 100% { transform: translate(0, 0) scale(1); }
+        50% { transform: translate(40px, 60px) scale(1.1); }
+    }
+
+    .delete-card {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(12px);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-lg);
+        width: 100%;
+        max-width: 520px;
+        text-align: center;
+        padding: 3rem 2.5rem;
+        position: relative;
+        z-index: 2;
+        animation: cardFade 0.5s ease-out forwards;
+        border: 1px solid rgba(255,255,255,0.7);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .delete-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 30px 60px rgba(0,0,0,0.12);
+    }
+
+    @keyframes cardFade {
+        from { opacity: 0; transform: translateY(30px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .warning-icon {
+        width: 90px;
+        height: 90px;
+        margin: 0 auto 1.5rem;
+        background: #fee2e2;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        animation: pulseWarning 2s infinite;
+    }
+
+    .warning-icon svg {
+        width: 48px;
+        height: 48px;
+        stroke: var(--danger);
+        fill: none;
+        stroke-width: 2;
+    }
+
+    @keyframes pulseWarning {
+        0% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.4); }
+        70% { box-shadow: 0 0 0 20px rgba(220, 38, 38, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0); }
+    }
+
+    .delete-title {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: var(--gray-900);
+        margin-bottom: 0.5rem;
+        letter-spacing: -0.02em;
+    }
+
+    .delete-subtitle {
+        font-size: 1.3rem;
+        font-weight: 600;
+        color: var(--danger);
+        margin-bottom: 0.75rem;
+    }
+
+    .delete-text {
+        color: var(--gray-700);
+        font-size: 1rem;
+        line-height: 1.6;
+        margin-bottom: 2rem;
+    }
+
+    .btn-group {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.8rem 2.2rem;
+        font-weight: 600;
+        border-radius: 999px;
+        text-decoration: none;
+        transition: all var(--transition);
+        cursor: pointer;
+        border: none;
+        font-size: 1rem;
+    }
+
+    .btn-danger {
+        background: var(--danger);
+        color: white;
+        box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+    }
+
+    .btn-danger:hover {
+        background: var(--danger-dark);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(220, 38, 38, 0.4);
+    }
+
+    .btn-secondary {
+        background: white;
+        color: var(--gray-800);
+        border: 2px solid var(--gray-200);
+    }
+
+    .btn-secondary:hover {
+        border-color: var(--danger);
+        color: var(--danger);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+    }
+
+    /* Responsive */
+    @media (max-width: 640px) {
+        .delete-card {
+            padding: 2.5rem 1.5rem;
+        }
+        .delete-title {
+            font-size: 1.5rem;
+        }
+        .warning-icon {
+            width: 70px;
+            height: 70px;
+        }
+        .warning-icon svg {
+            width: 38px;
+            height: 38px;
+        }
+    }
+</style>
+{% endblock %}
+
 {% block content %}
-<div class="row justify-content-center">
-    <div class="col-md-6">
-        <div class="card">
-            <div class="card-header bg-danger text-white">
-                <h3 class="mb-0"><i class="fas fa-exclamation-triangle"></i> Confirm Delete</h3>
-            </div>
-            <div class="card-body text-center">
-                <i class="fas fa-file-alt" style="font-size: 64px; color: #dc3545;"></i>
-                <h4 class="mt-3">Delete Resource?</h4>
-                <p><strong>{{ form.instance.title }}</strong></p>
-                <p class="text-danger">This action cannot be undone!</p>
-                
-                <form method="post">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-danger">
-                        <i class="fas fa-trash"></i> Yes, Delete
-                    </button>
-                    <a href="{% url ' resource_list' %}" class="btn btn-secondary">
-                        <i class="fas fa-times"></i> Cancel
-                    </a>
-                </form>
-            </div>
+<div class="delete-page">
+    <div class="delete-card">
+        <!-- Warning icon -->
+        <div class="warning-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                <line x1="12" y1="9" x2="12" y2="13"/>
+                <line x1="12" y1="17" x2="12.01" y2="17"/>
+            </svg>
         </div>
+
+        <h2 class="delete-title">Delete Resource?</h2>
+
+        {% if form.instance.title %}
+        <p class="delete-subtitle">"{{ form.instance.title }}"</p>
+        {% endif %}
+
+        <p class="delete-text">This action cannot be undone. The resource and all its data will be permanently removed.</p>
+
+        <form method="post">
+            {% csrf_token %}
+            <div class="btn-group">
+                <button type="submit" class="btn btn-danger">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="3 6 5 6 21 6"/>
+                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                    </svg>
+                    Yes, Delete
+                </button>
+                <a href="{% url 'resource_list' %}" class="btn btn-secondary">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"/>
+                        <line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                    Cancel
+                </a>
+            </div>
+        </form>
     </div>
 </div>
 {% endblock %}
