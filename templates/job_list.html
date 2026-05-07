@@ -1,19 +1,1078 @@
 {% extends 'base.html' %}
 
-{% block title %}Jobs - Job Portal{% endblock %}
+{% block title %}Find IT Jobs USA | Software Developer, Engineer & Consultant Roles{% endblock %}
+{% block meta_description %}Search thousands of IT jobs in the USA – contract, contract-to-hire, and permanent. Sks
+Global IT Services connects you with top employers. Submit your resume today.{% endblock %}
+{% block meta_keywords %}
+IT jobs USA, software developer jobs, remote jobs, contract jobs, IT careers
+{% endblock %}
 
+{% block og_title %}
+Find IT Jobs USA | SKS Global
+{% endblock %}
+
+{% block og_description %}
+Explore top IT jobs in USA with SKS Global IT Services. Apply now.
+{% endblock %}
 {% block content %}
-<div class="row">
-    <div class="col-md-3">
-        <div class="card mb-4">
-            <div class="card-body">
-                <h5 class="card-title">
-                    <i class="fas fa-filter"></i> Filter Jobs
-                </h5>
-                <form method="get">
-                    <div class="mb-3">
-                        <label for="type" class="form-label">Job Type</label>
-                        <select name="type" id="type" class="form-select">
+<!-- Font Awesome 6 -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<!-- Google Fonts: Inter + Space Grotesk for a fresh modern alternative -->
+<link
+    href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Inter', sans-serif;
+        background: #F4F7FC;
+        color: #1A2C3E;
+        line-height: 1.5;
+        overflow-x: hidden;
+    }
+
+    /* Fresh Color Palette: Slate Navy + Coral Accent + Mint Green */
+    :root {
+        --primary-orange: #F15A24;
+        --orange-light: #FF7F4F;
+        --primary-blue: #0B2B5E;
+        --blue-dark: #071F44;
+        --blue-accent: #1B4A8A;
+        --gray-bg: #F8FAFF;
+        --gray-text: #5A6B7C;
+        --dark-text: #1A2A3A;
+        --border-light: #E8EDF2;
+        --white: #FFFFFF;
+
+        --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.03), 0 1px 2px rgba(0, 0, 0, 0.05);
+        --shadow-md: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.02);
+        --radius-card: 20px;
+        --radius-pill: 100px;
+    }
+
+    /* Main Container - Adjust for navbar */
+    .jobs-container {
+        max-width: 1440px;
+        margin: 0 auto;
+        padding: 2rem 2rem;
+        min-height: calc(100vh - 80px);
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* Hero Section - Static */
+    .hero-section {
+        background: linear-gradient(135deg, var(--primary-blue) 0%, var(--blue-accent) 100%);
+
+        border-radius: 28px;
+        padding: 2rem 2.5rem;
+        margin-bottom: 2rem;
+        color: white;
+        position: relative;
+        overflow: hidden;
+        flex-shrink: 0;
+    }
+
+    .hero-section::before {
+        content: "▣";
+        position: absolute;
+        font-size: 18rem;
+        opacity: 0.05;
+        right: -30px;
+        bottom: -80px;
+        font-weight: 300;
+        font-family: monospace;
+    }
+
+    .hero-section h1 {
+        font-family: 'Space Grotesk', monospace;
+        font-size: 2.5rem;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        margin-bottom: 0.8rem;
+    }
+
+    .hero-section p {
+        font-size: 1rem;
+        max-width: 650px;
+        opacity: 0.9;
+        margin-bottom: 1.5rem;
+    }
+
+    .hero-buttons {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+
+    .btn-primary-coral {
+        background: var(--primary-orange);
+        color: white;
+        padding: 0.7rem 1.8rem;
+        border-radius: var(--radius-pill);
+        font-weight: 600;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        transition: all 0.2s;
+        border: none;
+        cursor: pointer;
+        font-size: 0.9rem;
+    }
+
+    .btn-primary-coral:hover {
+        background: var(--orange-light);
+        transform: translateY(-2px);
+    }
+
+    .btn-outline-light {
+        background: transparent;
+        border: 1.5px solid rgba(255, 255, 255, 0.5);
+        color: white;
+        padding: 0.7rem 1.8rem;
+        border-radius: var(--radius-pill);
+        font-weight: 600;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        transition: all 0.2s;
+    }
+
+    .btn-outline-light:hover {
+        background: rgba(255, 255, 255, 0.1);
+        border-color: white;
+    }
+
+    /* Two Column Layout */
+    .two-col-grid {
+        display: grid;
+        grid-template-columns: 320px 1fr;
+        gap: 2rem;
+        flex: 1;
+    }
+
+    /* Sidebar */
+    .sidebar-static {
+        position: sticky;
+        top: 20px;
+        height: fit-content;
+    }
+
+    /* Info Cards */
+    .info-card {
+        background: var(--white);
+        border-radius: var(--radius-card);
+        padding: 1.3rem;
+        margin-bottom: 1.5rem;
+        box-shadow: var(--shadow-sm);
+        border: 1px solid var(--border-light);
+    }
+
+    .card-title {
+        font-family: 'Space Grotesk', monospace;
+        font-weight: 700;
+        font-size: 1.1rem;
+        margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 3px solid var(--primary-orange);
+        display: inline-block;
+    }
+
+    .perks-list-alt {
+        list-style: none;
+    }
+
+    .perks-list-alt li {
+        padding: 0.6rem 0;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        border-bottom: 1px solid var(--border-light);
+        font-size: 0.85rem;
+    }
+
+    .perks-list-alt i {
+        color: var(--primary-orange);
+        width: 22px;
+        font-size: 0.9rem;
+    }
+
+    .filter-group {
+        margin-bottom: 1rem;
+    }
+
+    .filter-label {
+        display: block;
+        font-weight: 600;
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--gray-text);
+        margin-bottom: 0.4rem;
+    }
+
+    .modern-select,
+    .modern-input {
+        width: 100%;
+        padding: 0.6rem 0.9rem;
+        border-radius: 12px;
+        border: 1.5px solid var(--border-light);
+        background: white;
+        font-family: 'Inter', monospace;
+        font-size: 0.85rem;
+        transition: 0.2s;
+        outline: none;
+    }
+
+    .modern-select:focus,
+    .modern-input:focus {
+        border-color: var(--primary-orange);
+        box-shadow: 0 0 0 3px rgba(241, 90, 36, 0.1);
+    }
+
+    .btn-coral-full {
+        background: var(--primary-orange);
+        border: none;
+        border-radius: 12px;
+        padding: 0.7rem;
+        font-weight: 700;
+        font-size: 0.85rem;
+        color: white;
+        width: 100%;
+        transition: all 0.2s;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+    }
+
+    .btn-coral-full:hover {
+        background: #c94a38;
+    }
+
+    .btn-outline-mint {
+        background: transparent;
+        border: 1.5px solid var(--primary-orange);
+        border-radius: 12px;
+        padding: 0.6rem;
+        font-weight: 600;
+        font-size: 0.85rem;
+        color: var(--primary-orange);
+        width: 100%;
+        transition: 0.2s;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        margin-top: 0.6rem;
+        text-decoration: none;
+    }
+
+    .btn-outline-mint:hover {
+        background: var(--primary-orange);
+        color: white;
+    }
+
+    .roles-badge-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-top: 0.6rem;
+    }
+
+    .role-badge {
+        background: #EEF2F6;
+        padding: 0.25rem 0.8rem;
+        border-radius: 40px;
+        font-size: 0.7rem;
+        font-weight: 600;
+        color: var(--primary-blue);
+    }
+
+    /* JOBS LISTING AREA - THIS WILL SCROLL */
+    .jobs-listing-scroll {
+        overflow-y: auto;
+        padding-right: 10px;
+    }
+
+    .jobs-listing-scroll::-webkit-scrollbar {
+        width: 5px;
+    }
+
+    .jobs-listing-scroll::-webkit-scrollbar-track {
+        background: #E2E8F0;
+        border-radius: 10px;
+    }
+
+    .jobs-listing-scroll::-webkit-scrollbar-thumb {
+        background: var(--primary-orange);
+        border-radius: 10px;
+    }
+
+    /* Stats Row */
+    .stats-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.2rem;
+        flex-wrap: wrap;
+    }
+
+    .stats-row h2 {
+        font-family: 'Space Grotesk', monospace;
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: var(--primary-blue);
+    }
+
+    .job-count-badge {
+        background: var(--primary-orange);
+        color: white;
+        padding: 0.25rem 0.9rem;
+        border-radius: 40px;
+        font-size: 0.75rem;
+        font-weight: 600;
+    }
+
+    /* Job Card */
+    .job-card-new {
+        background: var(--white);
+        border-radius: 18px;
+        padding: 1.2rem;
+        margin-bottom: 1rem;
+        border: 1px solid var(--border-light);
+        transition: all 0.2s;
+    }
+
+    .job-card-new:hover {
+        box-shadow: var(--shadow-md);
+        transform: translateY(-2px);
+    }
+
+    .job-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+    .job-title {
+        font-size: 1.15rem;
+        font-weight: 700;
+        margin-bottom: 0.2rem;
+    }
+
+    .job-title a {
+        color: var(--primary-blue);
+        text-decoration: none;
+    }
+
+    .job-title a:hover {
+        color: var(--primary-orange);
+    }
+
+    .job-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        margin: 0.5rem 0;
+        font-size: 0.75rem;
+        color: var(--gray-text);
+    }
+
+    .job-meta i {
+        margin-right: 4px;
+        color: var(--primary-orange);
+    }
+
+    .job-description {
+        font-size: 0.8rem;
+        color: #475569;
+        margin: 0.5rem 0;
+        line-height: 1.45;
+    }
+
+    .skill-tag {
+        background: #F1F5F9;
+        padding: 0.2rem 0.7rem;
+        border-radius: 30px;
+        font-size: 0.65rem;
+        font-weight: 500;
+        display: inline-block;
+        color: var(--primary-blue);
+    }
+
+    .salary-highlight {
+        font-weight: 800;
+        font-size: 1.1rem;
+        color: var(--primary-orange);
+        text-align: right;
+    }
+
+    .btn-detail {
+        background: transparent;
+        border: 1px solid var(--primary-orange);
+        border-radius: 30px;
+        padding: 0.25rem 0.9rem;
+        font-size: 0.65rem;
+        font-weight: 600;
+        color: var(--primary-orange);
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .btn-detail:hover {
+        background: var(--primary-orange);
+        color: white;
+    }
+
+    /* Pagination */
+    .pagination-new {
+        margin-top: 1.5rem;
+        margin-bottom: 0.5rem;
+        display: flex;
+        justify-content: center;
+        gap: 0.4rem;
+        flex-wrap: wrap;
+    }
+
+    .page-link-new {
+        padding: 0.35rem 0.8rem;
+        border-radius: 30px;
+        background: white;
+        border: 1px solid var(--border-light);
+        color: var(--gray-text);
+        text-decoration: none;
+        font-size: 0.8rem;
+    }
+
+    .page-link-new.active {
+        background: var(--primary-orange);
+        color: white;
+        border-color: var(--primary-orange);
+    }
+
+    .page-link-new:hover:not(.disabled) {
+        background: var(--primary-orange);
+        color: white;
+    }
+
+    .disabled {
+        opacity: 0.4;
+        pointer-events: none;
+    }
+
+    .faq-item {
+        margin-bottom: 0.8rem;
+    }
+
+    .faq-question {
+        font-weight: 700;
+        font-size: 0.8rem;
+        color: var(--primary-blue);
+    }
+
+    .faq-answer {
+        font-size: 0.75rem;
+        color: var(--gray-text);
+        margin-top: 0.15rem;
+    }
+
+    @media (max-width: 900px) {
+        .jobs-container {
+            padding: 1rem;
+        }
+
+        .two-col-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .jobs-listing-scroll {
+            max-height: 500px;
+        }
+
+        .hero-section h1 {
+            font-size: 1.8rem;
+        }
+    }
+
+    .featured-card {
+        background: linear-gradient(135deg, #fff7f5, #ffffff);
+        border: 1px solid #ffd6cf;
+        padding: 1.2rem;
+        border-radius: 16px;
+        margin: 1rem 0;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    }
+
+    .featured-card h3 {
+        color: var(--primary-orange);
+        margin-bottom: 10px;
+    }
+
+    .role-badge.special {
+        background: var(--primary-orange);
+        color: white;
+    }
+
+    .right-extra-section {
+        margin-top: 15px;
+    }
+
+    /* FIX EMPTY SPACE WHEN NO JOBS */
+
+    .two-col-grid {
+        align-items: start;
+    }
+
+    .jobs-listing-scroll {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .empty-jobs-state {
+        min-height: auto !important;
+        padding: 60px 30px;
+    }
+
+    .right-extra-section {
+        margin-top: 0;
+    }
+
+    /* ===============================
+   RESPONSIVE DESIGN FIXES
+================================= */
+
+    /* Large Screens (1200px+) */
+    @media (min-width: 1200px) {
+        .jobs-container {
+            padding: 2rem 3rem;
+        }
+    }
+
+    /* Tablets (992px and below) */
+    @media (max-width: 992px) {
+
+        .two-col-grid {
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        .sidebar-static {
+            position: relative;
+            top: 0;
+        }
+
+        .jobs-listing-scroll {
+            max-height: none;
+            overflow: visible;
+        }
+
+        .right-extra-section {
+            margin-top: 1rem;
+        }
+
+        .job-header {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .salary-highlight {
+            text-align: left;
+            margin-top: 10px;
+        }
+    }
+
+    /* Mobile Devices (768px and below) */
+    @media (max-width: 768px) {
+
+        .jobs-container {
+            padding: 1rem;
+        }
+
+        .hero-section {
+            padding: 1.5rem;
+            border-radius: 18px;
+        }
+
+        .hero-section h1 {
+            font-size: 1.6rem;
+        }
+
+        .hero-section p {
+            font-size: 0.9rem;
+        }
+
+        .hero-buttons {
+            flex-direction: column;
+            gap: 0.7rem;
+        }
+
+        .btn-primary-coral,
+        .btn-outline-light {
+            width: 100%;
+            justify-content: center;
+        }
+
+        .info-card {
+            padding: 1rem;
+        }
+
+        .card-title {
+            font-size: 1rem;
+        }
+
+        .job-card-new {
+            padding: 1rem;
+        }
+
+        .job-title {
+            font-size: 1rem;
+        }
+
+        .job-description {
+            font-size: 0.75rem;
+        }
+
+        .job-meta {
+            gap: 0.6rem;
+            font-size: 0.7rem;
+        }
+
+        .salary-highlight {
+            font-size: 1rem;
+        }
+    }
+
+    /* Small Mobile (480px and below) */
+    @media (max-width: 480px) {
+
+        .hero-section h1 {
+            font-size: 1.3rem;
+        }
+
+        .hero-section p {
+            font-size: 0.8rem;
+        }
+
+        .filter-label {
+            font-size: 0.65rem;
+        }
+
+        .modern-input,
+        .modern-select {
+            font-size: 0.75rem;
+            padding: 0.5rem;
+        }
+
+        .btn-coral-full {
+            font-size: 0.75rem;
+            padding: 0.6rem;
+        }
+
+        .job-title {
+            font-size: 0.95rem;
+        }
+
+        .skill-tag {
+            font-size: 0.6rem;
+        }
+
+        .pagination-new {
+            gap: 0.2rem;
+        }
+
+        .page-link-new {
+            font-size: 0.7rem;
+            padding: 0.3rem 0.6rem;
+        }
+    }
+
+    /* ================= EMPTY JOBS STATE ================= */
+
+    .empty-jobs-state {
+
+        background: linear-gradient(135deg, #ffffff, #f8fbff);
+
+        border: 1px solid var(--border-light);
+
+        border-radius: 28px;
+
+        padding: 80px 40px;
+
+        min-height: 620px;
+
+        display: flex;
+
+        flex-direction: column;
+
+        justify-content: center;
+
+        align-items: center;
+
+        text-align: center;
+
+        box-shadow: var(--shadow-md);
+
+        position: relative;
+
+        overflow: hidden;
+    }
+
+    .empty-icon {
+
+        width: 110px;
+        height: 110px;
+
+        border-radius: 50%;
+
+        background: linear-gradient(135deg,
+                var(--primary-orange),
+                var(--orange-light));
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        margin-bottom: 28px;
+
+        box-shadow: 0 15px 35px rgba(241, 90, 36, 0.25);
+    }
+
+    .empty-icon i {
+
+        font-size: 2.8rem;
+
+        color: white;
+    }
+
+    .empty-jobs-state h2 {
+
+        font-size: 2.2rem;
+
+        font-weight: 800;
+
+        color: var(--primary-blue);
+
+        margin-bottom: 18px;
+    }
+
+    .empty-jobs-state p {
+
+        max-width: 720px;
+
+        color: var(--gray-text);
+
+        line-height: 1.9;
+
+        font-size: 1rem;
+
+        margin-bottom: 35px;
+    }
+
+    .empty-tags {
+
+        display: flex;
+
+        flex-wrap: wrap;
+
+        justify-content: center;
+
+        gap: 12px;
+
+        margin-bottom: 40px;
+    }
+
+    .empty-tags span {
+
+        background: #EEF2F6;
+
+        color: var(--primary-blue);
+
+        padding: 10px 18px;
+
+        border-radius: 40px;
+
+        font-size: 0.85rem;
+
+        font-weight: 600;
+    }
+
+    .empty-actions {
+
+        display: flex;
+
+        gap: 16px;
+
+        flex-wrap: wrap;
+
+        justify-content: center;
+    }
+
+    /* MOBILE */
+
+    @media(max-width:768px) {
+
+        .empty-jobs-state {
+
+            padding: 50px 20px;
+
+            min-height: auto;
+        }
+
+        .empty-jobs-state h2 {
+
+            font-size: 1.7rem;
+        }
+
+        .empty-actions {
+
+            flex-direction: column;
+
+            width: 100%;
+        }
+
+        .empty-actions a {
+
+            width: 100%;
+
+            justify-content: center;
+        }
+
+    }
+
+    /* =========================
+   SINGLE JOB FEATURED CARD
+========================= */
+
+    .single-job-featured {
+
+        min-height: 420px;
+
+        display: flex;
+
+        align-items: center;
+
+        padding: 50px;
+
+        border-radius: 28px;
+
+        background:
+            linear-gradient(135deg,
+                rgba(255, 255, 255, 0.98),
+                rgba(248, 250, 255, 0.98));
+
+        position: relative;
+
+        overflow: hidden;
+    }
+
+    /* background glow */
+
+    .single-job-featured::before {
+
+        content: '';
+
+        position: absolute;
+
+        width: 380px;
+        height: 380px;
+
+        border-radius: 50%;
+
+        background: rgba(241, 90, 36, 0.05);
+
+        top: -160px;
+        right: -120px;
+    }
+
+    .single-job-featured::after {
+
+        content: '';
+
+        position: absolute;
+
+        width: 240px;
+        height: 240px;
+
+        border-radius: 50%;
+
+        background: rgba(11, 43, 94, 0.04);
+
+        bottom: -100px;
+        left: -80px;
+    }
+
+    /* layout */
+
+    .single-job-featured .job-header {
+
+        width: 100%;
+
+        display: grid;
+
+        grid-template-columns: 1fr auto;
+
+        gap: 40px;
+
+        align-items: center;
+
+        position: relative;
+
+        z-index: 2;
+    }
+
+    /* title */
+
+    .single-job-featured .job-title {
+
+        font-size: 2rem;
+
+        margin-bottom: 18px;
+    }
+
+    .single-job-featured .job-meta {
+
+        margin: 18px 0;
+
+        gap: 20px;
+
+        font-size: 0.95rem;
+    }
+
+    .single-job-featured .job-description {
+
+        font-size: 1rem;
+
+        line-height: 1.9;
+
+        max-width: 850px;
+
+        margin-top: 18px;
+    }
+
+    /* skills */
+
+    .single-job-featured .skill-tag {
+
+        padding: 10px 18px;
+
+        font-size: 0.8rem;
+
+        margin-top: 16px;
+
+        display: inline-flex;
+
+        align-items: center;
+
+        gap: 8px;
+    }
+
+    /* salary */
+
+    .single-job-featured .salary-highlight {
+
+        background: white;
+
+        padding: 35px;
+
+        border-radius: 24px;
+
+        min-width: 250px;
+
+        text-align: center;
+
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.06);
+
+        border: 1px solid var(--border-light);
+    }
+
+    .single-job-featured .salary-highlight div {
+
+        font-size: 2rem;
+
+        margin-bottom: 18px;
+    }
+
+    /* button */
+
+    .single-job-featured .btn-detail {
+
+        width: 100%;
+
+        justify-content: center;
+
+        padding: 12px 20px;
+
+        font-size: 0.9rem;
+
+        border-radius: 14px;
+    }
+
+    /* MOBILE */
+
+    @media(max-width:991px) {
+
+        .single-job-featured {
+
+            padding: 30px;
+
+            min-height: auto;
+        }
+
+        .single-job-featured .job-header {
+
+            grid-template-columns: 1fr;
+        }
+
+        .single-job-featured .salary-highlight {
+
+            width: 100%;
+        }
+
+        .single-job-featured .job-title {
+
+            font-size: 1.5rem;
+        }
+
+    }
+</style>
+
+<div class="jobs-container">
+    <!-- Hero Section - Static -->
+    <div class="hero-section">
+        <h1>Find Your Next IT Role with Sks Global IT Services</h1>
+        <p>Whether you are a Java developer, cloud engineer, data scientist, or cybersecurity analyst – we connect you
+            with top US employers offering competitive pay, benefits, and career growth.</p>
+        <div class="hero-buttons">
+            <a href="#" class="btn-primary-coral"><i class="fas fa-search"></i> Search Open Jobs →</a>
+            <a href="#" class="btn-outline-light"><i class="fas fa-upload"></i> Submit Your Resume →</a>
+        </div>
+    </div>
+
+    <div class="two-col-grid">
+        <!-- LEFT SIDEBAR - Static -->
+        <aside class="sidebar-static">
+            <!-- Filter Card -->
+            <div class="info-card">
+                <div class="card-title"><i class="fas fa-filter"
+                        style="margin-right: 8px; color: var(--primary-orange);"></i> Refine Search</div>
+                <form method="get" id="filterForm">
+                    <div class="filter-group">
+                        <label class="filter-label"><i class="fas fa-briefcase"></i> Job Type</label>
+                        <select name="type" class="modern-select">
                             <option value="">All Types</option>
                             {% for value, label in job_types %}
                             <option value="{{ value }}" {% if request.GET.type == value %}selected{% endif %}>
@@ -22,121 +1081,204 @@
                             {% endfor %}
                         </select>
                     </div>
-                    <div class="mb-3">
-                        <label for="location" class="form-label">Location</label>
-                        <input type="text" name="location" id="location" class="form-control" 
-                               value="{{ request.GET.location }}" placeholder="e.g., New York, Remote">
+                    <div class="filter-group">
+                        <label class="filter-label"><i class="fas fa-map-pin"></i> Location</label>
+                        <input type="text" name="location" class="modern-input"
+                            value="{{ request.GET.location|default:'' }}" placeholder="Remote, New York, Austin...">
                     </div>
-                    <button type="submit" class="btn btn-primary w-100">
-                        <i class="fas fa-search"></i> Apply Filters
-                    </button>
+                    <button type="submit" class="btn-coral-full"><i class="fas fa-sliders-h"></i> Apply Filters</button>
                     {% if request.GET.type or request.GET.location %}
-                    <a href="{% url 'job_list' %}" class="btn btn-secondary w-100 mt-2">
-                        <i class="fas fa-times"></i> Clear Filters
-                    </a>
+                    <a href="{% url 'job_list' %}" class="btn-outline-mint"><i class="fas fa-undo-alt"></i> Clear
+                        Filters</a>
                     {% endif %}
                 </form>
             </div>
-        </div>
-        
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">
-                    <i class="fas fa-info-circle"></i> Why Join Us?
-                </h5>
-                <ul class="list-unstyled">
-                    <li><i class="fas fa-check text-success"></i> Competitive Salary</li>
-                    <li><i class="fas fa-check text-success"></i> Health Insurance</li>
-                    <li><i class="fas fa-check text-success"></i> Flexible Hours</li>
-                    <li><i class="fas fa-check text-success"></i> Career Growth</li>
-                    <li><i class="fas fa-check text-success"></i> Remote Options</li>
+
+            <!-- Why IT Professionals Choose SKS -->
+            <div class="info-card">
+                <div class="card-title"><i class="fas fa-star" style="color: var(--primary-orange);"></i> Why IT Pros
+                    Choose
+                    SKS</div>
+                <ul class="perks-list-alt">
+                    <li><i class="fas fa-key"></i> Access to Exclusive Unposted Roles</li>
+                    <li><i class="fas fa-microphone-alt"></i> Direct US-Based Recruiters</li>
+                    <li><i class="fas fa-file-invoice-dollar"></i> Weekly Pay & Transparent Processes</li>
+                    <li><i class="fas fa-chalkboard-teacher"></i> Free Resume & Interview Prep</li>
+                    <li><i class="fas fa-handshake"></i> Long-Term Career Partnerships</li>
+                    <li><i class="fas fa-clock"></i> Multiple Employment Options</li>
                 </ul>
             </div>
-        </div>
-    </div>
-    
-    <div class="col-md-9">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <h1>Open Positions</h1>
-            <span class="badge bg-primary">{{ page_obj.paginator.count }} Jobs Found</span>
-        </div>
-        
-        {% for job in jobs %}
-        <div class="card job-card">
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-9">
-                        <h5 class="card-title">
-                            <a href="{% url 'job_detail' job.slug %}" class="text-decoration-none">
-                                {{ job.title }}
-                            </a>
-                        </h5>
-                        <p class="card-text">
-                            <i class="fas fa-map-marker-alt"></i> {{ job.location }} |
-                            <i class="fas fa-clock"></i> {{ job.get_job_type_display }} |
-                            <i class="fas fa-chart-line"></i> {{ job.experience }}
-                        </p>
-                        <p class="card-text">{{ job.description|truncatewords:30|safe }}</p>
-                        <div class="mt-2">
-                            <span class="badge bg-secondary">
-                                <i class="fas fa-tag"></i> {{ job.skills|truncatechars:50 }}
-                            </span>
+            <!-- FAQ Section -->
+
+
+            <!-- Join Talent Network -->
+            <div class="info-card" style="background: linear-gradient(115deg, #FEF9F7, white);">
+                <div class="card-title"><i class="fas fa-envelope"></i> Talent Network</div>
+                <p style="font-size: 0.75rem; margin-bottom: 0.8rem;">Get job alerts & free "Top 50 Interview Questions"
+                    PDF.</p>
+                <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                    <input type="email" placeholder="Your email" class="modern-input"
+                        style="flex:2; font-size:0.75rem;">
+                    <button class="btn-coral-full"
+                        style="flex:1; width: auto; padding: 0 0.8rem; font-size:0.7rem;">Subscribe</button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- RIGHT SIDE: ONLY JOBS LIST SCROLLS HERE -->
+        <div class="jobs-listing-scroll">
+            <div class="stats-row">
+                <h2><i class="fas fa-bullhorn" style="color: var(--primary-orange); margin-right: 8px;"></i> Current
+                    Opportunities</h2>
+                <div class="job-count-badge"><i class="fas fa-chart-line"></i> {{ page_obj.paginator.count }} active
+                    roles</div>
+            </div>
+
+            <!-- Job Loop -->
+            {% for job in jobs %}
+
+            <div class="
+job-card-new
+{% if jobs|length == 1 %}
+single-job-featured
+{% endif %}
+">
+                <div class="job-header">
+                    <div style="flex:1;">
+                        <div class="job-title"><a href="{% url 'job_detail' job.slug %}">{{ job.title }}</a></div>
+                        <div class="job-meta">
+                            <span><i class="fas fa-map-marker-alt"></i> {{ job.location }}</span>
+                            <span><i class="fas fa-briefcase"></i> {{ job.get_job_type_display }}</span>
+                            <span><i class="fas fa-chart-line"></i> {{ job.experience }}</span>
                         </div>
+                        <div class="job-description">{{ job.description|truncatewords:22|safe }}</div>
+                        <div><span class="skill-tag"><i class="fas fa-microchip"></i>{{job.skills|truncatechars:45}}</span></div>
                     </div>
-                    <div class="col-md-3 text-end">
-                        <h5 class="text-primary">{{ job.salary|default:"Negotiable" }}</h5>
-                        <a href="{% url 'job_detail' job.slug %}" class="btn btn-primary btn-sm mt-2">
-                            View Details <i class="fas fa-arrow-right"></i>
-                        </a>
+                    <div class="salary-highlight">
+                        <div>{{ job.salary|default:"Negotiable" }}</div>
+                        <a href="{% url 'job_detail' job.slug %}" class="btn-detail" style="margin-top: 6px;">Details <i
+                                class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
             </div>
-        </div>
-        {% empty %}
-        <div class="alert alert-info text-center">
-            <i class="fas fa-info-circle"></i> No jobs found matching your criteria.
-        </div>
-        {% endfor %}
-        
-        {% if is_paginated %}
-        <nav aria-label="Page navigation" class="mt-4">
-            <ul class="pagination justify-content-center">
+            {% if forloop.counter == 3 %}
+            <div class="featured-card">
+                <h3>🔥 Featured Categories</h3>
+                <div class="roles-badge-grid">
+                    <span class="role-badge special">Remote Jobs</span>
+                    <span class="role-badge special">Contract Jobs</span>
+                    <span class="role-badge special">Direct Hire</span>
+                </div>
+            </div>
+            {% endif %}
+            {% empty %}
+
+            <div class="empty-jobs-state">
+
+                <div class="empty-icon">
+                    <i class="fas fa-briefcase"></i>
+                </div>
+
+                <h2>No Matching Jobs Found</h2>
+
+                <p>
+                    We couldn't find any opportunities matching your current filters.
+                    Try changing the job type or location to explore more IT openings.
+                </p>
+
+                <div class="empty-tags">
+
+                    <span>Remote Roles</span>
+                    <span>Contract Jobs</span>
+                    <span>Full Time</span>
+                    <span>DevOps</span>
+                    <span>Python</span>
+                    <span>React</span>
+
+                </div>
+
+                <div class="empty-actions">
+
+                    <a href="{% url 'job_list' %}" class="btn-primary-coral">
+                        <i class="fas fa-rotate-left"></i>
+                        Reset Filters
+                    </a>
+
+                    <a href="#" class="btn-outline-mint">
+                        <i class="fas fa-upload"></i>
+                        Upload Resume
+                    </a>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+            <!-- Pagination -->
+            {% if is_paginated %}
+            <div class="pagination-new">
                 {% if page_obj.has_previous %}
-                <li class="page-item">
-                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if request.GET.type %}&type={{ request.GET.type }}{% endif %}{% if request.GET.location %}&location={{ request.GET.location }}{% endif %}">
-                        <i class="fas fa-chevron-left"></i> Previous
-                    </a>
-                </li>
+                <a class="page-link-new"
+                    href="?page={{ page_obj.previous_page_number }}{% if request.GET.type %}&type={{ request.GET.type }}{% endif %}{% if request.GET.location %}&location={{ request.GET.location }}{% endif %}"><i
+                        class="fas fa-chevron-left"></i> Prev</a>
                 {% else %}
-                <li class="page-item disabled">
-                    <span class="page-link"><i class="fas fa-chevron-left"></i> Previous</span>
-                </li>
+                <span class="page-link-new disabled"><i class="fas fa-chevron-left"></i> Prev</span>
                 {% endif %}
-                
+
                 {% for num in page_obj.paginator.page_range %}
-                    {% if page_obj.number == num %}
-                    <li class="page-item active"><span class="page-link">{{ num }}</span></li>
-                    {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
-                    <li class="page-item">
-                        <a class="page-link" href="?page={{ num }}{% if request.GET.type %}&type={{ request.GET.type }}{% endif %}{% if request.GET.location %}&location={{ request.GET.location }}{% endif %}">{{ num }}</a>
-                    </li>
+                {% if page_obj.number == num %}
+                <span class="page-link-new active">{{ num }}</span>
+                {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %} <a class="page-link-new"
+                    href="?page={{ num }}{% if request.GET.type %}&type={{ request.GET.type }}{% endif %}{% if request.GET.location %}&location={{ request.GET.location }}{% endif %}">
+                    {{ num }}</a>
                     {% endif %}
-                {% endfor %}
-                
-                {% if page_obj.has_next %}
-                <li class="page-item">
-                    <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if request.GET.type %}&type={{ request.GET.type }}{% endif %}{% if request.GET.location %}&location={{ request.GET.location }}{% endif %}">
-                        Next <i class="fas fa-chevron-right"></i>
-                    </a>
-                </li>
-                {% else %}
-                <li class="page-item disabled">
-                    <span class="page-link">Next <i class="fas fa-chevron-right"></i></span>
-                </li>
-                {% endif %}
-            </ul>
-        </nav>
-        {% endif %}
+                    {% endfor %}
+
+
+                    {% if page_obj.has_next %}
+                    <a class="page-link-new"
+                        href="?page={{ page_obj.next_page_number }}{% if request.GET.type %}&type={{ request.GET.type }}{% endif %}{% if request.GET.location %}&location={{ request.GET.location }}{% endif %}">Next
+                        <i class="fas fa-chevron-right"></i></a>
+                    {% else %}
+                    <span class="page-link-new disabled">Next <i class="fas fa-chevron-right"></i></span>
+                    {% endif %}
+            </div>
+            {% endif %}
+
+        </div>
+        # Right Extra Section (Optional)
+        <div class="right-extra-section">
+            <div class="info-card">
+                <div class="card-title">
+                    <i class="fas fa-question-circle"></i> FAQs
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">Do I need to be a US citizen?</div>
+                    <div class="faq-answer">No. All work authorizations accepted. (No H1-B)</div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">How much do you pay?</div>
+                    <div class="faq-answer">$40–110/hr based on experience</div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">Is there any cost?</div>
+                    <div class="faq-answer">100% free for job seekers</div>
+                </div>
+            </div>
+        </div>
+
+
+
+
     </div>
+
 </div>
+
+<script>
+    console.log("SKS Design: Only jobs list area scrolls, static content fixed.");
+</script>
 {% endblock %}

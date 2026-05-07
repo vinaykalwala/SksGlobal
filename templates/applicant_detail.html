@@ -25,7 +25,7 @@
                 <div class="row mb-3">
                     <div class="col-md-4 fw-bold">Applied for:</div>
                     <div class="col-md-8">
-                        <a href="{% url ' job_detail' applicant.job.slug %}">{{ applicant.job.title }}</a>
+                        <a href="{% url 'job_detail' applicant.job.slug %}">{{ applicant.job.title }}</a>
                     </div>
                 </div>
                 <div class="row mb-3">
@@ -71,7 +71,7 @@
             </div>
             <div class="card-body">
                 <div class="d-grid gap-2">
-                    <a href="{% url ' applicant_update' applicant.pk %}" class="btn btn-primary">
+                    <a href="{% url 'applicant_update' applicant.pk %}" class="btn btn-primary">
                         <i class="fas fa-edit"></i> Edit Applicant
                     </a>
                     <a href="mailto:{{ applicant.email }}" class="btn btn-success">
@@ -83,7 +83,7 @@
                     <button class="btn btn-secondary" onclick="window.print()">
                         <i class="fas fa-print"></i> Print Details
                     </button>
-                    <a href="{% url ' applicant_delete' applicant.pk %}" class="btn btn-danger">
+                    <a href="{% url 'applicant_delete' applicant.pk %}" class="btn btn-danger">
                         <i class="fas fa-trash"></i> Delete Applicant
                     </a>
                 </div>

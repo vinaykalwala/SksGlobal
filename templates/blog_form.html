@@ -4,78 +4,335 @@
 
 {% block extra_css %}
 <style>
-    .form-group {
-        margin-bottom: 1.5rem;
+    :root {
+        --primary-orange: #F15A24;
+        --orange-light: #FF7F4F;
+        --primary-blue: #0B2B5E;
+        --blue-dark: #071F44;
+        --blue-accent: #1B4A8A;
+        --gray-bg: #F8FAFF;
+        --gray-text: #5A6B7C;
+        --dark-text: #1A2A3A;
+        --border-light: #E8EDF2;
+        --white: #FFFFFF;
     }
+
+    /* Form Container Styles */
+    .blog-form-container {
+        background: var(--gray-bg);
+        min-height: calc(100vh - 100px);
+        padding: 2rem 0;
+    }
+
+    .blog-card {
+        border: none;
+        border-radius: 1rem;
+        box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.08);
+        overflow: hidden;
+        background: var(--white);
+    }
+
+    .blog-card-header {
+        background: linear-gradient(135deg, var(--primary-blue) 0%, var(--blue-dark) 100%);
+        padding: 1.5rem 2rem;
+        border-bottom: 3px solid var(--primary-orange);
+    }
+
+    .blog-card-header h3 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        letter-spacing: -0.3px;
+        color: var(--white);
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    .blog-card-header h3 i {
+        color: var(--primary-orange);
+        font-size: 1.6rem;
+    }
+
+    /* Form Styles */
+    .blog-form {
+        padding: 2rem;
+    }
+
+    .form-group {
+        margin-bottom: 1.75rem;
+    }
+
+    .form-label {
+        font-weight: 600;
+        color: var(--primary-blue);
+        margin-bottom: 0.5rem;
+        font-size: 0.9rem;
+        letter-spacing: -0.2px;
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+    }
+
+    .required-star {
+        color: var(--primary-orange);
+        font-size: 1rem;
+        margin-left: 0.125rem;
+    }
+
+    .form-control {
+        border: 1.5px solid var(--border-light);
+        border-radius: 0.75rem;
+        padding: 0.7rem 1rem;
+        font-size: 0.95rem;
+        color: var(--dark-text);
+        background: var(--white);
+        transition: all 0.2s ease;
+    }
+
+    .form-control:focus {
+        border-color: var(--primary-orange);
+        box-shadow: 0 0 0 3px rgba(241, 90, 36, 0.1);
+        outline: none;
+    }
+
+    textarea.form-control {
+        resize: vertical;
+        line-height: 1.6;
+    }
+
+    /* File Input Styling */
+    .custom-file-wrapper {
+        position: relative;
+    }
+
+    .current-file {
+        background: var(--gray-bg);
+        padding: 0.5rem 0.75rem;
+        border-radius: 0.5rem;
+        margin-bottom: 0.75rem;
+        font-size: 0.85rem;
+        color: var(--gray-text);
+        border: 1px solid var(--border-light);
+    }
+
+    .current-file a {
+        color: var(--primary-orange);
+        text-decoration: none;
+        font-weight: 500;
+    }
+
+    .current-file a:hover {
+        text-decoration: underline;
+    }
+
+    /* Checkbox Styling */
+    .form-check {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding-left: 0;
+        min-height: auto;
+    }
+
+    .form-check-input {
+        width: 1.2rem;
+        height: 1.2rem;
+        margin-top: 0;
+        cursor: pointer;
+        accent-color: var(--primary-orange);
+        border: 1.5px solid var(--border-light);
+        border-radius: 0.3rem;
+    }
+
+    .form-check-input:checked {
+        background-color: var(--primary-orange);
+        border-color: var(--primary-orange);
+    }
+
+    .form-check-label {
+        color: var(--dark-text);
+        font-weight: 500;
+        cursor: pointer;
+    }
+
+    /* Error Styling */
     .errorlist {
-        color: red;
+        color: #dc2626;
         list-style: none;
         padding: 0;
-        margin: 5px 0 0;
+        margin: 0.5rem 0 0;
+        font-size: 0.8rem;
+        font-weight: 500;
+    }
+
+    .errorlist li {
+        margin-bottom: 0.25rem;
+    }
+
+    /* Help Text */
+    .form-text {
+        font-size: 0.75rem;
+        color: var(--gray-text);
+        margin-top: 0.375rem;
+    }
+
+    /* Button Styles */
+    .btn-primary-custom {
+        background-color: var(--primary-orange);
+        border: none;
+        padding: 0.7rem 1.75rem;
+        border-radius: 0.75rem;
+        font-weight: 600;
+        font-size: 0.9rem;
+        color: var(--white);
+        transition: all 0.25s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .btn-primary-custom:hover {
+        background-color: var(--orange-light);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(241, 90, 36, 0.25);
+    }
+
+    .btn-primary-custom:active {
+        transform: translateY(0);
+    }
+
+    .btn-secondary-custom {
+        background-color: var(--gray-bg);
+        border: 1.5px solid var(--border-light);
+        padding: 0.7rem 1.75rem;
+        border-radius: 0.75rem;
+        font-weight: 600;
+        font-size: 0.9rem;
+        color: var(--gray-text);
+        transition: all 0.2s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .btn-secondary-custom:hover {
+        background-color: var(--border-light);
+        border-color: var(--gray-text);
+        color: var(--dark-text);
+    }
+
+    .button-group {
+        display: flex;
+        gap: 1rem;
+        margin-top: 2rem;
+        padding-top: 0.5rem;
+        border-top: 1px solid var(--border-light);
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+        .blog-form-container {
+            padding: 1rem;
+        }
+
+        .blog-card-header h3 {
+            font-size: 1.25rem;
+        }
+
+        .blog-form {
+            padding: 1.5rem;
+        }
+
+        .button-group {
+            flex-direction: column;
+        }
+
+        .btn-primary-custom,
+        .btn-secondary-custom {
+            justify-content: center;
+        }
     }
 </style>
 {% endblock %}
 
 {% block content %}
-<div class="row justify-content-center">
-    <div class="col-md-10">
-        <div class="card">
-            <div class="card-header bg-primary text-white">
-                <h3 class="mb-0">
-                    <i class="fas fa-{% if form.instance.pk %}edit{% else %}plus-circle{% endif %}"></i>
-                    {% if form.instance.pk %}Edit Blog Post{% else %}Create New Blog Post{% endif %}
-                </h3>
-            </div>
-            <div class="card-body">
-                <form method="post" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    
-                    {% for field in form %}
-                    <div class="form-group">
-                        <label for="{{ field.id_for_label }}" class="form-label">
-                            {{ field.label }}
-                            {% if field.field.required %}<span class="text-danger">*</span>{% endif %}
-                        </label>
-                        {{ field.errors }}
-                        {% if field.field.widget.input_type == 'textarea' %}
-                            <textarea name="{{ field.name }}" id="{{ field.id_for_label }}" 
-                                      class="form-control" rows="{% if field.name == 'content' %}10{% else %}3{% endif %}">{{ field.value|default:'' }}</textarea>
-                        {% elif field.field.widget.input_type == 'file' %}
-                            {% if field.value %}
-                            <div class="mb-2">
-                                <small>Current: <a href="{{ field.value.url }}">{{ field.value.name }}</a></small>
-                            </div>
-                            {% endif %}
-                            <input type="file" name="{{ field.name }}" id="{{ field.id_for_label }}" 
-                                   class="form-control">
-                        {% elif field.field.widget.input_type == 'checkbox' %}
-                            <div class="form-check">
-                                <input type="checkbox" name="{{ field.name }}" id="{{ field.id_for_label }}" 
-                                       class="form-check-input" {% if field.value %}checked{% endif %}>
-                                <label class="form-check-label" for="{{ field.id_for_label }}">
+<div class="blog-form-container">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-10 col-lg-9">
+                <div class="blog-card">
+                    <div class="blog-card-header">
+                        <h3>
+                            <i class="fas fa-{% if form.instance.pk %}edit{% else %}plus-circle{% endif %}"></i>
+                            {% if form.instance.pk %}Edit Blog Post{% else %}Create New Blog Post{% endif %}
+                        </h3>
+                    </div>
+                    <div class="blog-form">
+                        <form method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+
+                            {% for field in form %}
+                            <div class="form-group">
+                                <label for="{{ field.id_for_label }}" class="form-label">
+                                    {% if field.field.widget.input_type == 'checkbox' %}
+                                    <!-- Checkbox label handled separately -->
+                                    {% else %}
                                     {{ field.label }}
+                                    {% if field.field.required %}<span class="required-star">*</span>{% endif %}
+                                    {% endif %}
                                 </label>
+                                {{ field.errors }}
+
+                                {% if field.field.widget.input_type == 'textarea' %}
+                                <textarea name="{{ field.name }}" id="{{ field.id_for_label }}" class="form-control"
+                                    rows="{% if field.name == 'content' %}10{% else %}3{% endif %}">{{ field.value|default:'' }}</textarea>
+
+                                {% elif field.field.widget.input_type == 'file' %}
+                                <div class="custom-file-wrapper">
+                                    {% if field.value %}
+                                    <div class="current-file">
+                                        <i class="fas fa-paperclip"></i> Current: <a href="{{ field.value.url }}">{{
+                                            field.value.name }}</a>
+                                    </div>
+                                    {% endif %}
+                                    <input type="file" name="{{ field.name }}" id="{{ field.id_for_label }}"
+                                        class="form-control">
+                                </div>
+
+                                {% elif field.field.widget.input_type == 'checkbox' %}
+                                <div class="form-check">
+                                    <input type="checkbox" name="{{ field.name }}" id="{{ field.id_for_label }}"
+                                        class="form-check-input" {% if field.value %}checked{% endif %}>
+                                    <label class="form-check-label" for="{{ field.id_for_label }}">
+                                        {{ field.label }}
+                                        {% if field.field.required %}<span class="required-star">*</span>{% endif %}
+                                    </label>
+                                </div>
+
+                                {% else %}
+                                <input type="{{ field.field.widget.input_type }}" name="{{ field.name }}"
+                                    id="{{ field.id_for_label }}" class="form-control"
+                                    value="{{ field.value|default:'' }}">
+                                {% endif %}
+
+                                {% if field.help_text %}
+                                <small class="form-text">{{ field.help_text }}</small>
+                                {% endif %}
                             </div>
-                        {% else %}
-                            <input type="{{ field.field.widget.input_type }}" 
-                                   name="{{ field.name }}" id="{{ field.id_for_label }}" 
-                                   class="form-control" value="{{ field.value|default:'' }}">
-                        {% endif %}
-                        {% if field.help_text %}
-                        <small class="form-text text-muted">{{ field.help_text }}</small>
-                        {% endif %}
+                            {% endfor %}
+
+                            <div class="button-group">
+                                <button type="submit" class="btn-primary-custom">
+                                    <i class="fas fa-save"></i> Save Blog Post
+                                </button>
+                                <a href="{% url 'blog_list' %}" class="btn-secondary-custom">
+                                    <i class="fas fa-times"></i> Cancel
+                                </a>
+                            </div>
+                        </form>
                     </div>
-                    {% endfor %}
-                    
-                    <div class="mt-4">
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fas fa-save"></i> Save Blog Post
-                        </button>
-                        <a href="{% url ' blog_list' %}" class="btn btn-secondary">
-                            <i class="fas fa-times"></i> Cancel
-                        </a>
-                    </div>
-                </form>
+                </div>
             </div>
         </div>
     </div>

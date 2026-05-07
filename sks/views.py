@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django import forms
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from django.contrib import messages
@@ -177,7 +178,7 @@ def applicant_update(request, pk):
     else:
         form = ApplicantForm(instance=applicant)
     
-    return render(request, ' applicant_form.html', {'form': form, 'applicant': applicant})
+    return render(request, 'applicant_form.html', {'form': form, 'applicant': applicant})
 
 @admin_required
 def applicant_delete(request, pk):
@@ -186,7 +187,7 @@ def applicant_delete(request, pk):
         applicant.delete()
         messages.success(request, "Applicant deleted successfully!")
         return redirect('applicant_list')
-    return render(request, ' applicant_confirm_delete.html', {'applicant': applicant})
+    return render(request, 'applicant_confirm_delete.html', {'applicant': applicant})
 
 # ============= EMPLOYER LEAD VIEWS =============
 @admin_required
@@ -205,25 +206,24 @@ def employer_lead_list(request):
         'leads': page_obj,
         'status_choices': EmployerLead.STATUS_CHOICES,
     }
-    return render(request, ' employer_lead_list.html', context)
+    return render(request, 'employer_lead_list.html', context)
 
 @admin_required
 def employer_lead_detail(request, pk):
     lead = get_object_or_404(EmployerLead, pk=pk)
-    return render(request, ' employer_lead_detail.html', {'lead': lead})
+    return render(request, 'employer_lead_detail.html', {'lead': lead})
 
-@admin_required
 def employer_lead_create(request):
     if request.method == 'POST':
         form = EmployerLeadForm(request.POST)
         if form.is_valid():
-            form.save()
+            form.save()  # <-- typo fixed (befoe removed)
             messages.success(request, "Employer lead created successfully!")
             return redirect('employer_lead_list')
     else:
         form = EmployerLeadForm()
     
-    return render(request, ' employer_lead_form.html', {'form': form})
+    return render(request, 'employer_lead_form.html', {'form': form})
 
 @admin_required
 def employer_lead_update(request, pk):
@@ -237,7 +237,7 @@ def employer_lead_update(request, pk):
     else:
         form = EmployerLeadForm(instance=lead)
     
-    return render(request, ' employer_lead_form.html', {'form': form, 'lead': lead})
+    return render(request, 'employer_lead_form.html', {'form': form, 'lead': lead})
 
 @admin_required
 def employer_lead_delete(request, pk):
@@ -246,7 +246,7 @@ def employer_lead_delete(request, pk):
         lead.delete()
         messages.success(request, "Lead deleted successfully!")
         return redirect('employer_lead_list')
-    return render(request, ' employer_lead_confirm_delete.html', {'lead': lead})
+    return render(request, 'employer_lead_confirm_delete.html', {'lead': lead})
 
 # ============= BLOG VIEWS =============
 class BlogListView(ListView):
@@ -438,7 +438,7 @@ def contact_message_detail(request, pk):
         messages.success(request, "Message updated successfully!")
         return redirect('contact_message_detail', pk=message.pk)
     
-    return render(request, ' contact_message_detail.html', {'message': message})
+    return render(request, 'contact_message_detail.html', {'message': message})
 
 @admin_required
 def contact_message_delete(request, pk):

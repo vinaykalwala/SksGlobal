@@ -2,94 +2,345 @@
 
 {% block title %}Lead Details - {{ lead.company_name }}{% endblock %}
 
+{% block extra_css %}
+<style>
+
+/* ===== WRAPPER ===== */
+.lead-wrapper {
+    padding: 30px;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 20px;
+    padding-top: 40px !important;
+    padding-bottom: 10px !important;
+}
+
+/* ===== LEFT CARD ===== */
+.main-card {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 25px;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.05);
+}
+
+/* ===== HEADER ===== */
+.main-header {
+    margin-bottom: 20px;
+}
+
+/* COMPANY LABEL */
+.company-label {
+    display: inline-block;
+    background: #0b3d91;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 12px;
+    margin-bottom: 6px;
+}
+
+/* COMPANY NAME */
+.company-name {
+    font-size: 20px;
+    font-weight: 700;
+    color: #111827;
+}
+
+/* ===== SECTION ===== */
+.section {
+    margin-bottom: 25px;
+}
+
+.section-title {
+    font-size: 12px;
+    font-weight: 700;
+    color: #0b3d91;
+    margin-bottom: 10px;
+}
+
+/* GRID */
+.grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+/* BOX */
+.box {
+    background: #f9fafb;
+    border-radius: 10px;
+    padding: 12px;
+    border: 1px solid #e5e7eb;
+}
+
+/* LABEL */
+.label {
+    font-size: 11px;
+    color: #6b7280;
+}
+
+/* VALUE */
+.value {
+    font-size: 14px;
+    font-weight: 600;
+    color: #111827;
+}
+
+/* FULL WIDTH */
+.full {
+    grid-column: span 2;
+}
+
+/* STATUS */
+.status {
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    color: white;
+}
+
+.new { background: #0b3d91; }
+.contacted { background: #3b82f6; }
+.progress { background: #f59e0b; }
+.closed { background: #22c55e; }
+
+/* ===== RIGHT SIDE ===== */
+.side {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* SIDE CARD */
+.side-card {
+    background: #ffffff;
+    border-radius: 14px;
+    padding: 15px;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+}
+
+/* META BOX */
+.meta-box {
+    background: #eef3fb;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+}
+
+.meta-label {
+    font-size: 11px;
+    color: #6b7280;
+}
+
+.meta-value {
+    font-size: 13px;
+    font-weight: 600;
+}
+
+/* ACTION TITLE */
+.side-title {
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+/* BUTTONS */
+.btn {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    color: white;
+    margin-bottom: 8px;
+    font-size: 14px;
+    transition: 0.2s;
+}
+
+/* BUTTON COLORS */
+.btn-edit { background: #0b3d91; }
+.btn-email { background: #22c55e; }
+.btn-call { background: #2563eb; }
+.btn-delete { background: #ef4444; }
+
+.btn:hover {
+    transform: translateY(-2px);
+    opacity: 0.9;
+}
+
+/* ===== RESPONSIVE ===== */
+
+/* TABLET */
+@media (max-width: 900px) {
+    .lead-wrapper {
+        grid-template-columns: 1fr;
+        padding: 20px;
+    }
+
+    .grid {
+        grid-template-columns: 1fr;
+    }
+
+    .full {
+        grid-column: span 1;
+    }
+}
+
+/* MOBILE (<400px) */
+@media (max-width: 400px) {
+
+    .lead-wrapper {
+        padding: 12px;
+        gap: 12px;
+    }
+
+    .main-card {
+        padding: 15px;
+    }
+
+    .company-name {
+        font-size: 16px;
+    }
+
+    .box {
+        padding: 10px;
+    }
+
+    .btn {
+        padding: 14px;
+        font-size: 13px;
+    }
+
+    .side-card {
+        padding: 12px;
+    }
+
+}
+
+</style>
+{% endblock %}
+
 {% block content %}
-<div class="row">
-    <div class="col-md-8">
-        <div class="card">
-            <div class="card-header bg-primary text-white">
-                <h3 class="mb-0"><i class="fas fa-building"></i> Employer Lead Details</h3>
-            </div>
-            <div class="card-body">
-                <div class="row mb-3">
-                    <div class="col-md-3 fw-bold">Company Name:</div>
-                    <div class="col-md-9">{{ lead.company_name }}</div>
+
+<div class="lead-wrapper">
+
+    <!-- LEFT -->
+    <div class="main-card">
+
+        <div class="main-header">
+            <div class="company-label">Company</div>
+            <div class="company-name">{{ lead.company_name }}</div>
+        </div>
+
+        <!-- CONTACT -->
+        <div class="section">
+            <div class="section-title">Contact Information</div>
+
+            <div class="grid">
+
+                <div class="box">
+                    <div class="label">Contact Person</div>
+                    <div class="value">{{ lead.contact_person }}</div>
                 </div>
-                <div class="row mb-3">
-                    <div class="col-md-3 fw-bold">Contact Person:</div>
-                    <div class="col-md-9">{{ lead.contact_person }}</div>
+
+                <div class="box">
+                    <div class="label">Email</div>
+                    <div class="value">{{ lead.email }}</div>
                 </div>
-                <div class="row mb-3">
-                    <div class="col-md-3 fw-bold">Email:</div>
-                    <div class="col-md-9">{{ lead.email }}</div>
+
+                <div class="box">
+                    <div class="label">Phone</div>
+                    <div class="value">{{ lead.phone }}</div>
                 </div>
-                <div class="row mb-3">
-                    <div class="col-md-3 fw-bold">Phone:</div>
-                    <div class="col-md-9">{{ lead.phone }}</div>
-                </div>
-                <div class="row mb-3">
-                    <div class="col-md-3 fw-bold">Status:</div>
-                    <div class="col-md-9">
-                        <span class="badge bg-{% if lead.status == 'new' %}primary{% elif lead.status == 'contacted' %}info{% elif lead.status == 'in_progress' %}warning{% else %}success{% endif %}">
-                            {{ lead.get_status_display }}
+
+                <div class="box">
+                    <div class="label">Status</div>
+                    <div class="value">
+                        <span class="status 
+                        {% if lead.status == 'new' %}new
+                        {% elif lead.status == 'contacted' %}contacted
+                        {% elif lead.status == 'in_progress' %}progress
+                        {% else %}closed{% endif %}">
+                        {{ lead.get_status_display }}
                         </span>
                     </div>
                 </div>
-                <div class="row mb-3">
-                    <div class="col-md-3 fw-bold">Hiring Type:</div>
-                    <div class="col-md-9">{{ lead.hiring_type|default:"Not specified" }}</div>
-                </div>
-                <div class="row mb-3">
-                    <div class="col-md-3 fw-bold">Tech Stack:</div>
-                    <div class="col-md-9">{{ lead.tech_stack|default:"Not specified" }}</div>
-                </div>
-                <div class="row mb-3">
-                    <div class="col-md-3 fw-bold">Requirements:</div>
-                    <div class="col-md-9">{{ lead.requirement|linebreaks }}</div>
-                </div>
-                <div class="row mb-3">
-                    <div class="col-md-3 fw-bold">Created:</div>
-                    <div class="col-md-9">{{ lead.created_at|date:"F d, Y H:i" }}</div>
-                </div>
-                <div class="row mb-3">
-                    <div class="col-md-3 fw-bold">Last Updated:</div>
-                    <div class="col-md-9">{{ lead.updated_at|date:"F d, Y H:i" }}</div>
-                </div>
+
             </div>
         </div>
+
+        <!-- JOB -->
+        <div class="section">
+            <div class="section-title">Job Details</div>
+
+            <div class="grid">
+
+                <div class="box">
+                    <div class="label">Hiring Type</div>
+                    <div class="value">{{ lead.hiring_type|default:"Not specified" }}</div>
+                </div>
+
+                <div class="box">
+                    <div class="label">Tech Stack</div>
+                    <div class="value">{{ lead.tech_stack|default:"Not specified" }}</div>
+                </div>
+
+                <div class="box full">
+                    <div class="label">Requirements</div>
+                    <div class="value">{{ lead.requirement|linebreaks }}</div>
+                </div>
+
+            </div>
+        </div>
+
     </div>
-    
-    <div class="col-md-4">
-        <div class="card">
-            <div class="card-header bg-info text-white">
-                <h5 class="mb-0"><i class="fas fa-cog"></i> Actions</h5>
+
+    <!-- RIGHT -->
+    <div class="side">
+
+        <!-- META -->
+        <div class="side-card">
+
+            <div class="meta-box">
+                <div class="meta-label">Created At</div>
+                <div class="meta-value">{{ lead.created_at|date:"M d, Y H:i" }}</div>
             </div>
-            <div class="card-body">
-                <div class="d-grid gap-2">
-                    <a href="{% url ' employer_lead_update' lead.pk %}" class="btn btn-primary">
-                        <i class="fas fa-edit"></i> Edit Lead
-                    </a>
-                    <a href="mailto:{{ lead.email }}" class="btn btn-success">
-                        <i class="fas fa-envelope"></i> Send Email
-                    </a>
-                    <a href="tel:{{ lead.phone }}" class="btn btn-info">
-                        <i class="fas fa-phone"></i> Call Lead
-                    </a>
-                    <a href="{% url ' employer_lead_delete' lead.pk %}" class="btn btn-danger">
-                        <i class="fas fa-trash"></i> Delete Lead
-                    </a>
-                </div>
+
+            <div class="meta-box">
+                <div class="meta-label">Updated At</div>
+                <div class="meta-value">{{ lead.updated_at|date:"M d, Y H:i" }}</div>
             </div>
+
         </div>
-        
-        <div class="card mt-3">
-            <div class="card-header bg-warning">
-                <h5 class="mb-0"><i class="fas fa-clock"></i> Follow-up Reminder</h5>
-            </div>
-            <div class="card-body">
-                <input type="datetime-local" class="form-control mb-2">
-                <button class="btn btn-sm btn-primary w-100">Set Reminder</button>
-            </div>
+
+        <!-- ACTIONS -->
+        <div class="side-card">
+
+            <div class="side-title">Actions</div>
+
+            <a href="{% url 'employer_lead_update' lead.pk %}" class="btn btn-edit">
+                Edit Lead <i class="fas fa-edit"></i>
+            </a>
+
+            <a href="mailto:{{ lead.email }}" class="btn btn-email">
+                Send Email <i class="fas fa-envelope"></i>
+            </a>
+
+            <a href="tel:{{ lead.phone }}" class="btn btn-call">
+                Call Lead <i class="fas fa-phone"></i>
+            </a>
+
+            <a href="{% url 'employer_lead_delete' lead.pk %}" class="btn btn-delete">
+                Delete Lead <i class="fas fa-trash"></i>
+            </a>
+
         </div>
+
     </div>
+
 </div>
+
 {% endblock %}
