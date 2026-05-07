@@ -1,445 +1,888 @@
 {% extends 'base.html' %}
+{% load static %}
 
-{% block title %}Our Services - JobPortal{% endblock %}
+{% block title %}IT Staffing Services USA | Contract, Direct Hire, Nearshore & Payrolling{% endblock %}
+
+{% block extra_meta %}
+<meta name="description" content="Sks Global IT Services offers 6 specialized IT staffing solutions: temporary, contract-to-hire, direct hire, payrolling, nearshore dedicated teams, and customized staffing. Get a quote.">
+{% endblock %}
 
 {% block extra_css %}
 <style>
-    .services-header {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        padding: 80px 0;
-        margin-bottom: 50px;
+    :root {
+        --primary: #2563eb;
+        --primary-dark: #1d4ed8;
+        --primary-light: #eef2ff;
+        --gray-50: #f9fafb;
+        --gray-100: #f3f4f6;
+        --gray-200: #e5e7eb;
+        --gray-400: #9ca3af;
+        --gray-500: #6b7280;
+        --gray-700: #374151;
+        --gray-800: #1f2937;
+        --gray-900: #111827;
+        --white: #ffffff;
+        --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+        --shadow-md: 0 10px 25px -5px rgba(0,0,0,0.08), 0 8px 10px -6px rgba(0,0,0,0.05);
+        --shadow-lg: 0 25px 50px -12px rgba(0,0,0,0.15);
+        --radius-lg: 1rem;
+        --radius-md: 0.5rem;
     }
-    .service-detail-card {
-        padding: 40px;
-        border-radius: 15px;
-        box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-        margin-bottom: 40px;
-        transition: transform 0.3s;
+
+    * {
+        box-sizing: border-box;
     }
-    .service-detail-card:hover {
-        transform: translateY(-5px);
+
+    html {
+        scroll-behavior: smooth;
     }
-    .service-icon-large {
-        font-size: 4rem;
-        color: #007bff;
-        margin-bottom: 20px;
-    }
-    .process-step {
-        text-align: center;
-        padding: 20px;
+
+    .services-page {
+        background-color: var(--gray-50);
+        min-height: 100vh;
         position: relative;
+        overflow-x: hidden;
     }
-    .step-number {
-        width: 50px;
-        height: 50px;
-        background: #007bff;
+
+    /* ========== SIMPLE HERO (heading + image) ========== */
+    .services-hero {
+        background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #2563eb 100%);
+        padding: 5rem 2rem;
+        position: relative;
+        overflow: hidden;
+        isolation: isolate;
+    }
+
+    .services-hero::before,
+    .services-hero::after {
+        content: "";
+        position: absolute;
+        border-radius: 50%;
+        z-index: 0;
+        pointer-events: none;
+    }
+
+    .services-hero::before {
+        top: -30%;
+        right: -15%;
+        width: 500px;
+        height: 500px;
+        background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+    }
+
+    .services-hero::after {
+        bottom: -25%;
+        left: -10%;
+        width: 400px;
+        height: 400px;
+        background: radial-gradient(circle, rgba(255,255,255,0.07) 0%, transparent 70%);
+    }
+
+    .hero-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 3rem;
+        flex-wrap: wrap;
+        position: relative;
+        z-index: 2;
+    }
+
+    .hero-text {
+        flex: 1 1 350px;
+        animation: slideInLeft 0.8s ease-out;
+    }
+
+    @keyframes slideInLeft {
+        0% { opacity: 0; transform: translateX(-30px); }
+        100% { opacity: 1; transform: translateX(0); }
+    }
+
+    .hero-text h1 {
+        font-size: clamp(2.2rem, 6vw, 3.8rem);
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        line-height: 1.15;
+        color: var(--white);
+        margin: 0;
+        text-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    }
+
+    .hero-image {
+        flex: 0 1 280px;
+        display: flex;
+        justify-content: center;
+        animation: float 6s ease-in-out infinite;
+    }
+
+    @keyframes float {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-15px); }
+    }
+
+    .hero-image svg {
+        width: 100%;
+        height: auto;
+        max-width: 300px;
+        filter: drop-shadow(0 25px 35px rgba(0,0,0,0.35));
+    }
+
+    /* ---------- HERO RESPONSIVE ---------- */
+    @media (max-width: 992px) {
+        .hero-content {
+            flex-direction: column-reverse;
+            text-align: center;
+            gap: 2rem;
+        }
+        .hero-text {
+            flex: unset;
+            width: 100%;
+        }
+        .hero-image {
+            flex: 0 1 200px;
+        }
+        .hero-image svg {
+            max-width: 240px;
+        }
+    }
+
+    @media (max-width: 640px) {
+        .services-hero {
+            padding: 3.5rem 1.5rem;
+        }
+        .hero-text h1 {
+            font-size: 2rem;
+        }
+        .hero-image {
+            flex: 0 1 150px;
+        }
+        .hero-image svg {
+            max-width: 180px;
+        }
+    }
+
+    @media (max-width: 400px) {
+        .hero-text h1 {
+            font-size: 1.8rem;
+        }
+        .hero-image {
+            flex: 0 1 120px;
+        }
+        .hero-image svg {
+            max-width: 140px;
+        }
+    }
+
+    /* ========== MAIN CONTAINER ========== */
+    .services-container {
+        max-width: 1200px;
+        margin: 2rem auto 4rem;
+        padding: 0 1.5rem;
+        position: relative;
+        z-index: 2;
+    }
+
+    /* Intro card */
+    .intro-card {
+        background: var(--white);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-md);
+        padding: 2rem;
+        margin-bottom: 2.5rem;
+        border-left: 5px solid var(--primary);
+        opacity: 0;
+        transform: translateY(20px);
+        animation: fadeInUp 0.6s ease forwards;
+    }
+
+    .intro-card p {
+        font-size: 1.1rem;
+        line-height: 1.8;
+        color: var(--gray-700);
+        margin: 0 0 0.8rem 0;
+    }
+
+    .intro-card p:last-of-type {
+        margin-bottom: 0;
+    }
+
+    /* ========== SERVICE CARDS GRID ========== */
+    .service-grid {
+        display: grid;
+        gap: 2rem;
+        grid-template-columns: 1fr;
+        margin-bottom: 3rem;
+    }
+
+    @media (min-width: 640px) {
+        .service-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @media (min-width: 1024px) {
+        .service-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    .service-card {
+        background: var(--white);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-md);
+        overflow: hidden;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        opacity: 0;
+        transform: translateY(30px);
+        animation: fadeInUp 0.6s ease forwards;
+        display: flex;
+        flex-direction: column;
+        border: 1px solid var(--gray-100);
+    }
+
+    .service-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 30px 50px -15px rgba(0,0,0,0.15);
+    }
+
+    .card-icon-area {
+        padding: 2rem 2rem 1rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .card-icon-area svg {
+        width: 80px;
+        height: 80px;
+        color: var(--primary);
+        stroke: currentColor;
+        fill: none;
+        transition: transform 0.3s ease;
+    }
+
+    .service-card:hover .card-icon-area svg {
+        transform: scale(1.15) rotate(5deg);
+    }
+
+    .card-body {
+        padding: 0 2rem 2rem;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .card-body h2 {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--gray-900);
+        margin-bottom: 0.8rem;
+        line-height: 1.3;
+    }
+
+    .card-body h3 {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: var(--gray-800);
+        margin-top: 1.2rem;
+        margin-bottom: 0.3rem;
+    }
+
+    .card-body p {
+        color: var(--gray-700);
+        line-height: 1.7;
+        margin-bottom: 0.8rem;
+    }
+
+    .card-body ul {
+        list-style: none;
+        padding-left: 0;
+        margin-bottom: 1rem;
+    }
+
+    .card-body ul li {
+        position: relative;
+        padding-left: 1.8rem;
+        margin-bottom: 0.5rem;
+        color: var(--gray-700);
+        line-height: 1.6;
+        font-size: 0.95rem;
+    }
+
+    .card-body ul li::before {
+        content: "✓";
+        position: absolute;
+        left: 0;
+        color: var(--primary);
+        font-weight: bold;
+    }
+
+    .card-body .pricing-note {
+        margin-top: auto;
+        font-weight: 600;
+        color: var(--primary-dark);
+    }
+
+    /* ========== COMPARISON TABLE ========== */
+    .comparison-table-wrapper {
+        background: var(--white);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-md);
+        padding: 2rem;
+        margin-bottom: 2.5rem;
+        overflow-x: auto;
+    }
+
+    .comparison-table-wrapper h2 {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: var(--gray-900);
+        margin-bottom: 1.5rem;
+    }
+
+    .comparison-table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 600px;
+    }
+
+    .comparison-table th {
+        background: var(--primary);
         color: white;
+        padding: 0.9rem 1rem;
+        text-align: left;
+        font-weight: 600;
+    }
+
+    .comparison-table td {
+        padding: 0.9rem 1rem;
+        border-bottom: 1px solid var(--gray-200);
+        color: var(--gray-700);
+    }
+
+    .comparison-table tr:last-child td {
+        border-bottom: none;
+    }
+
+    .comparison-table tbody tr:hover {
+        background: var(--primary-light);
+    }
+
+    /* ========== REDESIGNED FAQ SECTION ========== */
+    .section-header {
+        text-align: center;
+        margin-bottom: 2.5rem;
+    }
+
+    .section-header h2 {
+        font-size: 2.2rem;
+        font-weight: 700;
+        color: var(--gray-900);
+        position: relative;
+        display: inline-block;
+    }
+
+    .section-header h2::after {
+        content: "";
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60px;
+        height: 4px;
+        background: var(--primary);
+        border-radius: 2px;
+    }
+
+    .faq-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        max-width: 800px;
+        margin: 0 auto 3rem;
+    }
+
+    .faq-item {
+        background: white;
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-sm);
+        overflow: hidden;
+        border: 1px solid var(--gray-100);
+        transition: all 0.3s ease;
+    }
+
+    .faq-item:hover {
+        box-shadow: var(--shadow-md);
+        border-color: var(--primary-light);
+    }
+
+    .faq-button {
+        width: 100%;
+        background: none;
+        border: none;
+        padding: 1.5rem 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        cursor: pointer;
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: var(--gray-900);
+        text-align: left;
+        gap: 1rem;
+    }
+
+    .faq-button .icon {
+        flex-shrink: 0;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: var(--primary-light);
+        color: var(--primary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+    }
+
+    .faq-button .icon svg {
+        width: 20px;
+        height: 20px;
+        transition: transform 0.3s ease;
+    }
+
+    .faq-item.active .faq-button .icon {
+        background: var(--primary);
+        color: white;
+    }
+
+    .faq-item.active .faq-button .icon svg {
+        transform: rotate(45deg);
+    }
+
+    .faq-answer {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.4s ease, padding 0.3s ease;
+        font-size: 1rem;
+        color: var(--gray-700);
+        line-height: 1.7;
+        padding: 0 2rem;
+    }
+
+    .faq-item.active .faq-answer {
+        max-height: 300px;
+        padding: 0 2rem 1.5rem;
+    }
+
+    /* FAQ responsive */
+    @media (max-width: 640px) {
+        .faq-button {
+            padding: 1.2rem 1.5rem;
+            font-size: 1rem;
+        }
+        .faq-answer {
+            padding: 0 1.5rem;
+        }
+        .faq-item.active .faq-answer {
+            padding: 0 1.5rem 1.2rem;
+        }
+    }
+
+    /* ========== CTA ========== */
+    .cta-section {
+        background: linear-gradient(135deg, #1e3a8a, #2563eb);
+        border-radius: var(--radius-lg);
+        padding: 3rem 2rem;
+        text-align: center;
+        color: white;
+        box-shadow: 0 30px 60px rgba(0,0,0,0.15);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .cta-section h2 {
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+    }
+
+    .cta-section p {
+        font-size: 1.2rem;
+        opacity: 0.9;
+        margin-bottom: 2rem;
+    }
+
+    .btn-cta {
+        display: inline-block;
+        background: white;
+        color: var(--primary);
+        font-weight: 700;
+        padding: 0.9rem 2.5rem;
+        border-radius: 999px;
+        text-decoration: none;
+        transition: transform 0.3s, box-shadow 0.3s;
+        font-size: 1.05rem;
+    }
+
+    .btn-cta:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+    }
+
+    /* ========== BACK TO TOP ========== */
+    .back-to-top-fixed {
+        position: fixed;
+        bottom: 28px;
+        right: 28px;
+        z-index: 1000;
+        background: linear-gradient(135deg, #2563eb, #4f46e5);
+        color: white;
+        width: 52px;
+        height: 52px;
         border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 1.5rem;
-        font-weight: bold;
-        margin: 0 auto 20px;
+        box-shadow: 0 10px 25px rgba(37,99,235,0.4);
+        transition: transform 0.3s, box-shadow 0.3s;
+        text-decoration: none;
     }
-    .pricing-card {
-        text-align: center;
-        padding: 30px;
-        border-radius: 10px;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        margin-bottom: 30px;
-        transition: all 0.3s;
+
+    .back-to-top-fixed:hover {
+        transform: scale(1.1) translateY(-3px);
+        box-shadow: 0 15px 30px rgba(37,99,235,0.55);
     }
-    .pricing-card:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+
+    .back-to-top-fixed svg {
+        width: 24px;
+        height: 24px;
+        stroke: white;
     }
-    .pricing-price {
-        font-size: 2.5rem;
-        font-weight: bold;
-        color: #007bff;
-        margin: 20px 0;
+
+    /* ========== ANIMATIONS ========== */
+    @keyframes fadeInUp {
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
-    .pricing-features {
-        list-style: none;
-        padding: 0;
-        margin: 20px 0;
-    }
-    .pricing-features li {
-        padding: 5px 0;
-    }
-    .faq-item {
-        margin-bottom: 20px;
-        border: 1px solid #dee2e6;
-        border-radius: 5px;
-        padding: 15px;
-    }
-    .faq-question {
-        font-weight: bold;
-        cursor: pointer;
+
+    /* Small mobile adjustments */
+    @media (max-width: 480px) {
+        .back-to-top-fixed {
+            width: 42px;
+            height: 42px;
+            bottom: 16px;
+            right: 16px;
+        }
     }
 </style>
 {% endblock %}
 
 {% block content %}
-<!-- Header -->
-<section class="services-header">
-    <div class="container text-center">
-        <h1 class="display-4">Our Services</h1>
-        <p class="lead">Comprehensive staffing solutions for every business need</p>
-    </div>
-</section>
+<div class="services-page" id="top">
 
-<!-- Main Services -->
-<div class="container mb-5">
-    <div class="service-detail-card">
-        <div class="row align-items-center">
-            <div class="col-md-6">
-                <i class="fas fa-users service-icon-large"></i>
-                <h2>Temporary Staffing</h2>
-                <p>Flexible staffing solutions for short-term projects, seasonal demands, and peak periods. Our temporary staffing service provides skilled professionals when you need them, for as long as you need them.</p>
-                <ul class="list-unstyled">
-                    <li><i class="fas fa-check text-success"></i> Quick onboarding within 48 hours</li>
-                    <li><i class="fas fa-check text-success"></i> Pre-screened and qualified candidates</li>
-                    <li><i class="fas fa-check text-success"></i> Flexible contract durations</li>
-                    <li><i class="fas fa-check text-success"></i> Payroll and compliance management</li>
-                </ul>
-                <a href="{% url 'contact' %}" class="btn btn-primary mt-3">Request Temporary Staff →</a>
+    <!-- ========== SIMPLE HERO (heading + image) ========== -->
+    <section class="services-hero">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>IT Staffing Services</h1>
             </div>
-            <div class="col-md-6">
-                <img src="https://via.placeholder.com/500x400?text=Temporary+Staffing" alt="Temporary Staffing" class="img-fluid rounded">
+            <div class="hero-image" aria-hidden="true">
+                <svg viewBox="0 0 300 260" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="150" cy="130" r="125" fill="white" fill-opacity="0.06" />
+                    <rect x="80" y="60" width="140" height="130" rx="12" fill="white" fill-opacity="0.12" stroke="white" stroke-width="2" />
+                    <path d="M120 90h60" stroke="white" stroke-width="2.5" stroke-linecap="round" />
+                    <path d="M120 110h50" stroke="white" stroke-width="2.5" stroke-linecap="round" />
+                    <path d="M120 130h55" stroke="white" stroke-width="2.5" stroke-linecap="round" />
+                    <path d="M120 150h40" stroke="white" stroke-width="2.5" stroke-linecap="round" />
+                    <circle cx="240" cy="70" r="18" fill="white" fill-opacity="0.8" stroke="white" stroke-width="2" />
+                    <circle cx="272" cy="110" r="15" fill="white" fill-opacity="0.6" stroke="white" stroke-width="2" />
+                    <circle cx="250" cy="150" r="20" fill="white" fill-opacity="0.9" stroke="white" stroke-width="2" />
+                    <line x1="226" y1="80" x2="198" y2="75" stroke="white" stroke-width="2" />
+                    <line x1="260" y1="120" x2="200" y2="115" stroke="white" stroke-width="2" />
+                    <line x1="234" y1="145" x2="200" y2="140" stroke="white" stroke-width="2" />
+                </svg>
             </div>
+        </div>
+    </section>
+
+    <div class="services-container">
+        <!-- Intro Card -->
+        <div class="intro-card">
+            <p>At Sks Global IT Services, we do not force you into a one-size-fits-all model. Instead, we offer six distinct IT staffing solutions – each designed for specific hiring scenarios. You can mix and match, switch between models, or scale up and down as your business evolves.</p>
+            <p>All our services include rigorous candidate vetting, full compliance management, transparent pricing, and dedicated account support. Read each service below to find your perfect fit.</p>
+        </div>
+
+        <!-- Service cards grid -->
+        <div class="service-grid">
+            <!-- Service 1 -->
+            <div class="service-card" style="animation-delay: 0.1s;">
+                <div class="card-icon-area">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                </div>
+                <div class="card-body">
+                    <h2><span style="color: var(--primary);">1.</span> Temporary IT Staffing (Contract Staffing)</h2>
+                    <h3>Overview</h3>
+                    <p>Temporary IT staffing is ideal for short-term projects, seasonal workloads, employee leave coverage, or specialized initiatives that do not justify a full-time hire. We provide skilled IT professionals for durations ranging from two weeks to twelve months.</p>
+                    <h3>Ideal For:</h3>
+                    <ul>
+                        <li>Product launches requiring extra engineering hands</li>
+                        <li>Cloud migration projects (3–6 months)</li>
+                        <li>Backlog clearance for legacy systems</li>
+                        <li>Maternity/paternity or medical leave coverage</li>
+                        <li>Peak season support (e.g., retail, tax, healthcare enrollment)</li>
+                    </ul>
+                    <h3>Key Benefits:</h3>
+                    <ul>
+                        <li><strong>Speed:</strong> First candidates in 48–72 hours</li>
+                        <li><strong>Flexibility:</strong> Extend or terminate with 1–2 weeks' notice</li>
+                        <li><strong>No Overhead:</strong> We handle payroll, taxes, benefits, workers' comp</li>
+                        <li><strong>Quality:</strong> Same vetting standard as direct hires</li>
+                        <li><strong>Compliance:</strong> Fully W2 or 1099 compliant</li>
+                    </ul>
+                    <h3>Why Choose Sks Global:</h3>
+                    <p>Many agencies send unvetted contractors. Our temporary professionals are pre-screened on technical skills and communication. We provide a 2-week “no-risk” trial – if you are unsatisfied, you do not pay.</p>
+                    <p class="pricing-note"><strong>Pricing Model:</strong> Competitive hourly rates (all-inclusive, no markups on payroll taxes).</p>
+                </div>
+            </div>
+
+            <!-- Service 2 -->
+            <div class="service-card" style="animation-delay: 0.2s;">
+                <div class="card-icon-area">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><line x1="20" y1="8" x2="20" y2="14"></line><line x1="23" y1="11" x2="17" y2="11"></line></svg>
+                </div>
+                <div class="card-body">
+                    <h2><span style="color: var(--primary);">2.</span> Contract-to-Hire Staffing</h2>
+                    <h3>Overview</h3>
+                    <p>Contract-to-hire (temp-to-perm) allows you to evaluate a candidate on your team, with your tools, on real projects – before committing to a permanent offer. Typically, contracts last 3–6 months, after which you can convert the contractor to a full-time employee with no additional placement fee.</p>
+                    <h3>Ideal For:</h3>
+                    <ul>
+                        <li>Companies burned by bad permanent hires</li>
+                        <li>Roles with ambiguous requirements</li>
+                        <li>Fast-growing startups unsure of long-term headcount</li>
+                        <li>Candidates who prefer to “try before they buy”</li>
+                    </ul>
+                    <h3>Key Benefits:</h3>
+                    <ul>
+                        <li><strong>Risk Reduction:</strong> See real performance before permanent offer</li>
+                        <li><strong>Cultural Validation:</strong> Assess team fit over months</li>
+                        <li><strong>Financial Flexibility:</strong> Contract costs are operational</li>
+                        <li><strong>Seamless Conversion:</strong> We handle all paperwork</li>
+                        <li><strong>Higher Retention:</strong> Candidates who convert stay longer</li>
+                    </ul>
+                    <h3>Why Choose Sks Global:</h3>
+                    <p>Over 85% of our contract-to-hire placements become full-time employees within 6 months. If you decide not to convert, we find a replacement at no additional cost.</p>
+                    <p class="pricing-note"><strong>Pricing Model:</strong> Hourly contract rate + reduced conversion fee (or free with longer contract).</p>
+                </div>
+            </div>
+
+            <!-- Service 3 -->
+            <div class="service-card" style="animation-delay: 0.3s;">
+                <div class="card-icon-area">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+                </div>
+                <div class="card-body">
+                    <h2><span style="color: var(--primary);">3.</span> Direct Hire (Permanent) Staffing</h2>
+                    <h3>Overview</h3>
+                    <p>Direct hire staffing is our solution for full-time, W2 employees. We handle the entire recruitment lifecycle – from job description refinement to offer negotiation – and present only the most qualified candidates ready for permanent employment.</p>
+                    <h3>Ideal For:</h3>
+                    <ul>
+                        <li>Core engineering team expansion</li>
+                        <li>Leadership roles (Tech Lead, Architect, Engineering Manager)</li>
+                        <li>Niche skills (Mainframe, SAP, Salesforce, Embedded)</li>
+                        <li>Companies without internal recruiting teams</li>
+                    </ul>
+                    <h3>Key Benefits:</h3>
+                    <ul>
+                        <li><strong>Reduced Time-to-Hire:</strong> Average 30 days vs. 90+ in-house</li>
+                        <li><strong>Access to Passive Talent:</strong> Candidates not on job boards</li>
+                        <li><strong>12-Month Replacement Guarantee:</strong> Free replacement if they leave within 1 year</li>
+                        <li><strong>Cultural & Technical Matching:</strong> We assess beyond the resume</li>
+                    </ul>
+                    <h3>Why Choose Sks Global:</h3>
+                    <p>Our senior recruiters have experience hiring for FAANG and Fortune 500 companies. We also provide salary benchmarking, offer letter templates, and relocation assistance if needed.</p>
+                    <p class="pricing-note"><strong>Pricing Model:</strong> Contingency fee (percentage of first-year salary) – only pay if you hire.</p>
+                </div>
+            </div>
+
+            <!-- Service 4 -->
+            <div class="service-card" style="animation-delay: 0.4s;">
+                <div class="card-icon-area">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="18" rx="2" ry="2"></rect><line x1="12" y1="3" x2="12" y2="21"></line></svg>
+                </div>
+                <div class="card-body">
+                    <h2><span style="color: var(--primary);">4.</span> Payrolling and Billing Services (Employer of Record)</h2>
+                    <h3>Overview</h3>
+                    <p>Already found a candidate but lack the legal entity or compliance infrastructure? Our payrolling services (employer-of-record) allow you to onboard contractors legally and quickly. We become the W2 or 1099 employer while you retain full operational control.</p>
+                    <h3>Ideal For:</h3>
+                    <ul>
+                        <li>Startups without US payroll setup</li>
+                        <li>Companies hiring contractors in new states</li>
+                        <li>Vendors needing to convert 1099 to W2 compliance</li>
+                        <li>Staffing agencies seeking back-office support</li>
+                    </ul>
+                    <h3>Key Benefits:</h3>
+                    <ul>
+                        <li><strong>Full Compliance:</strong> State tax registrations, unemployment, workers' comp, I-9, E-verify</li>
+                        <li><strong>Benefits Administration:</strong> Optional medical, dental, vision, 401(k)</li>
+                        <li><strong>Invoice & Collections:</strong> We bill your client, collect payments, pay your contractor</li>
+                        <li><strong>Scalable:</strong> Add contractors in any state within 24 hours</li>
+                        <li><strong>Audit-Ready:</strong> All records maintained for 7 years</li>
+                    </ul>
+                    <h3>Why Choose Sks Global:</h3>
+                    <p>We specialize in IT contractors, understanding hardware allowances, software licenses, IP protection, and non-compete enforcement. Our per-payroll fees are among the most competitive in the industry.</p>
+                    <p class="pricing-note"><strong>Pricing Model:</strong> Flat fee per contractor per month OR percentage of payroll.</p>
+                </div>
+            </div>
+
+            <!-- Service 5 -->
+            <div class="service-card" style="animation-delay: 0.5s;">
+                <div class="card-icon-area">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+                </div>
+                <div class="card-body">
+                    <h2><span style="color: var(--primary);">5.</span> Nearshore Dedicated Development Teams</h2>
+                    <h3>Overview</h3>
+                    <p>Nearshore staffing involves building dedicated software development teams in Latin America (Mexico, Colombia, Brazil, Argentina, Costa Rica). These teams work exclusively for you, as an extension of your US engineering organization.</p>
+                    <h3>Ideal For:</h3>
+                    <ul>
+                        <li>Companies facing high US engineering costs</li>
+                        <li>Organizations that have tried offshore (India/Philippines) with time zone challenges</li>
+                        <li>Startups needing to scale engineering quickly without VC dilution</li>
+                    </ul>
+                    <h3>Key Benefits:</h3>
+                    <ul>
+                        <li><strong>30–50% Cost Savings</strong></li>
+                        <li><strong>Time Zone Alignment:</strong> 2–5 hour overlap with EST/CST/MST</li>
+                        <li><strong>English Proficiency:</strong> C1-level English tested</li>
+                        <li><strong>Dedicated Teams:</strong> They work only for you</li>
+                        <li><strong>IP Protection:</strong> Full NDAs, IP assignments, secure infrastructure</li>
+                    </ul>
+                    <h3>Why Choose Sks Global:</h3>
+                    <p>We have a dedicated subsidiary and recruitment team in Latin America. We offer a 90-day guarantee – if any developer does not perform, we replace at no cost.</p>
+                    <p class="pricing-note"><strong>Pricing Model:</strong> Monthly fixed cost per developer (all-inclusive).</p>
+                </div>
+            </div>
+
+            <!-- Service 6 -->
+            <div class="service-card" style="animation-delay: 0.6s;">
+                <div class="card-icon-area">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l9 4.5v7.5L12 20l-9-4.5V6.5L12 2z"></path><line x1="12" y1="2" x2="12" y2="20"></line><line x1="12" y1="6" x2="12" y2="6.01"></line></svg>
+                </div>
+                <div class="card-body">
+                    <h2><span style="color: var(--primary);">6.</span> Customized Staffing Solutions</h2>
+                    <h3>Overview</h3>
+                    <p>Do not see exactly what you need? We build custom solutions for high-volume hiring, RPO, diversity initiatives, federal contractor staffing, or niche legacy skills.</p>
+                    <h3>We Build Custom Solutions For:</h3>
+                    <ul>
+                        <li>High-volume IT hiring (20+ roles simultaneously)</li>
+                        <li>RPO (Recruitment Process Outsourcing) for tech departments</li>
+                        <li>Diversity-focused IT recruitment initiatives</li>
+                        <li>Federal contractor staffing (clearance required)</li>
+                        <li>Niche legacy skills (COBOL, Fortran, Mainframe, RPG)</li>
+                    </ul>
+                    <h3>Why Choose Sks Global:</h3>
+                    <p>We have successfully delivered bespoke solutions for healthcare systems, defense contractors, and government agencies. Our team designs SLAs, reporting dashboards, and candidate funnels tailored to your needs.</p>
+                    <p class="pricing-note"><strong>Pricing Model:</strong> Project-based or managed service agreement (MSA).</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Comparison Table -->
+        <div class="comparison-table-wrapper">
+            <h2>Service Comparison at a Glance</h2>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Service</th>
+                        <th>Duration</th>
+                        <th>Risk</th>
+                        <th>Cost Model</th>
+                        <th>Best For</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>Temporary Staffing</td><td>Weeks to months</td><td>Low</td><td>Hourly rate</td><td>Short-term needs</td></tr>
+                    <tr><td>Contract-to-Hire</td><td>3–6 months then perm</td><td>Low to medium</td><td>Hourly + conversion</td><td>Try before buy</td></tr>
+                    <tr><td>Direct Hire</td><td>Permanent</td><td>Medium</td><td>Contingency fee</td><td>Core team roles</td></tr>
+                    <tr><td>Payrolling</td><td>Ongoing</td><td>Very low</td><td>Per contractor/month</td><td>Compliance support</td></tr>
+                    <tr><td>Nearshore Teams</td><td>6+ months</td><td>Low</td><td>Monthly fixed cost</td><td>Cost-effective scale</td></tr>
+                    <tr><td>Custom Solutions</td><td>Varies</td><td>Varies</td><td>Project-based</td><td>Unique needs</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- ========== REDESIGNED FAQ SECTION ========== -->
+        <div class="section-header">
+            <h2>Frequently Asked Questions</h2>
+        </div>
+
+        <div class="faq-grid">
+            <div class="faq-item">
+                <button class="faq-button" onclick="toggleFAQ(this)">
+                    <span>How quickly can you fill a position?</span>
+                    <span class="icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                    </span>
+                </button>
+                <div class="faq-answer">Most positions are filled within 2 weeks. For urgent needs, we can provide qualified candidates within 48 hours.</div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-button" onclick="toggleFAQ(this)">
+                    <span>What is your replacement guarantee?</span>
+                    <span class="icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                    </span>
+                </button>
+                <div class="faq-answer">Direct hire placements come with a 12-month replacement guarantee. Contract and nearshore developers have a 90-day guarantee.</div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-button" onclick="toggleFAQ(this)">
+                    <span>Do you offer remote staffing?</span>
+                    <span class="icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                    </span>
+                </button>
+                <div class="faq-answer">Absolutely. We specialize in remote and hybrid placements across the US and nearshore regions.</div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-button" onclick="toggleFAQ(this)">
+                    <span>What are your fees for direct hire?</span>
+                    <span class="icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                    </span>
+                </button>
+                <div class="faq-answer">We charge a contingency fee based on a percentage of the candidate's first-year salary. You pay only if you hire.</div>
+            </div>
+        </div>
+
+        <!-- Final CTA -->
+        <div class="cta-section">
+            <h2>Ready to Choose Your Staffing Model?</h2>
+            <p>Not sure which service fits best? Our staffing consultants will analyze your requirements and recommend the optimal model – no obligation.</p>
+            <a href="{% url 'contact' %}" class="btn-cta">Get a Free Staffing Consultation →</a>
         </div>
     </div>
 
-    <div class="service-detail-card">
-        <div class="row align-items-center">
-            <div class="col-md-6 order-md-2">
-                <i class="fas fa-handshake service-icon-large"></i>
-                <h2>Contract-to-Hire</h2>
-                <p>Evaluate potential permanent employees through a contract period before making a long-term commitment. This risk-free approach allows you to assess skills, culture fit, and performance.</p>
-                <ul class="list-unstyled">
-                    <li><i class="fas fa-check text-success"></i> 3-6 month evaluation period</li>
-                    <li><i class="fas fa-check text-success"></i> No conversion fees</li>
-                    <li><i class="fas fa-check text-success"></i> Full payroll and benefits management</li>
-                    <li><i class="fas fa-check text-success"></i> Seamless transition to permanent hire</li>
-                </ul>
-                <a href="{% url 'contact' %}" class="btn btn-primary mt-3">Learn About Contract-to-Hire →</a>
-            </div>
-            <div class="col-md-6 order-md-1">
-                <img src="https://via.placeholder.com/500x400?text=Contract+to+Hire" alt="Contract to Hire" class="img-fluid rounded">
-            </div>
-        </div>
-    </div>
-
-    <div class="service-detail-card">
-        <div class="row align-items-center">
-            <div class="col-md-6">
-                <i class="fas fa-user-tie service-icon-large"></i>
-                <h2>Direct Hire</h2>
-                <p>Permanent placement solutions for executive, management, and specialized roles. We find the perfect long-term fit for your organization's culture and requirements.</p>
-                <ul class="list-unstyled">
-                    <li><i class="fas fa-check text-success"></i> Executive and specialized searches</li>
-                    <li><i class="fas fa-check text-success"></i> 90-day replacement guarantee</li>
-                    <li><i class="fas fa-check text-success"></i> Comprehensive background checks</li>
-                    <li><i class="fas fa-check text-success"></i> Market salary analysis</li>
-                </ul>
-                <a href="{% url 'contact' %}" class="btn btn-primary mt-3">Find Permanent Talent →</a>
-            </div>
-            <div class="col-md-6">
-                <img src="https://via.placeholder.com/500x400?text=Direct+Hire" alt="Direct Hire" class="img-fluid rounded">
-            </div>
-        </div>
-    </div>
-
-    <div class="service-detail-card">
-        <div class="row align-items-center">
-            <div class="col-md-6 order-md-2">
-                <i class="fas fa-chart-line service-icon-large"></i>
-                <h2>Payrolling Services</h2>
-                <p>Streamlined payroll management for your contract workforce. We handle all administrative tasks including payroll processing, tax filings, and compliance.</p>
-                <ul class="list-unstyled">
-                    <li><i class="fas fa-check text-success"></i> Automated payroll processing</li>
-                    <li><i class="fas fa-check text-success"></i> Tax withholding and reporting</li>
-                    <li><i class="fas fa-check text-success"></i> Workers' compensation insurance</li>
-                    <li><i class="fas fa-check text-success"></i> Compliance management</li>
-                </ul>
-                <a href="{% url 'contact' %}" class="btn btn-primary mt-3">Explore Payrolling →</a>
-            </div>
-            <div class="col-md-6 order-md-1">
-                <img src="https://via.placeholder.com/500x400?text=Payrolling" alt="Payrolling" class="img-fluid rounded">
-            </div>
-        </div>
-    </div>
-
-    <div class="service-detail-card">
-        <div class="row align-items-center">
-            <div class="col-md-6">
-                <i class="fas fa-laptop-code service-icon-large"></i>
-                <h2>Dedicated Teams</h2>
-                <p>Build dedicated development teams that work exclusively on your projects. Scale your engineering capacity quickly without the overhead of recruitment.</p>
-                <ul class="list-unstyled">
-                    <li><i class="fas fa-check text-success"></i> Custom team assembly</li>
-                    <li><i class="fas fa-check text-success"></i> Full project management support</li>
-                    <li><i class="fas fa-check text-success"></i> Infrastructure and tools provided</li>
-                    <li><i class="fas fa-check text-success"></i> Monthly or quarterly contracts</li>
-                </ul>
-                <a href="{% url 'contact' %}" class="btn btn-primary mt-3">Build Your Team →</a>
-            </div>
-            <div class="col-md-6">
-                <img src="https://via.placeholder.com/500x400?text=Dedicated+Teams" alt="Dedicated Teams" class="img-fluid rounded">
-            </div>
-        </div>
-    </div>
+    <!-- Back to top -->
+    <a href="#top" class="back-to-top-fixed" aria-label="Back to top">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="18 15 12 9 6 15"></polyline>
+        </svg>
+    </a>
 </div>
 
-<!-- How It Works -->
-<section class="mission-section mb-5">
-    <div class="container">
-        <div class="text-center mb-5">
-            <h2>How It Works</h2>
-            <p class="lead">Simple, transparent process from start to finish</p>
-        </div>
-        <div class="row">
-            <div class="col-md-3">
-                <div class="process-step">
-                    <div class="step-number">1</div>
-                    <h5>Consultation</h5>
-                    <p>We discuss your needs, culture, and requirements</p>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="process-step">
-                    <div class="step-number">2</div>
-                    <h5>Sourcing</h5>
-                    <p>We search our database and networks for ideal candidates</p>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="process-step">
-                    <div class="step-number">3</div>
-                    <h5>Screening</h5>
-                    <p>Rigorous screening, interviews, and skills assessment</p>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="process-step">
-                    <div class="step-number">4</div>
-                    <h5>Placement</h5>
-                    <p>Present top candidates and facilitate hiring</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Pricing Plans -->
-<div class="container mb-5">
-    <div class="text-center mb-5">
-        <h2>Pricing Plans</h2>
-        <p class="lead">Flexible pricing options to suit your needs</p>
-    </div>
-    <div class="row">
-        <div class="col-md-4">
-            <div class="pricing-card">
-                <h3>Basic</h3>
-                <div class="pricing-price">$999</div>
-                <p>Per placement</p>
-                <ul class="pricing-features">
-                    <li>Basic candidate screening</li>
-                    <li>30-day guarantee</li>
-                    <li>Email support</li>
-                    <li>Standard job posting</li>
-                </ul>
-                <a href="{% url 'contact' %}" class="btn btn-outline-primary">Get Started</a>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="pricing-card" style="border: 2px solid #007bff;">
-                <h3>Professional</h3>
-                <div class="pricing-price">$1,999</div>
-                <p>Per placement</p>
-                <ul class="pricing-features">
-                    <li>Advanced candidate screening</li>
-                    <li>60-day guarantee</li>
-                    <li>Priority support</li>
-                    <li>Skills assessment included</li>
-                    <li>Background check</li>
-                </ul>
-                <a href="{% url 'contact' %}" class="btn btn-primary">Most Popular</a>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="pricing-card">
-                <h3>Enterprise</h3>
-                <div class="pricing-price">Custom</div>
-                <p>Tailored solutions</p>
-                <ul class="pricing-features">
-                    <li>Dedicated account manager</li>
-                    <li>90-day guarantee</li>
-                    <li>24/7 phone support</li>
-                    <li>Custom reporting</li>
-                    <li>Volume discounts</li>
-                </ul>
-                <a href="{% url 'contact' %}" class="btn btn-outline-primary">Contact Us</a>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Industries We Serve -->
-<div class="container mb-5">
-    <div class="text-center mb-5">
-        <h2>Industries We Serve</h2>
-        <p class="lead">Specialized expertise across multiple sectors</p>
-    </div>
-    <div class="row">
-        <div class="col-md-3 col-6 mb-3">
-            <div class="text-center">
-                <i class="fas fa-code" style="font-size: 2rem; color: #007bff;"></i>
-                <h6>Technology</h6>
-            </div>
-        </div>
-        <div class="col-md-3 col-6 mb-3">
-            <div class="text-center">
-                <i class="fas fa-chart-line" style="font-size: 2rem; color: #007bff;"></i>
-                <h6>Finance</h6>
-            </div>
-        </div>
-        <div class="col-md-3 col-6 mb-3">
-            <div class="text-center">
-                <i class="fas fa-heartbeat" style="font-size: 2rem; color: #007bff;"></i>
-                <h6>Healthcare</h6>
-            </div>
-        </div>
-        <div class="col-md-3 col-6 mb-3">
-            <div class="text-center">
-                <i class="fas fa-chalkboard-teacher" style="font-size: 2rem; color: #007bff;"></i>
-                <h6>Education</h6>
-            </div>
-        </div>
-        <div class="col-md-3 col-6 mb-3">
-            <div class="text-center">
-                <i class="fas fa-industry" style="font-size: 2rem; color: #007bff;"></i>
-                <h6>Manufacturing</h6>
-            </div>
-        </div>
-        <div class="col-md-3 col-6 mb-3">
-            <div class="text-center">
-                <i class="fas fa-shopping-cart" style="font-size: 2rem; color: #007bff;"></i>
-                <h6>Retail</h6>
-            </div>
-        </div>
-        <div class="col-md-3 col-6 mb-3">
-            <div class="text-center">
-                <i class="fas fa-truck" style="font-size: 2rem; color: #007bff;"></i>
-                <h6>Logistics</h6>
-            </div>
-        </div>
-        <div class="col-md-3 col-6 mb-3">
-            <div class="text-center">
-                <i class="fas fa-hotel" style="font-size: 2rem; color: #007bff;"></i>
-                <h6>Hospitality</h6>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- FAQ Section -->
-<div class="container mb-5">
-    <div class="text-center mb-5">
-        <h2>Frequently Asked Questions</h2>
-        <p class="lead">Got questions? We have answers</p>
-    </div>
-    <div class="row">
-        <div class="col-md-6">
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleAnswer(this)">
-                    <i class="fas fa-plus"></i> How quickly can you fill a position?
-                </div>
-                <div class="faq-answer" style="display: none; margin-top: 10px;">
-                    Our average time-to-fill is 2 weeks for most positions. For urgent requirements, we can provide qualified candidates within 48 hours.
-                </div>
-            </div>
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleAnswer(this)">
-                    <i class="fas fa-plus"></i> What is your replacement guarantee?
-                </div>
-                <div class="faq-answer" style="display: none; margin-top: 10px;">
-                    We offer a 90-day replacement guarantee for direct hire placements. If the candidate leaves within 90 days, we'll replace them at no additional cost.
-                </div>
-            </div>
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleAnswer(this)">
-                    <i class="fas fa-plus"></i> Do you offer remote staffing solutions?
-                </div>
-                <div class="faq-answer" style="display: none; margin-top: 10px;">
-                    Yes, we specialize in remote staffing and can provide candidates from anywhere in the world.
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleAnswer(this)">
-                    <i class="fas fa-plus"></i> How do you screen candidates?
-                </div>
-                <div class="faq-answer" style="display: none; margin-top: 10px;">
-                    We conduct technical assessments, behavioral interviews, background checks, and reference verification to ensure quality.
-                </div>
-            </div>
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleAnswer(this)">
-                    <i class="fas fa-plus"></i> What is your fee structure?
-                </div>
-                <div class="faq-answer" style="display: none; margin-top: 10px;">
-                    Our fees are based on a percentage of the candidate's first-year salary for direct hire, or hourly rates for contract staffing.
-                </div>
-            </div>
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleAnswer(this)">
-                    <i class="fas fa-plus"></i> Do you provide training for candidates?
-                </div>
-                <div class="faq-answer" style="display: none; margin-top: 10px;">
-                    Yes, we offer upskilling programs and training to ensure candidates meet your specific requirements.
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- CTA -->
-<div class="container mt-5 mb-5">
-    <div class="cta-section">
-        <h2>Ready to Get Started?</h2>
-        <p class="lead">Let's discuss how we can help with your staffing needs</p>
-        <div class="d-flex gap-3 justify-content-center">
-            <a href="{% url 'contact' %}" class="btn btn-light btn-lg">
-                <i class="fas fa-calendar-alt"></i> Schedule Consultation
-            </a>
-            <a href="tel:+15551234567" class="btn btn-outline-light btn-lg">
-                <i class="fas fa-phone"></i> Call Us Now
-            </a>
-        </div>
-    </div>
-</div>
-
-{% block extra_js %}
 <script>
-function toggleAnswer(element) {
-    const answer = element.nextElementSibling;
-    const icon = element.querySelector('i');
-    
-    if (answer.style.display === 'none') {
-        answer.style.display = 'block';
-        icon.classList.remove('fa-plus');
-        icon.classList.add('fa-minus');
-    } else {
-        answer.style.display = 'none';
-        icon.classList.remove('fa-minus');
-        icon.classList.add('fa-plus');
+    function toggleFAQ(button) {
+        const faqItem = button.parentElement;
+        faqItem.classList.toggle('active');
     }
-}
 </script>
-{% endblock %}
 {% endblock %}

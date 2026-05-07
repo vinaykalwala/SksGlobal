@@ -1,65 +1,658 @@
 {% extends 'base.html' %}
+{% load static %}
 
-{% block title %}Case Studies - Job Portal{% endblock %}
+{% block title %}IT Staffing Case Studies | Real Results for US Companies | Sks Global IT Services{% endblock %}
+
+{% block extra_meta %}
+<meta name="description" content="Read detailed case studies showing how Sks Global IT Services reduced time-to-hire, cut costs, and delivered quality IT talent for US companies. Metrics-driven results.">
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    :root {
+        --primary: #2563eb;
+        --primary-dark: #1d4ed8;
+        --primary-light: #eef2ff;
+        --gray-50: #f9fafb;
+        --gray-100: #f3f4f6;
+        --gray-200: #e5e7eb;
+        --gray-400: #9ca3af;
+        --gray-500: #6b7280;
+        --gray-700: #374151;
+        --gray-800: #1f2937;
+        --gray-900: #111827;
+        --white: #ffffff;
+        --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+        --shadow-md: 0 10px 25px -5px rgba(0,0,0,0.08), 0 8px 10px -6px rgba(0,0,0,0.05);
+        --shadow-lg: 0 25px 50px -12px rgba(0,0,0,0.15);
+        --radius-lg: 1rem;
+        --radius-md: 0.5rem;
+    }
+
+    * {
+        box-sizing: border-box;
+    }
+
+    html {
+        scroll-behavior: smooth;
+    }
+
+    .case-studies-page {
+        background-color: var(--gray-50);
+        min-height: 100vh;
+        position: relative;
+        overflow-x: hidden;
+    }
+
+    /* ========== BEAUTIFUL RESPONSIVE HERO ========== */
+    .case-hero {
+        background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #2563eb 100%);
+        padding: 5rem 2rem;
+        position: relative;
+        overflow: hidden;
+        isolation: isolate;
+    }
+
+    /* Soft glow orbs */
+    .case-hero::before {
+        content: "";
+        position: absolute;
+        top: -40%;
+        right: -20%;
+        width: 500px;
+        height: 500px;
+        background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+        border-radius: 50%;
+        z-index: 0;
+        pointer-events: none;
+    }
+
+    .case-hero::after {
+        content: "";
+        position: absolute;
+        bottom: -30%;
+        left: -15%;
+        width: 400px;
+        height: 400px;
+        background: radial-gradient(circle, rgba(255,255,255,0.07) 0%, transparent 70%);
+        border-radius: 50%;
+        z-index: 0;
+        pointer-events: none;
+    }
+
+    .hero-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 3rem;
+        flex-wrap: wrap;
+        position: relative;
+        z-index: 2;
+    }
+
+    .hero-text {
+        flex: 1 1 350px;
+        animation: textSlideIn 0.8s ease-out;
+    }
+
+    @keyframes textSlideIn {
+        0% {
+            opacity: 0;
+            transform: translateX(-30px);
+        }
+        100% {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    .hero-text h1 {
+        font-size: clamp(2.2rem, 6vw, 3.8rem);
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        line-height: 1.15;
+        color: var(--white);
+        margin: 0;
+        text-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    }
+
+    .hero-image {
+        flex: 0 1 250px;
+        display: flex;
+        justify-content: center;
+        animation: float 6s ease-in-out infinite;
+    }
+
+    @keyframes float {
+        0%, 100% {
+            transform: translateY(0px);
+        }
+        50% {
+            transform: translateY(-15px);
+        }
+    }
+
+    .hero-image svg {
+        width: 100%;
+        height: auto;
+        max-width: 280px;
+        filter: drop-shadow(0 25px 35px rgba(0,0,0,0.35));
+    }
+
+    /* ---------- RESPONSIVE HERO ---------- */
+    @media (max-width: 992px) {
+        .case-hero {
+            padding: 4rem 2rem;
+        }
+        .hero-content {
+            flex-direction: column-reverse;
+            text-align: center;
+            gap: 2rem;
+        }
+        .hero-text {
+            flex: unset;
+            width: 100%;
+        }
+        .hero-image {
+            flex: 0 1 180px;
+        }
+        .hero-image svg {
+            max-width: 220px;
+        }
+    }
+
+    @media (max-width: 640px) {
+        .case-hero {
+            padding: 3rem 1.5rem;
+        }
+        .hero-text h1 {
+            font-size: 2rem;
+        }
+        .hero-image {
+            flex: 0 1 140px;
+        }
+        .hero-image svg {
+            max-width: 160px;
+        }
+    }
+
+    @media (max-width: 400px) {
+        .hero-text h1 {
+            font-size: 1.8rem;
+        }
+        .hero-image {
+            flex: 0 1 120px;
+        }
+        .hero-image svg {
+            max-width: 130px;
+        }
+    }
+
+    /* ========== MAIN CONTAINER ========== */
+    .case-container {
+        max-width: 1200px;
+        margin: 2rem auto 4rem;
+        padding: 0 1.5rem;
+        position: relative;
+        z-index: 2;
+    }
+
+    /* ========== INTRO TEXT CARD ========== */
+    .intro-text {
+        background: var(--white);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-md);
+        padding: 2rem;
+        margin-bottom: 2.5rem;
+        border-left: 5px solid var(--primary);
+        opacity: 0;
+        transform: translateY(20px);
+        animation: fadeInUp 0.6s ease forwards;
+    }
+
+    .intro-text p {
+        font-size: 1.1rem;
+        line-height: 1.8;
+        color: var(--gray-700);
+        margin: 0 0 0.8rem 0;
+    }
+
+    .intro-text p:last-of-type {
+        margin-bottom: 0;
+    }
+
+    /* ========== CASE STUDY CARDS GRID ========== */
+    .case-study-grid {
+        display: grid;
+        gap: 2rem;
+        grid-template-columns: 1fr;
+        margin-bottom: 3rem;
+    }
+
+    @media (min-width: 640px) {
+        .case-study-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @media (min-width: 1024px) {
+        .case-study-grid {
+            grid-template-columns: repeat(3, 1fr);
+        }
+    }
+
+    .case-card {
+        background: var(--white);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-md);
+        overflow: hidden;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        opacity: 0;
+        transform: translateY(30px);
+        animation: fadeInUp 0.6s ease forwards;
+        display: flex;
+        flex-direction: column;
+        border: 1px solid var(--gray-100);
+    }
+
+    .case-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 30px 50px -15px rgba(0,0,0,0.15);
+    }
+
+    .card-image-wrapper {
+        position: relative;
+        width: 100%;
+        height: 200px;
+        overflow: hidden;
+        background: var(--primary-light);
+    }
+
+    .card-image-wrapper img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transition: transform 0.5s ease;
+    }
+
+    .case-card:hover .card-image-wrapper img {
+        transform: scale(1.05);
+    }
+
+    .card-placeholder-svg {
+        width: 100%;
+        height: 100%;
+        display: block;
+        background: #eef2ff;
+    }
+
+    .card-body {
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+    }
+
+    .card-body h3 {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: var(--gray-900);
+        margin: 0 0 0.5rem 0;
+        line-height: 1.4;
+    }
+
+    .client-name {
+        font-size: 0.95rem;
+        color: var(--gray-500);
+        margin-bottom: 1rem;
+        font-weight: 500;
+    }
+
+    .problem-text {
+        color: var(--gray-700);
+        line-height: 1.7;
+        margin-bottom: 1.2rem;
+        flex: 1;
+    }
+
+    .metric-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        background: #ecfdf5;
+        color: #065f46;
+        font-weight: 600;
+        padding: 0.4rem 1.2rem;
+        border-radius: 999px;
+        font-size: 0.9rem;
+        margin-bottom: 1.2rem;
+        width: fit-content;
+        border: 1px solid #a7f3d0;
+    }
+
+    .btn-read-more {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--primary);
+        color: white;
+        padding: 0.75rem 1.5rem;
+        border-radius: 999px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        align-self: flex-start;
+        margin-top: auto;
+        font-size: 0.95rem;
+    }
+
+    .btn-read-more:hover {
+        background: var(--primary-dark);
+        transform: translateX(5px);
+        box-shadow: 0 8px 20px rgba(37,99,235,0.3);
+        color: white;
+    }
+
+    /* ========== PAGINATION ========== */
+    .pagination-wrapper {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 2.5rem;
+    }
+
+    .pagination {
+        display: flex;
+        gap: 0.4rem;
+        list-style: none;
+        padding: 0;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .pagination .page-link {
+        background: white;
+        border: 1px solid var(--gray-200);
+        padding: 0.5rem 1.2rem;
+        border-radius: 12px;
+        text-decoration: none;
+        color: var(--gray-700);
+        font-weight: 500;
+        transition: all 0.2s;
+    }
+
+    .pagination .page-item.active .page-link {
+        background: var(--primary);
+        color: white;
+        border-color: var(--primary);
+    }
+
+    .pagination .page-link:hover {
+        background: var(--primary-light);
+        border-color: var(--primary);
+    }
+
+    /* ========== MORE CASE STUDIES CARD ========== */
+    .more-case-studies {
+        background: var(--white);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-md);
+        padding: 2.5rem 2rem;
+        margin-bottom: 2.5rem;
+        border: 1px solid var(--gray-100);
+    }
+
+    .more-case-studies h2 {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: var(--gray-900);
+        margin-bottom: 1.2rem;
+    }
+
+    .more-case-studies p.lead {
+        color: var(--gray-700);
+        font-size: 1.05rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .more-case-studies ul {
+        list-style: none;
+        padding: 0;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 0.3rem 2rem;
+    }
+
+    .more-case-studies li {
+        position: relative;
+        padding-left: 1.8rem;
+        margin-bottom: 0.8rem;
+        font-size: 1.05rem;
+        color: var(--gray-700);
+        line-height: 1.6;
+    }
+
+    .more-case-studies li::before {
+        content: "✓";
+        position: absolute;
+        left: 0;
+        color: var(--primary);
+        font-weight: bold;
+    }
+
+    /* ========== CTA SECTION ========== */
+    .cta-section {
+        background: linear-gradient(135deg, #1e3a8a, #2563eb);
+        border-radius: var(--radius-lg);
+        padding: 3rem 2rem;
+        text-align: center;
+        color: white;
+        box-shadow: 0 30px 60px rgba(0,0,0,0.15);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .cta-section h2 {
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        position: relative;
+    }
+
+    .cta-section p {
+        font-size: 1.2rem;
+        opacity: 0.9;
+        margin-bottom: 2rem;
+        position: relative;
+    }
+
+    .btn-cta {
+        display: inline-block;
+        background: white;
+        color: var(--primary);
+        font-weight: 700;
+        padding: 0.9rem 2.5rem;
+        border-radius: 999px;
+        text-decoration: none;
+        transition: transform 0.3s, box-shadow 0.3s;
+        font-size: 1.05rem;
+        position: relative;
+    }
+
+    .btn-cta:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+    }
+
+    /* ========== BACK TO TOP ========== */
+    .back-to-top-fixed {
+        position: fixed;
+        bottom: 28px;
+        right: 28px;
+        z-index: 1000;
+        background: linear-gradient(135deg, #2563eb, #4f46e5);
+        color: white;
+        width: 52px;
+        height: 52px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 10px 25px rgba(37,99,235,0.4);
+        transition: transform 0.3s, box-shadow 0.3s;
+        text-decoration: none;
+    }
+
+    .back-to-top-fixed:hover {
+        transform: scale(1.1) translateY(-3px);
+        box-shadow: 0 15px 30px rgba(37,99,235,0.55);
+    }
+
+    .back-to-top-fixed svg {
+        width: 24px;
+        height: 24px;
+        stroke: white;
+    }
+
+    /* ========== ANIMATIONS ========== */
+    @keyframes fadeInUp {
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>
+{% endblock %}
 
 {% block content %}
-<div class="text-center mb-5">
-    <h1><i class="fas fa-chart-line"></i> Success Stories</h1>
-    <p class="lead">See how we've helped businesses grow with our staffing solutions</p>
-</div>
+<div class="case-studies-page" id="top">
 
-<div class="row">
-    {% for case_study in case_studies %}
-    <div class="col-md-6 mb-4">
-        <div class="card h-100">
-            {% if case_study.featured_image %}
-            <img src="{{ case_study.featured_image.url }}" class="card-img-top" alt="{{ case_study.title }}" style="height: 250px; object-fit: cover;">
-            {% endif %}
-            <div class="card-body">
-                <h3 class="card-title">{{ case_study.title }}</h3>
-                {% if case_study.client_name %}
-                <h6 class="text-muted">Client: {{ case_study.client_name }}</h6>
-                {% endif %}
-                <p class="card-text">{{ case_study.problem|truncatewords:30 }}</p>
-                {% if case_study.metrics %}
-                <div class="alert alert-success">
-                    <strong>Key Results:</strong> {{ case_study.metrics }}
-                </div>
-                {% endif %}
-                <a href="{% url ' case_study_detail' case_study.slug %}" class="btn btn-primary">
-                    Read Full Case Study <i class="fas fa-arrow-right"></i>
-                </a>
+    <!-- ========== BEAUTIFUL RESPONSIVE HERO ========== -->
+    <section class="case-hero">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>IT Staffing Case Studies</h1>
+            </div>
+            <div class="hero-image" aria-hidden="true">
+                <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="100" cy="100" r="96" fill="white" fill-opacity="0.08" />
+                    <rect x="45" y="50" width="110" height="100" rx="10" fill="white" fill-opacity="0.12" stroke="white" stroke-width="2.5" />
+                    <polyline points="60,100 80,120 140,70" stroke="white" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                    <circle cx="70" cy="90" r="4" fill="white"/>
+                    <circle cx="135" cy="75" r="4" fill="white"/>
+                </svg>
             </div>
         </div>
-    </div>
-    {% empty %}
-    <div class="col-12">
-        <div class="alert alert-info">No case studies available yet.</div>
-    </div>
-    {% endfor %}
-</div>
+    </section>
 
-{% if is_paginated %}
-<nav aria-label="Page navigation">
-    <ul class="pagination justify-content-center">
-        {% if page_obj.has_previous %}
-        <li class="page-item">
-            <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
-        </li>
+    <div class="case-container">
+
+        <!-- Introduction -->
+        <div class="intro-text">
+            <p>Numbers don't lie. Below are two detailed case studies showing how Sks Global IT Services helped US companies overcome critical IT staffing obstacles – from rapid scaling to cost reduction to hard-to-fill niche roles.</p>
+            <p>Each case study includes the client's initial problem, our solution approach, and measurable results. For more case studies or client references, contact us directly.</p>
+        </div>
+
+        <!-- Dynamic case study cards -->
+        <div class="case-study-grid">
+            {% for case_study in case_studies %}
+            <div class="case-card" style="animation-delay: {{ forloop.counter0|add:'0.1' }}s;">
+                {% if case_study.featured_image %}
+                <div class="card-image-wrapper">
+                    <img src="{{ case_study.featured_image.url }}" alt="{{ case_study.title }}">
+                </div>
+                {% else %}
+                <div class="card-image-wrapper">
+                    <!-- Default static illustration: document + chart -->
+                    <svg class="card-placeholder-svg" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" fill="none">
+                        <rect width="400" height="300" fill="#eef2ff"/>
+                        <rect x="50" y="40" width="300" height="220" rx="12" fill="white" stroke="#2563eb" stroke-width="3"/>
+                        <line x1="80" y1="100" x2="320" y2="100" stroke="#93c5fd" stroke-width="8" stroke-linecap="round"/>
+                        <line x1="80" y1="140" x2="280" y2="140" stroke="#93c5fd" stroke-width="8" stroke-linecap="round"/>
+                        <line x1="80" y1="180" x2="240" y2="180" stroke="#93c5fd" stroke-width="8" stroke-linecap="round"/>
+                        <circle cx="320" cy="220" r="30" fill="#2563eb" stroke="white" stroke-width="4"/>
+                        <path d="M310 220 L330 220 M320 210 L320 230" stroke="white" stroke-width="4" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                {% endif %}
+                <div class="card-body">
+                    <h3>{{ case_study.title }}</h3>
+                    {% if case_study.client_name %}
+                    <div class="client-name">{{ case_study.client_name }}</div>
+                    {% endif %}
+                    <div class="problem-text">{{ case_study.problem|truncatewords:30 }}</div>
+                    {% if case_study.metrics %}
+                    <div class="metric-badge">
+                        <span>📊</span> {{ case_study.metrics }}
+                    </div>
+                    {% endif %}
+                    <a href="{% url 'case_study_detail' case_study.slug %}" class="btn-read-more">
+                        Read Full Case Study →
+                    </a>
+                </div>
+            </div>
+            {% empty %}
+            <div style="grid-column: 1 / -1; text-align: center; padding: 3rem; color: var(--gray-500); background: white; border-radius: var(--radius-lg); box-shadow: var(--shadow-md);">
+                <p style="font-size:1.2rem;">No case studies available yet. Check back soon!</p>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Pagination -->
+        {% if is_paginated %}
+        <div class="pagination-wrapper">
+            <ul class="pagination">
+                {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                </li>
+                {% endif %}
+                
+                {% for num in page_obj.paginator.page_range %}
+                <li class="page-item {% if page_obj.number == num %}active{% endif %}">
+                    <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                </li>
+                {% endfor %}
+                
+                {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
         {% endif %}
-        
-        {% for num in page_obj.paginator.page_range %}
-        <li class="page-item {% if page_obj.number == num %}active{% endif %}">
-            <a class="page-link" href="?page={{ num }}">{{ num }}</a>
-        </li>
-        {% endfor %}
-        
-        {% if page_obj.has_next %}
-        <li class="page-item">
-            <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
-        </li>
-        {% endif %}
-    </ul>
-</nav>
-{% endif %}
+
+        <!-- More Case Studies (static) -->
+        <div class="more-case-studies">
+            <h2>More Case Studies Available</h2>
+            <p class="lead">We have 15+ additional case studies covering:</p>
+            <ul>
+                <li>Niche skill placements (Mainframe, COBOL, SAP)</li>
+                <li>High-volume hiring (50+ developers in 90 days)</li>
+                <li>Contract-to-hire success (85% conversion rate)</li>
+                <li>Payrolling for 100+ contractors across 20 states</li>
+            </ul>
+            <p style="margin-top:2rem;"><strong>Request Access:</strong> <a href="/contact" style="color:var(--primary); font-weight:600;">Contact us for full case study library →</a></p>
+        </div>
+
+        <!-- CTA -->
+        <div class="cta-section">
+            <h2>Ready to Write Your Own Success Story?</h2>
+            <p>Let’s discuss your IT staffing challenges and build a custom solution.</p>
+            <a href="/contact" class="btn-cta">Schedule a Confidential Consultation →</a>
+        </div>
+
+    </div>
+
+    <!-- Back to top -->
+    <a href="#top" class="back-to-top-fixed" aria-label="Back to top">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="18 15 12 9 6 15"></polyline>
+        </svg>
+    </a>
+
+</div>
 {% endblock %}

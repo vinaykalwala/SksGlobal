@@ -1,80 +1,348 @@
 {% extends 'base.html' %}
+{% load static %}
 
-{% block title %}Resources - Job Portal{% endblock %}
+{% block title %}IT Hiring & Career Resources | Guides, Salary Data, Templates | Sks Global IT Services{% endblock %}
+
+{% block extra_meta %}
+<meta name="description" content="Free resources for US employers and IT job seekers: hiring guides, salary trends, interview prep, contract templates, and more. Download instantly.">
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    :root {
+        --primary: #2563eb;
+        --primary-dark: #1d4ed8;
+        --primary-light: #eef2ff;
+        --gray-50: #f9fafb;
+        --gray-100: #f3f4f6;
+        --gray-200: #e5e7eb;
+        --gray-500: #6b7280;
+        --gray-700: #374151;
+        --gray-800: #1f2937;
+        --gray-900: #111827;
+        --white: #ffffff;
+        --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+        --shadow-md: 0 10px 25px -5px rgba(0,0,0,0.08), 0 8px 10px -6px rgba(0,0,0,0.05);
+        --radius-lg: 1rem;
+        --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { background-color: var(--gray-50); font-family: system-ui, -apple-system, sans-serif; margin: 0; }
+
+    .resources-page { min-height: 100vh; background: linear-gradient(180deg, #f0f4ff 0%, var(--gray-50) 30%); }
+
+    /* ---------- HERO ---------- */
+    .resources-hero {
+        background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #2563eb 100%);
+        padding: clamp(3rem, 10vw, 6rem) 1rem;
+        color: white;
+        text-align: center;
+        position: relative;
+    }
+    .resources-hero h1 { font-size: clamp(1.8rem, 5vw, 3.5rem); font-weight: 800; margin: 0; }
+
+    /* ---------- MAIN CONTAINER ---------- */
+    .container-custom { max-width: 1240px; margin: 0 auto; padding: 0 1rem 5rem; position: relative; z-index: 10; }
+
+    /* ---------- INTRO CARD ---------- */
+    .intro-card {
+        background: white;
+        border-radius: var(--radius-lg);
+        padding: clamp(1.5rem, 5vw, 2.5rem);
+        box-shadow: var(--shadow-md);
+        margin: -2.5rem auto 3rem;
+        text-align: center;
+        max-width: 850px;
+        position: relative;
+        z-index: 20;
+    }
+
+    /* ---------- SECTION HEADERS ---------- */
+    .section-header { margin: clamp(2.5rem, 8vw, 4rem) 0 1.5rem; display: flex; align-items: center; gap: 1rem; }
+    .section-header::before { content: ""; width: 5px; height: 32px; background: var(--primary); border-radius: 4px; }
+    .section-header h2 { font-size: clamp(1.3rem, 4vw, 2rem); font-weight: 700; margin: 0; }
+
+    /* ---------- GRIDS ---------- */
+    .resource-grid {
+        display: grid;
+        gap: 1.5rem;
+        grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
+        margin-bottom: 3rem;
+    }
+    .grid-two-col {
+        display: grid;
+        gap: 1.5rem;
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 450px), 1fr));
+    }
+
+    /* ---------- CARDS ---------- */
+    .resource-card {
+        background: white;
+        border-radius: var(--radius-lg);
+        padding: 2rem;
+        box-shadow: var(--shadow-sm);
+        border: 1px solid var(--gray-100);
+        transition: all var(--transition);
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+    .resource-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-md); border-color: var(--primary-light); }
+
+    /* ---------- FORMS & INPUTS (Restored Styles) ---------- */
+    .suggest-box {
+        background: white;
+        border-radius: var(--radius-lg);
+        padding: 2.5rem;
+        box-shadow: var(--shadow-sm);
+        border: 1px solid var(--gray-100);
+        height: 100%;
+    }
+    .suggest-box h3 { font-weight: 700; color: var(--gray-900); margin-bottom: 1rem; }
+    
+    .form-control {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        border: 2px solid var(--gray-200);
+        border-radius: 8px;
+        margin-bottom: 1rem;
+        font-family: inherit;
+        transition: border-color var(--transition);
+    }
+    .form-control:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
+
+    /* ---------- BUTTONS ---------- */
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.4rem;
+        padding: 0.75rem 1.5rem;
+        font-weight: 600;
+        border-radius: 999px;
+        text-decoration: none;
+        transition: all var(--transition);
+        font-size: 0.9rem;
+        cursor: pointer;
+        border: none;
+    }
+    .btn-primary { background: var(--primary); color: white; }
+    .btn-primary:hover { background: var(--primary-dark); transform: translateY(-2px); }
+    .btn-green { background: #f2953d; color: white; }
+    .btn-green:hover { background: #f2953d; }
+    .w-100 { width: 100%; }
+
+    /* ---------- DROPDOWN ---------- */
+    .form-select-custom {
+        width: 100%;
+        max-width: 400px;
+        padding: 0.8rem 1.2rem;
+        border-radius: 999px;
+        border: 2px solid var(--gray-200);
+        margin: -1.5rem auto 2.5rem;
+        display: block;
+        box-shadow: var(--shadow-sm);
+        cursor: pointer;
+    }
+
+    /* ---------- TABLE ---------- */
+    .table-responsive {
+        width: 100%;
+        overflow-x: auto;
+        background: white;
+        border-radius: var(--radius-lg);
+        border: 1px solid var(--gray-100);
+        margin-bottom: 4rem;
+    }
+    table { width: 100%; border-collapse: collapse; min-width: 700px; }
+    th { background: var(--gray-50); padding: 1.2rem; text-align: left; }
+    td { padding: 1.2rem; border-top: 1px solid var(--gray-100); }
+
+    /* ---------- BACK TO TOP ---------- */
+    .back-to-top {
+        position: fixed;
+        bottom: 25px;
+        right: 25px;
+        z-index: 1000;
+        background: var(--primary);
+        color: white;
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        visibility: hidden;
+        transition: 0.3s;
+        text-decoration: none;
+    }
+    .back-to-top.visible { opacity: 1; visibility: visible; }
+
+    @media (max-width: 767px) {
+        .grid-two-col { grid-template-columns: 1fr; }
+        .suggest-box { padding: 1.5rem; }
+    }
+</style>
+{% endblock %}
 
 {% block content %}
-<div class="text-center mb-5">
-    <h1><i class="fas fa-download"></i> Free Resources</h1>
-    <p class="lead">Download guides, templates, and ebooks to help with your career</p>
-</div>
+<div class="resources-page" id="top">
 
-<div class="row mb-4">
-    <div class="col-md-4 mx-auto">
+    <section class="resources-hero">
+        <div class="hero-content">
+            <h1>Free Resources for Employers & IT Professionals</h1>
+        </div>
+    </section>
+
+    <div class="container-custom">
+
+        <div class="intro-card">
+            <p>We believe in sharing knowledge. All resources below are completely free – no credit card required. Some may require email signup (to prevent bot abuse).</p>
+            <p>Resources are organized for two audiences: <strong>For Employers</strong> and <strong>For Job Seekers</strong>.</p>
+        </div>
+
+        <!-- EMPLOYER SECTION -->
+        <div class="section-header" id="employers">
+            <h2>For Employers (US Companies)</h2>
+        </div>
+        <div class="grid-two-col">
+            <div class="resource-card">
+                <h3>📄 Hiring Guides</h3>
+                <ul style="list-style: none; padding: 0; margin-bottom: 1.5rem;">
+                    <li style="margin-bottom: 0.5rem;"><strong>The Ultimate IT Hiring Playbook (2025)</strong> – 45-page guide from req writing to onboarding.</li>
+                    <li style="margin-bottom: 0.5rem;"><strong>Developer Job Descriptions Template</strong> – Examples for Full Stack, DevOps, and Data roles.</li>
+                    <li style="margin-bottom: 0.5rem;"><strong>ROI Calculator</strong> – Contract Staffing vs. Direct Hire cost comparison.</li>
+                </ul>
+                <a href="#" class="btn btn-green" style="margin-top: auto; align-self: flex-start;">Download Hiring Pack</a>
+            </div>
+            <div class="resource-card">
+                <h3>📊 Salary & Benchmarking</h3>
+                <p><strong>2025 IT Salary Guide (USA)</strong>: Salary ranges for 50+ roles by experience level and US region.</p>
+                <p><strong>Bill Rate vs. Pay Rate Calculator</strong>: Calculate margins and burden for MSPs.</p>
+                <a href="#" class="btn btn-green" style="margin-top: auto; align-self: flex-start;">Access Salary Data</a>
+            </div>
+        </div>
+
+        <!-- JOB SEEKER SECTION -->
+        <div class="section-header" id="jobseekers">
+            <h2>For Job Seekers (IT Professionals)</h2>
+        </div>
+        <div class="resource-grid">
+            <div class="resource-card">
+                <h3>📝 Resume & Portfolio</h3>
+                <p>Optimization checklists for tech roles, GitHub portfolio structure, and LinkedIn profile guides.</p>
+                <a href="#" class="btn btn-green" style="margin-top: auto; align-self: flex-start;">Get Resume Guide</a>
+            </div>
+            <div class="resource-card">
+                <h3>🎤 Interview Prep</h3>
+                <p>Top 50 behavioral questions, System Design patterns, and Coding Interview cheat sheets.</p>
+                <a href="#" class="btn btn-green" style="margin-top: auto; align-self: flex-start;">Start Preparing</a>
+            </div>
+            <div class="resource-card">
+                <h3>💰 Salary Negotiation</h3>
+                <p>Scripts for negotiating offers and a Total Compensation calculator for equity/bonus comparisons.</p>
+                <a href="#" class="btn btn-green" style="margin-top: auto; align-self: flex-start;">View Scripts</a>
+            </div>
+        </div>
+
+        <!-- SEARCHABLE LIBRARY -->
+        <div class="section-header">
+            <h2>Searchable Library</h2>
+        </div>
+        
         <form method="get">
-            <select name="type" class="form-select" onchange="this.form.submit()">
-                <option value="">All Resources</option>
+            <select name="type" class="form-select-custom" onchange="this.form.submit()">
+                <option value="">🔍 All Resource Types</option>
                 {% for value, label in resource_types %}
-                <option value="{{ value }}" {% if request.GET.type == value %}selected{% endif %}>
-                    {{ label }}
-                </option>
+                <option value="{{ value }}" {% if request.GET.type == value %}selected{% endif %}>{{ label }}</option>
                 {% endfor %}
             </select>
         </form>
-    </div>
-</div>
 
-<div class="row">
-    {% for resource in resources %}
-    <div class="col-md-4 mb-4">
-        <div class="card h-100">
-            <div class="card-body text-center">
-                <i class="fas fa-{% if resource.resource_type == 'guide' %}book{% elif resource.resource_type == 'ebook' %}file-pdf{% elif resource.resource_type == 'template' %}file-word{% else %}file-alt{% endif %}" 
-                   style="font-size: 48px; color: #007bff;"></i>
-                <h4 class="card-title mt-3">{{ resource.title }}</h4>
-                <p class="card-text">{{ resource.description|truncatewords:20 }}</p>
-                <span class="badge bg-primary mb-3">{{ resource.get_resource_type_display }}</span>
-                <div>
-                    {% if resource.file %}
-                    <a href="{{ resource.file.url }}" class="btn btn-success" download>
-                        <i class="fas fa-download"></i> Download
-                    </a>
-                    {% elif resource.external_link %}
-                    <a href="{{ resource.external_link }}" class="btn btn-info" target="_blank">
-                        <i class="fas fa-external-link-alt"></i> View Resource
-                    </a>
-                    {% endif %}
+        <div class="resource-grid">
+            {% for resource in resources %}
+            <div class="resource-card">
+                <div style="text-align: center; margin-bottom: 1rem; font-size: 2.5rem;">
+                    {% if resource.resource_type == 'guide' %}📘
+                    {% elif resource.resource_type == 'ebook' %}📕
+                    {% elif resource.resource_type == 'template' %}📄
+                    {% else %}📁{% endif %}
                 </div>
+                <h4 style="margin: 0 0 1rem;">{{ resource.title }}</h4>
+                <p>{{ resource.description|truncatewords:15 }}</p>
+                <div style="background: var(--primary-light); color: var(--primary); font-weight: 600; padding: 0.3rem 0.8rem; border-radius: 999px; font-size: 0.75rem; align-self: flex-start; margin-bottom: 1.5rem;">
+                    {{ resource.get_resource_type_display }}
+                </div>
+                {% if resource.file %}
+                <a href="{{ resource.file.url }}" class="btn btn-primary w-100" download>Download</a>
+                {% elif resource.external_link %}
+                <a href="{{ resource.external_link }}" class="btn btn-primary w-100" target="_blank">View</a>
+                {% endif %}
+            <a href="{% url 'resource_detail' slug=resource.slug %}" class="btn btn-primary w-100" style="margin-top: 0.5rem;">View Details</a>
+            </div>
+            {% empty %}
+            <div style="grid-column: 1/-1; text-align: center; padding: 3rem;">
+                <p style="color: var(--gray-500);">No resources found in this category.</p>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- TABLE SECTION -->
+        <div class="section-header">
+            <h2>Templates & Tools Library</h2>
+        </div>
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr><th>Resource</th><th>Format</th><th>Audience</th><th>Email Required?</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>IT Hiring Playbook 2025</td><td>PDF</td><td>Employer</td><td>Yes</td></tr>
+                    <tr><td>2025 IT Salary Guide</td><td>PDF</td><td>Both</td><td>Yes</td></tr>
+                    <tr><td>Contract Staffing ROI Calculator</td><td>Excel</td><td>Employer</td><td>Yes</td></tr>
+                    <tr><td>Technical Interview Question Bank</td><td>PDF</td><td>Employer</td><td>No</td></tr>
+                    <tr><td>Resume Optimization Checklist</td><td>PDF</td><td>Job Seeker</td><td>No</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- SUGGEST & UPDATES (FIXED CSS APPLIED HERE) -->
+        <div class="grid-two-col">
+            <div class="suggest-box">
+                <h3>💡 Suggest a Resource</h3>
+                <p>Don't see what you need? Let us know. We add new resources monthly.</p>
+                <form>
+                    <input type="text" class="form-control" placeholder="Your name">
+                    <input type="email" class="form-control" placeholder="Email address">
+                    <textarea class="form-control" rows="3" placeholder="What resource would you like?"></textarea>
+                    <button type="submit" class="btn btn-primary w-100">Submit Suggestion</button>
+                </form>
+            </div>
+            <div class="suggest-box">
+                <h3>📬 Resource Updates</h3>
+                <p>Get notified when we add new resources.</p>
+                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                    <input type="email" class="form-control" placeholder="Enter email" style="flex: 1; min-width: 200px; margin-bottom: 0.5rem;">
+                    <button class="btn btn-primary" style="margin-bottom: 0.5rem;">Notify Me</button>
+                </div>
+                <p style="font-size: 0.85rem; color: #6b7280; margin-top: 1rem;">Or subscribe via <a href="#" style="color: var(--primary);">RSS Feed</a></p>
             </div>
         </div>
     </div>
-    {% empty %}
-    <div class="col-12">
-        <div class="alert alert-info text-center">No resources found.</div>
-    </div>
-    {% endfor %}
+
+    <a href="#top" class="back-to-top" id="backToTop">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="width: 24px; height: 24px;"><polyline points="18 15 12 9 6 15"/></svg>
+    </a>
 </div>
 
-{% if is_paginated %}
-<nav aria-label="Page navigation">
-    <ul class="pagination justify-content-center">
-        {% if page_obj.has_previous %}
-        <li class="page-item">
-            <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if request.GET.type %}&type={{ request.GET.type }}{% endif %}">Previous</a>
-        </li>
-        {% endif %}
-        
-        {% for num in page_obj.paginator.page_range %}
-        <li class="page-item {% if page_obj.number == num %}active{% endif %}">
-            <a class="page-link" href="?page={{ num }}{% if request.GET.type %}&type={{ request.GET.type }}{% endif %}">{{ num }}</a>
-        </li>
-        {% endfor %}
-        
-        {% if page_obj.has_next %}
-        <li class="page-item">
-            <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if request.GET.type %}&type={{ request.GET.type }}{% endif %}">Next</a>
-        </li>
-        {% endif %}
-    </ul>
-</nav>
-{% endif %}
+<script>
+    const backToTop = document.getElementById('backToTop');
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 400) { backToTop.classList.add('visible'); } 
+        else { backToTop.classList.remove('visible'); }
+    });
+</script>
 {% endblock %}

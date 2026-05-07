@@ -1,210 +1,645 @@
 {% extends 'base.html' %}
 
-{% block title %}Terms of Service - JobPortal{% endblock %}
+{% block title %}Terms of Service - Sks Global IT Services{% endblock %}
 
 {% block extra_css %}
 <style>
-    .terms-header {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    :root {
+        --primary: #2563eb;
+        --primary-dark: #1d4ed8;
+        --primary-light: #eef2ff;
+        --gray-50: #f9fafb;
+        --gray-100: #f3f4f6;
+        --gray-200: #e5e7eb;
+        --gray-400: #9ca3af;
+        --gray-500: #6b7280;
+        --gray-700: #374151;
+        --gray-800: #1f2937;
+        --gray-900: #111827;
+        --white: #ffffff;
+        --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+        --shadow-md: 0 10px 25px -5px rgba(0,0,0,0.08), 0 8px 10px -6px rgba(0,0,0,0.05);
+        --shadow-lg: 0 25px 50px -12px rgba(0,0,0,0.15);
+        --radius-lg: 1rem;
+        --radius-md: 0.5rem;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    .terms-page {
+        background-color: var(--gray-50);
+        min-height: 100vh;
+        position: relative;
+        overflow-x: hidden;
+    }
+
+    /* ---------- HERO (simple heading + image) ---------- */
+    .terms-hero {
+        background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #2563eb 100%);
+        padding: 5rem 2rem;
         color: white;
-        padding: 60px 0;
-        margin-bottom: 50px;
+        position: relative;
+        overflow: hidden;
+        isolation: isolate;
     }
-    .terms-section {
-        margin-bottom: 40px;
+
+    .terms-hero::before,
+    .terms-hero::after {
+        content: "";
+        position: absolute;
+        border-radius: 50%;
+        z-index: 0;
+        pointer-events: none;
     }
-    .terms-section h3 {
-        color: #007bff;
-        margin-bottom: 20px;
+
+    .terms-hero::before {
+        top: -30%;
+        right: -15%;
+        width: 500px;
+        height: 500px;
+        background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
     }
+
+    .terms-hero::after {
+        bottom: -25%;
+        left: -10%;
+        width: 400px;
+        height: 400px;
+        background: radial-gradient(circle, rgba(255,255,255,0.07) 0%, transparent 70%);
+    }
+
+    .hero-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 3rem;
+        flex-wrap: wrap;
+        position: relative;
+        z-index: 2;
+    }
+
+    .hero-text {
+        flex: 1 1 350px;
+        animation: slideInLeft 0.8s ease-out;
+    }
+
+    @keyframes slideInLeft {
+        0% { opacity: 0; transform: translateX(-30px); }
+        100% { opacity: 1; transform: translateX(0); }
+    }
+
+    .hero-text h1 {
+        font-size: clamp(2.2rem, 6vw, 3.8rem);
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        line-height: 1.15;
+        margin: 0;
+        text-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    }
+
+    .hero-text .subtitle {
+        font-size: 1.25rem;
+        opacity: 0.9;
+        margin: 1rem 0 2rem;
+        line-height: 1.6;
+    }
+
+    .hero-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+    .hero-meta span {
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+        background: rgba(255,255,255,0.12);
+        padding: 0.5rem 1.2rem;
+        border-radius: 999px;
+        backdrop-filter: blur(4px);
+        font-size: 0.95rem;
+    }
+
+    .hero-image {
+        flex: 0 1 280px;
+        display: flex;
+        justify-content: center;
+        animation: float 6s ease-in-out infinite;
+    }
+
+    @keyframes float {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-15px); }
+    }
+
+    .hero-image svg {
+        width: 100%;
+        height: auto;
+        max-width: 280px;
+        filter: drop-shadow(0 25px 35px rgba(0,0,0,0.35));
+    }
+
+    /* ---------- MAIN CONTAINER ---------- */
+    .terms-container {
+        max-width: 1200px;
+        margin: 2rem auto 4rem;
+        padding: 0 1.5rem;
+        position: relative;
+        z-index: 2;
+    }
+
+    /* Card grid */
+    .terms-grid {
+        display: grid;
+        gap: 2rem;
+        grid-template-columns: 1fr;
+        margin-top: 2rem;
+    }
+
+    /* 2 columns on tablets */
+    @media (min-width: 640px) {
+        .terms-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    /* 3 columns on laptops & desktops */
+    @media (min-width: 1024px) {
+        .terms-grid {
+            grid-template-columns: repeat(3, 1fr);
+        }
+    }
+
     .terms-card {
-        background: #f8f9fa;
-        padding: 20px;
+        background: var(--white);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-md);
+        padding: 2rem;
+        border: 1px solid var(--gray-100);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        opacity: 0;
+        transform: translateY(30px);
+        animation: fadeInUp 0.6s ease forwards;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+
+    .terms-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 30px 50px -15px rgba(0,0,0,0.15);
+    }
+
+    @keyframes fadeInUp {
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Perfectly aligned card header */
+    .card-header {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin-bottom: 1.5rem;
+        flex-wrap: nowrap; /* prevent wrapping */
+    }
+
+    /* Allow wrapping only on very narrow screens */
+    @media (max-width: 400px) {
+        .card-header {
+            flex-wrap: wrap;
+        }
+    }
+
+    .section-number {
+        background: var(--primary-light);
+        color: var(--primary);
+        font-weight: 700;
+        font-size: 1rem;
+        width: 2.5rem;
+        height: 2.5rem;
         border-radius: 10px;
-        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+
+    .card-header h2 {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: var(--gray-900);
+        line-height: 1.3;
+        margin: 0;
+        flex: 1 1 auto;
+        min-width: 0;
+    }
+
+    .section-icon {
+        width: 24px;
+        height: 24px;
+        color: var(--primary);
+        stroke: currentColor;
+        fill: none;
+        flex-shrink: 0;
+    }
+
+    .card-content {
+        flex: 1;
+    }
+
+    .card-content p {
+        font-size: 1rem;
+        line-height: 1.7;
+        color: var(--gray-700);
+        margin-bottom: 1rem;
+    }
+
+    .card-content ul {
+        list-style: none;
+        padding-left: 0;
+        margin: 0.8rem 0 1.2rem;
+    }
+
+    .card-content ul li {
+        position: relative;
+        padding-left: 1.5rem;
+        margin-bottom: 0.5rem;
+        font-size: 0.95rem;
+        color: var(--gray-700);
+        line-height: 1.6;
+    }
+
+    .card-content ul li::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0.55rem;
+        width: 8px;
+        height: 8px;
+        background-color: var(--primary);
+        border-radius: 50%;
+        opacity: 0.7;
+    }
+
+    .card-content strong {
+        color: var(--gray-900);
+        font-weight: 600;
+    }
+
+    .contact-details {
+        background: var(--gray-50);
+        border-radius: var(--radius-md);
+        padding: 1.2rem;
+        margin-top: 1rem;
+        border-left: 4px solid var(--primary);
+    }
+
+    .contact-details p {
+        margin-bottom: 0.5rem;
+        font-size: 0.95rem;
+    }
+
+    .contact-details a {
+        color: var(--primary);
+        text-decoration: none;
+        font-weight: 500;
+    }
+
+    .footer-note {
+        text-align: center;
+        margin-top: 2.5rem;
+        color: var(--gray-500);
+        font-size: 0.95rem;
+        font-weight: 500;
+    }
+
+    /* ---------- BACK TO TOP ---------- */
+    .back-to-top-fixed {
+        position: fixed;
+        bottom: 28px;
+        right: 28px;
+        z-index: 1000;
+        background: linear-gradient(135deg, #2563eb, #4f46e5);
+        color: white;
+        width: 52px;
+        height: 52px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 10px 25px rgba(37,99,235,0.4);
+        transition: transform 0.3s;
+        text-decoration: none;
+    }
+
+    .back-to-top-fixed:hover {
+        transform: scale(1.1) translateY(-3px);
+    }
+
+    .back-to-top-fixed svg {
+        width: 24px;
+        height: 24px;
+        stroke: white;
+    }
+
+    /* ---------- RESPONSIVE ADJUSTMENTS ---------- */
+    @media (max-width: 768px) {
+        .terms-hero {
+            padding: 4rem 1.5rem;
+        }
+        .hero-content {
+            flex-direction: column-reverse;
+            text-align: center;
+            gap: 2rem;
+        }
+        .hero-image {
+            flex: 0 1 180px;
+        }
+        .hero-image svg {
+            max-width: 200px;
+        }
+        .hero-meta {
+            justify-content: center;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .back-to-top-fixed {
+            width: 42px;
+            height: 42px;
+            bottom: 16px;
+            right: 16px;
+        }
+        .hero-image svg {
+            max-width: 160px;
+        }
+        .card-header h2 {
+            font-size: 1.15rem;
+        }
     }
 </style>
 {% endblock %}
 
 {% block content %}
-<section class="terms-header">
-    <div class="container text-center">
-        <h1 class="display-4">Terms of Service</h1>
-        <p class="lead">Please read these terms carefully before using our platform</p>
-    </div>
-</section>
+<div class="terms-page" id="top">
 
-<div class="container mb-5">
-    <div class="alert alert-info">
-        <i class="fas fa-info-circle"></i> By accessing or using JobPortal, you agree to be bound by these Terms of Service.
-    </div>
-
-    <div class="terms-section">
-        <h3>1. Acceptance of Terms</h3>
-        <p>These Terms of Service ("Terms") govern your access to and use of the JobPortal website, services, and applications (collectively, the "Service"). By using the Service, you agree to these Terms. If you do not agree, please do not use the Service.</p>
-    </div>
-
-    <div class="terms-section">
-        <h3>2. Eligibility</h3>
-        <p>To use our Service, you must:</p>
-        <ul>
-            <li>Be at least 16 years of age</li>
-            <li>Have the legal capacity to enter into binding contracts</li>
-            <li>Not be prohibited from using the Service under applicable laws</li>
-            <li>Provide accurate and complete information when creating an account</li>
-        </ul>
-    </div>
-
-    <div class="terms-section">
-        <h3>3. User Accounts</h3>
-        <div class="terms-card">
-            <h5>Job Seeker Accounts</h5>
-            <p>Job seekers can create accounts to apply for jobs, save job listings, and receive job alerts. You are responsible for maintaining the confidentiality of your account credentials.</p>
+    <!-- Hero Header -->
+    <section class="terms-hero">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>Terms of Service</h1>
+                <p class="subtitle">Please read these terms carefully before using our services</p>
+                <div class="hero-meta">
+                    <span>📅 Effective Date: January 1, 2025</span>
+                </div>
+            </div>
+            <div class="hero-image">
+                <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="100" cy="100" r="96" fill="white" fill-opacity="0.08" />
+                    <rect x="55" y="45" width="90" height="110" rx="8" fill="white" fill-opacity="0.12" stroke="white" stroke-width="2.5" />
+                    <path d="M70 70h60" stroke="white" stroke-width="2.5" stroke-linecap="round" />
+                    <path d="M70 85h50" stroke="white" stroke-width="2.5" stroke-linecap="round" />
+                    <path d="M70 100h55" stroke="white" stroke-width="2.5" stroke-linecap="round" />
+                    <path d="M70 115h40" stroke="white" stroke-width="2.5" stroke-linecap="round" />
+                    <circle cx="130" cy="130" r="16" fill="white" fill-opacity="0.95" stroke="white" stroke-width="2" />
+                    <path d="M123 130l5 5 9-9" stroke="#2563eb" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+            </div>
         </div>
-        <div class="terms-card">
-            <h5>Employer Accounts</h5>
-            <p>Employers can create accounts to post jobs, manage applications, and access recruitment tools. You represent that you have the authority to bind your organization to these Terms.</p>
-        </div>
+    </section>
+
+    <!-- Main Terms Content as Cards -->
+    <div class="terms-container">
+        <div class="terms-grid">
+
+            <!-- Card 1: Acceptance of Terms -->
+            <div class="terms-card" style="animation-delay: 0.05s;">
+                <div class="card-header">
+                    <span class="section-number">1</span>
+                    <h2>Acceptance of Terms</h2>
+                    <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <div class="card-content">
+                    <p>By accessing or using the Sks Global IT Services website (www.sksglobalits.com) or any related services, you agree to be bound by these Terms of Service. If you do not agree, do not use our website or services.</p>
+                </div>
+            </div>
+
+            <!-- Card 2: Description of Services -->
+            <div class="terms-card" style="animation-delay: 0.10s;">
+                <div class="card-header">
+                    <span class="section-number">2</span>
+                    <h2>Description of Services</h2>
+                    <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="10" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+                </div>
+                <div class="card-content">
+                    <p>Sks Global IT Services provides IT staffing and recruitment services, including but not limited to: contract staffing, contract-to-hire, direct hire, payrolling, nearshore dedicated teams, and related consulting. Specific terms for each service are outlined in separate service agreements or MSAs.</p>
+                </div>
+            </div>
+
+            <!-- Card 3: Eligibility -->
+            <div class="terms-card" style="animation-delay: 0.15s;">
+                <div class="card-header">
+                    <span class="section-number">3</span>
+                    <h2>Eligibility</h2>
+                    <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
+                </div>
+                <div class="card-content">
+                    <p><strong>Employers:</strong> You must be a legally operating business in the US. By submitting a staffing request, you represent that you have authority to bind your company.</p>
+                    <p><strong>Job Seekers:</strong> You must be 18+ and legally authorized to work in the US. You agree to provide accurate, truthful information.</p>
+                </div>
+            </div>
+
+            <!-- Card 4: User Conduct -->
+            <div class="terms-card" style="animation-delay: 0.20s;">
+                <div class="card-header">
+                    <span class="section-number">4</span>
+                    <h2>User Conduct</h2>
+                    <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                </div>
+                <div class="card-content">
+                    <p>You agree not to:</p>
+                    <ul>
+                        <li>Post false or misleading information</li>
+                        <li>Reverse engineer or scrape content</li>
+                        <li>Upload harmful code</li>
+                        <li>Harass others</li>
+                        <li>Violate laws</li>
+                    </ul>
+                    <p>Violation may lead to immediate termination.</p>
+                </div>
+            </div>
+
+            <!-- Card 5: Job Seeker Terms -->
+            <div class="terms-card" style="animation-delay: 0.25s;">
+                <div class="card-header">
+                    <span class="section-number">5</span>
+                    <h2>Job Seeker Terms</h2>
+                    <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                </div>
+                <div class="card-content">
+                    <ul>
+                        <li>Resume submission does not guarantee placement.</li>
+                        <li>We do not charge job seekers any fees.</li>
+                        <li>We are not responsible for client decisions or workplace conditions.</li>
+                        <li>You grant permission for profile sharing with clients (consent per submission).</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Card 6: Employer Terms -->
+            <div class="terms-card" style="animation-delay: 0.30s;">
+                <div class="card-header">
+                    <span class="section-number">6</span>
+                    <h2>Employer Terms</h2>
+                    <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="10" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+                </div>
+                <div class="card-content">
+                    <ul>
+                        <li>Services subject to signed agreements.</li>
+                        <li>Fees and payment terms per contract.</li>
+                        <li>Provide accurate job requirements.</li>
+                        <li>Discrimination prohibited.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Card 7: Intellectual Property -->
+            <div class="terms-card" style="animation-delay: 0.35s;">
+                <div class="card-header">
+                    <span class="section-number">7</span>
+                    <h2>Intellectual Property</h2>
+                    <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M14.31 8l5.74 9.94H3.96L9.69 8a2.5 2.5 0 0 1 4.62 0z"/></svg>
+                </div>
+                <div class="card-content">
+                    <p>All website content is owned by us or licensed. No reproduction without written consent. You retain ownership of your resume; we retain ownership of our tools and methodologies.</p>
+                </div>
+            </div>
+
+            <!-- Card 8: Third-Party Links -->
+            <div class="terms-card" style="animation-delay: 0.40s;">
+                <div class="card-header">
+                    <span class="section-number">8</span>
+                    <h2>Third-Party Links</h2>
+                    <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                </div>
+                <div class="card-content">
+                    <p>Our website may contain links to third-party sites. We are not responsible for their content, privacy practices, or terms.</p>
+                </div>
+            </div>
+
+            <!-- Card 9: Disclaimer of Warranties -->
+            <div class="terms-card" style="animation-delay: 0.45s;">
+                <div class="card-header">
+                    <span class="section-number">9</span>
+                    <h2>Disclaimer of Warranties</h2>
+                    <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                </div>
+                <div class="card-content">
+                    <p>Services provided "as is". We do not guarantee job placement, uninterrupted website, or specific results. All implied warranties disclaimed to fullest extent.</p>
+                </div>
+            </div>
+
+            <!-- Card 10: Limitation of Liability -->
+            <div class="terms-card" style="animation-delay: 0.50s;">
+                <div class="card-header">
+                    <span class="section-number">10</span>
+                    <h2>Limitation of Liability</h2>
+                    <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="8" y1="15" x2="16" y2="15"/><line x1="9" y1="9" x2="9.01" y2="9"/></svg>
+                </div>
+                <div class="card-content">
+                    <p>We are not liable for indirect, incidental, or consequential damages. Total liability limited to $500 or fees paid in prior 6 months (whichever is greater).</p>
+                </div>
+            </div>
+
+            <!-- Card 11: Indemnification -->
+            <div class="terms-card" style="animation-delay: 0.55s;">
+                <div class="card-header">
+                    <span class="section-number">11</span>
+                    <h2>Indemnification</h2>
+                    <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                </div>
+                <div class="card-content">
+                    <p>You agree to hold us harmless from any claims arising from your violation of these Terms, misuse of services, or inaccurate information provided.</p>
+                </div>
+            </div>
+
+            <!-- Card 12: Governing Law & Dispute Resolution -->
+            <div class="terms-card" style="animation-delay: 0.60s;">
+                <div class="card-header">
+                    <span class="section-number">12</span>
+                    <h2>Governing Law & Dispute Resolution</h2>
+                    <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+                </div>
+                <div class="card-content">
+                    <p>Governed by laws of [Your State]. Disputes resolved first by negotiation; if unresolved, binding arbitration in [City, State] per AAA rules. Class actions and jury trials waived.</p>
+                </div>
+            </div>
+
+            <!-- Card 13: Termination -->
+            <div class="terms-card" style="animation-delay: 0.65s;">
+                <div class="card-header">
+                    <span class="section-number">13</span>
+                    <h2>Termination</h2>
+                    <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18.36 6.64a9 9 0 1 1-12.73 0"/><line x1="12" y1="2" x2="12" y2="12"/></svg>
+                </div>
+                <div class="card-content">
+                    <p>We may suspend or terminate access immediately for violations. Certain sections (IP, disclaimers, liability, governing law) survive termination.</p>
+                </div>
+            </div>
+
+            <!-- Card 14: Changes to Terms -->
+            <div class="terms-card" style="animation-delay: 0.70s;">
+                <div class="card-header">
+                    <span class="section-number">14</span>
+                    <h2>Changes to Terms</h2>
+                    <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+                </div>
+                <div class="card-content">
+                    <p>We may update these Terms. Changes posted with new Effective Date. Continued use after changes constitutes acceptance.</p>
+                </div>
+            </div>
+
+            <!-- Card 15: Entire Agreement -->
+            <div class="terms-card" style="animation-delay: 0.75s;">
+                <div class="card-header">
+                    <span class="section-number">15</span>
+                    <h2>Entire Agreement</h2>
+                    <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                </div>
+                <div class="card-content">
+                    <p>These Terms plus any signed agreements constitute the entire agreement between you and Sks Global IT Services regarding service use.</p>
+                </div>
+            </div>
+
+            <!-- Card 16: Contact Information -->
+            <div class="terms-card" style="animation-delay: 0.80s;">
+                <div class="card-header">
+                    <span class="section-number">16</span>
+                    <h2>Contact Information</h2>
+                    <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                </div>
+                <div class="card-content">
+                    <p>For questions about these Terms:</p>
+                    <div class="contact-details">
+                        <p><strong>Email:</strong> <a href="mailto:legal@sksglobalits.com">legal@sksglobalits.com</a></p>
+                        <p><strong>Mail:</strong> Sks Global IT Services, Attn: Legal Department, [Address]</p>
+                    </div>
+                </div>
+            </div>
+
+        </div> <!-- /terms-grid -->
     </div>
 
-    <div class="terms-section">
-        <h3>4. User Conduct</h3>
-        <p>You agree not to:</p>
-        <ul>
-            <li>Post false, inaccurate, or misleading information</li>
-            <li>Impersonate another person or entity</li>
-            <li>Post jobs that do not represent genuine employment opportunities</li>
-            <li>Use the Service for any illegal purpose</li>
-            <li>Harass, abuse, or harm another person</li>
-            <li>Upload viruses or malicious code</li>
-            <li>Attempt to gain unauthorized access to our systems</li>
-            <li>Scrape or copy data from our platform without permission</li>
-        </ul>
-    </div>
-
-    <div class="terms-section">
-        <h3>5. Job Postings and Applications</h3>
-        <ul>
-            <li><strong>Employers:</strong> You are solely responsible for the accuracy of job postings and compliance with employment laws. You agree not to discriminate in hiring practices.</li>
-            <li><strong>Job Seekers:</strong> You are responsible for the accuracy of your application information. You grant employers permission to review and respond to your applications.</li>
-            <li><strong>No Guarantee:</strong> We do not guarantee that job seekers will receive job offers or that employers will find suitable candidates.</li>
-        </ul>
-    </div>
-
-    <div class="terms-section">
-        <h3>6. Fees and Payments</h3>
-        <p>Some services may require payment of fees:</p>
-        <ul>
-            <li><strong>Employer Services:</strong> Job posting, featured listings, and premium recruitment tools may incur fees</li>
-            <li><strong>Subscription Plans:</strong> Monthly or annual subscription fees may apply for certain services</li>
-            <li><strong>Payment Terms:</strong> Fees are non-refundable unless otherwise stated</li>
-            <li><strong>Taxes:</strong> You are responsible for any applicable taxes</li>
-        </ul>
-    </div>
-
-    <div class="terms-section">
-        <h3>7. Intellectual Property</h3>
-        <p><strong>Our Content:</strong> The Service and its content (excluding user-generated content) are owned by JobPortal and are protected by copyright, trademark, and other laws.</p>
-        <p><strong>Your Content:</strong> You retain ownership of content you post. By posting, you grant us a license to use, display, and distribute your content for the purpose of providing the Service.</p>
-        <p><strong>Restrictions:</strong> You may not copy, modify, distribute, or create derivative works of our content without permission.</p>
-    </div>
-
-    <div class="terms-section">
-        <h3>8. Privacy</h3>
-        <p>Our Privacy Policy explains how we collect, use, and share your personal information. By using the Service, you consent to our privacy practices as described in the Privacy Policy.</p>
-    </div>
-
-    <div class="terms-section">
-        <h3>9. Third-Party Links</h3>
-        <p>The Service may contain links to third-party websites. We are not responsible for the content, privacy practices, or terms of these websites. Your interactions with third parties are solely between you and them.</p>
-    </div>
-
-    <div class="terms-section">
-        <h3>10. Termination</h3>
-        <p>We may terminate or suspend your account immediately, without prior notice, for conduct that violates these Terms or is harmful to other users or the Service.</p>
-        <p>Upon termination:</p>
-        <ul>
-            <li>Your right to use the Service will immediately cease</li>
-            <li>We may delete your account and associated content</li>
-            <li>Certain provisions of these Terms will survive termination</li>
-        </ul>
-    </div>
-
-    <div class="terms-section">
-        <h3>11. Disclaimer of Warranties</h3>
-        <p>THE SERVICE IS PROVIDED "AS IS" AND "AS AVAILABLE" WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED. WE DO NOT WARRANT THAT:</p>
-        <ul>
-            <li>The Service will be uninterrupted, secure, or error-free</li>
-            <li>Results obtained from the Service will be accurate or reliable</li>
-            <li>Any errors will be corrected</li>
-        </ul>
-    </div>
-
-    <div class="terms-section">
-        <h3>12. Limitation of Liability</h3>
-        <p>TO THE MAXIMUM EXTENT PERMITTED BY LAW, JOBPORTAL SHALL NOT BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES, OR ANY LOSS OF PROFITS OR REVENUES, WHETHER INCURRED DIRECTLY OR INDIRECTLY, OR ANY LOSS OF DATA, USE, GOODWILL, OR OTHER INTANGIBLE LOSSES, RESULTING FROM:</p>
-        <ul>
-            <li>Your use or inability to use the Service</li>
-            <li>Any conduct or content of any third party on the Service</li>
-            <li>Unauthorized access, use, or alteration of your transmissions or content</li>
-        </ul>
-        <p>Our total liability shall not exceed the amount you paid us, if any, in the past 12 months.</p>
-    </div>
-
-    <div class="terms-section">
-        <h3>13. Indemnification</h3>
-        <p>You agree to indemnify and hold JobPortal harmless from any claims, damages, losses, and expenses (including legal fees) arising from:</p>
-        <ul>
-            <li>Your violation of these Terms</li>
-            <li>Your use of the Service</li>
-            <li>Your violation of any third-party rights</li>
-            <li>Your content or information posted on the Service</li>
-        </ul>
-    </div>
-
-    <div class="terms-section">
-        <h3>14. Governing Law</h3>
-        <p>These Terms shall be governed by and construed in accordance with the laws of the State of New York, without regard to its conflict of law provisions.</p>
-    </div>
-
-    <div class="terms-section">
-        <h3>15. Dispute Resolution</h3>
-        <p>Any dispute arising from these Terms or your use of the Service shall be resolved through binding arbitration in New York County, New York, rather than in court, except that you may assert claims in small claims court if they qualify.</p>
-    </div>
-
-    <div class="terms-section">
-        <h3>16. Changes to Terms</h3>
-        <p>We reserve the right to modify these Terms at any time. We will notify you of material changes by:</p>
-        <ul>
-            <li>Posting the updated Terms on this page</li>
-            <li>Sending an email notification to registered users</li>
-            <li>Displaying a notice on our website</li>
-        </ul>
-        <p>Your continued use of the Service after changes constitutes acceptance of the new Terms.</p>
-    </div>
-
-    <div class="terms-section">
-        <h3>17. Severability</h3>
-        <p>If any provision of these Terms is found to be unenforceable, the remaining provisions will remain in full force and effect.</p>
-    </div>
-
-    <div class="terms-section">
-        <h3>18. Entire Agreement</h3>
-        <p>These Terms constitute the entire agreement between you and JobPortal regarding the Service and supersede all prior agreements.</p>
-    </div>
-
-    <div class="terms-section">
-        <h3>19. Contact Information</h3>
-        <p>If you have questions about these Terms, please contact us at:</p>
-        <ul>
-            <li>Email: legal@jobportal.com</li>
-            <li>Phone: +1 (555) 123-4567</li>
-            <li>Address: 123 Business Avenue, Suite 100, New York, NY 10001</li>
-        </ul>
-    </div>
-
-    <div class="alert alert-warning mt-4">
-        <strong>Important:</strong> By using JobPortal, you acknowledge that you have read, understood, and agree to be bound by these Terms of Service.
-    </div>
+    <!-- Back to top button -->
+    <a href="#top" class="back-to-top-fixed" aria-label="Back to top">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="18 15 12 9 6 15"></polyline>
+        </svg>
+    </a>
 </div>
 {% endblock %}
