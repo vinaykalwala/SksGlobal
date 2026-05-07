@@ -1032,6 +1032,119 @@ IT Staffing Insights & Tech Career Blog | Sks Global IT Services
 
         padding: 55px 60px 40px;
     }
+    /* ================= NEWSLETTER POPUP ================= */
+
+.newsletter-popup{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.55);
+
+    display:none;
+    justify-content:center;
+    align-items:center;
+
+    z-index:99999;
+
+    padding:20px;
+}
+
+.newsletter-popup.active{
+    display:flex;
+}
+
+.popup-box{
+    background:white;
+
+    width:100%;
+    max-width:500px;
+
+    border-radius:30px;
+
+    padding:45px 35px;
+
+    text-align:center;
+
+    animation:popupShow .35s ease;
+
+    position:relative;
+}
+
+@keyframes popupShow{
+
+    from{
+        opacity:0;
+        transform:translateY(20px) scale(.96);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0) scale(1);
+    }
+
+}
+
+.popup-icon{
+    width:90px;
+    height:90px;
+
+    margin:auto auto 25px;
+
+    border-radius:50%;
+
+    background:linear-gradient(
+        135deg,
+        #F15A24,
+        #ff8b5e
+    );
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    box-shadow:0 15px 35px rgba(241,90,36,.25);
+}
+
+.popup-icon i{
+    color:white;
+    font-size:2.4rem;
+}
+
+.popup-box h3{
+    font-size:2rem;
+    font-weight:800;
+    color:#0B2B5E;
+    margin-bottom:15px;
+}
+
+.popup-box p{
+    color:#667085;
+    line-height:1.9;
+    margin-bottom:30px;
+}
+
+.popup-box button{
+    border:none;
+
+    background:linear-gradient(
+        135deg,
+        #F15A24,
+        #ff7b42
+    );
+
+    color:white;
+
+    padding:14px 28px;
+
+    border-radius:14px;
+
+    font-weight:700;
+
+    transition:.3s;
+}
+
+.popup-box button:hover{
+    transform:translateY(-2px);
+}
 </style>
 
 <div class="container py-5">
@@ -1390,6 +1503,33 @@ col-lg-6
         <!-- NEWSLETTER -->
 
         <div class="newsletter-section">
+            <!-- SUCCESS POPUP -->
+
+<div class="newsletter-popup" id="newsletterPopup">
+
+    <div class="popup-box">
+
+        <div class="popup-icon">
+            <i class="fas fa-check"></i>
+        </div>
+
+        <h3>
+            Subscription Successful
+        </h3>
+
+        <p>
+            Thank you for subscribing to our newsletter.
+            You’ll receive the latest IT hiring trends,
+            career insights, and remote opportunities.
+        </p>
+
+        <button onclick="closePopup()">
+            Continue
+        </button>
+
+    </div>
+
+</div>
 
             <h2>
                 Subscribe to Our Monthly Newsletter
@@ -1437,5 +1577,35 @@ col-lg-6
 
     </div>
 
-</div>
+</div><script>
+
+const newsletterForm =
+document.querySelector('.newsletter-form');
+
+const newsletterPopup =
+document.getElementById('newsletterPopup');
+
+newsletterForm.addEventListener(
+'submit',
+function(e){
+
+    e.preventDefault();
+
+    newsletterPopup.classList.add('active');
+
+    setTimeout(() => {
+
+        newsletterForm.submit();
+
+    }, 1800);
+
+});
+
+function closePopup(){
+
+    newsletterPopup.classList.remove('active');
+
+}
+
+</script>
 {% endblock %}
