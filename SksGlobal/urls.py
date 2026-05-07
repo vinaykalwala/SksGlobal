@@ -71,6 +71,11 @@ urlpatterns = [
 
     # ------------------ DASHBOARD ------------------
     path('dashboard/', views.admin_dashboard, name='admin_dashboard'),
+    path(
+    'newsletter-subscribe/',
+    views.newsletter_subscribe,
+    name='newsletter_subscribe'
+),
 ]
 
 # ------------------ STATIC / MEDIA ------------------

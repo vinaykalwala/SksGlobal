@@ -484,3 +484,25 @@ def apply_for_job(request, slug):
         form.fields['job'].widget = forms.HiddenInput()
     
     return render(request, 'apply_for_job.html', {'form': form, 'job': job})
+from django.contrib import messages
+from .models import NewsletterSubscriber
+
+def newsletter_subscribe(request):
+
+    if request.method == "POST":
+
+        email = request.POST.get('email')
+
+        if email:
+
+            if not NewsletterSubscriber.objects.filter(email=email).exists():
+
+                NewsletterSubscriber.objects.create(email=email)
+
+                messages.success(request, "Subscribed Successfully!")
+
+            else:
+
+                messages.warning(request, "Email already subscribed!")
+
+    return redirect('blog_list')
