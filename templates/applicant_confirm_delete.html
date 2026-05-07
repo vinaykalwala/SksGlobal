@@ -1,30 +1,244 @@
 {% extends 'base.html' %}
+{% load static %}
 
-{% block title %}Delete Applicant - Admin{% endblock %}
+{% block title %}Confirm Deletion | Admin Dashboard{% endblock %}
+
+{% block extra_css %}
+<style>
+    :root {
+        --danger: #ef4444;
+        --danger-hover: #dc2626;
+        --surface: #ffffff;
+        --text-main: #0f172a;
+        --text-muted: #64748b;
+        --bg-app: #f8fafc;
+    }
+
+    body {
+        background-color: var(--bg-app);
+        font-family: 'Inter', -apple-system, sans-serif;
+    }
+
+    .delete-wrapper {
+        min-height: calc(100vh - 200px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1.5rem;
+    }
+
+    .modal-pro {
+        background: var(--surface);
+        width: 100%;
+        max-width: 480px;
+        border-radius: 24px;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.08);
+        border: 1px solid #e2e8f0;
+        overflow: hidden;
+        animation: modalEntry 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes modalEntry {
+        from { opacity: 0; transform: scale(0.95) translateY(10px); }
+        to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    .modal-header-pro {
+        padding: 40px 40px 20px;
+        text-align: center;
+    }
+
+    /* Modern Warning Icon */
+    .icon-status {
+        width: 80px;
+        height: 80px;
+        background: #fef2f2;
+        border-radius: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 24px;
+        position: relative;
+    }
+
+    .icon-status i {
+        font-size: 32px;
+        color: var(--danger);
+    }
+
+    /* Pulsing effect for warning */
+    .icon-status::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-radius: 100%;
+        border: 2px solid var(--danger);
+        animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+        0% { transform: scale(1); opacity: 0.5; }
+        100% { transform: scale(1.4); opacity: 0; }
+    }
+
+    .modal-body-pro {
+        padding: 0 40px 40px;
+        text-align: center;
+    }
+
+    .modal-body-pro h2 {
+        color: var(--text-main);
+        font-weight: 800;
+        font-size: 1.5rem;
+        margin-bottom: 12px;
+        letter-spacing: -0.02em;
+    }
+
+    .modal-body-pro p {
+        color: var(--text-muted);
+        line-height: 1.6;
+        margin-bottom: 30px;
+    }
+
+    /* Applicant Identity Badge */
+    .identity-badge {
+        background: #f1f5f9;
+        padding: 16px;
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 32px;
+        text-align: left;
+    }
+
+    .avatar-init {
+        width: 40px;
+        height: 40px;
+        background: var(--text-main);
+        color: white;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        flex-shrink: 0;
+    }
+
+    .identity-details {
+        overflow: hidden;
+    }
+
+    .identity-details span {
+        display: block;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .identity-details .name {
+        font-weight: 700;
+        color: var(--text-main);
+        font-size: 0.95rem;
+    }
+
+    .identity-details .email {
+        color: var(--text-muted);
+        font-size: 0.85rem;
+    }
+
+    /* Pro Buttons */
+    .action-stack {
+        display: grid;
+        gap: 12px;
+    }
+
+    .btn-pro-delete {
+        background: var(--danger);
+        color: white;
+        border: none;
+        padding: 16px;
+        border-radius: 14px;
+        font-weight: 700;
+        font-size: 1rem;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+    }
+
+    .btn-pro-delete:hover {
+        background: var(--danger-hover);
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px -5px rgba(239, 68, 68, 0.4);
+    }
+
+    .btn-pro-cancel {
+        background: white;
+        color: var(--text-muted);
+        border: 1px solid #e2e8f0;
+        padding: 16px;
+        border-radius: 14px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .btn-pro-cancel:hover {
+        background: #f8fafc;
+        color: var(--text-main);
+        border-color: #cbd5e1;
+    }
+
+    /* Screen Size Adjustments */
+    @media (max-width: 480px) {
+        .modal-pro { border-radius: 0; min-height: 100vh; max-width: 100%; border: none; }
+        .delete-wrapper { padding: 0; }
+        .modal-header-pro { padding-top: 60px; }
+    }
+</style>
+{% endblock %}
 
 {% block content %}
-<div class="row justify-content-center">
-    <div class="col-md-6">
-        <div class="card">
-            <div class="card-header bg-danger text-white">
-                <h3 class="mb-0"><i class="fas fa-exclamation-triangle"></i> Confirm Delete</h3>
+<div class="delete-wrapper">
+    <div class="modal-pro">
+        <div class="modal-header-pro">
+            <div class="icon-status">
+                <i class="fas fa-trash-alt"></i>
             </div>
-            <div class="card-body text-center">
-                <i class="fas fa-user-slash" style="font-size: 64px; color: #dc3545;"></i>
-                <h4 class="mt-3">Delete Applicant?</h4>
-                <p><strong>{{ applicant.name }}</strong> - {{ applicant.email }}</p>
-                <p class="text-danger">This action cannot be undone!</p>
-                
-                <form method="post">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-danger">
-                        <i class="fas fa-trash"></i> Yes, Delete
+        </div>
+
+        <div class="modal-body-pro">
+            <h2>Confirm Deletion</h2>
+            <p>You are about to delete this applicant. This process is irreversible and all associated data will be lost.</p>
+
+            <!-- Preservation of applicant data content -->
+            <div class="identity-badge">
+                <div class="avatar-init">{{ applicant.name|slice:":1"|upper }}</div>
+                <div class="identity-details">
+                    <span class="name">{{ applicant.name }}</span>
+                    <span class="email">{{ applicant.email }}</span>
+                </div>
+            </div>
+
+            <!-- Preservation of original form logic & functionality -->
+            <form method="post">
+                {% csrf_token %}
+                <div class="action-stack">
+                    <button type="submit" class="btn-pro-delete">
+                        <span>Permanently Delete</span>
+                        <i class="fas fa-arrow-right"></i>
                     </button>
-                    <a href="{% url ' applicant_detail' applicant.pk %}" class="btn btn-secondary">
-                        <i class="fas fa-times"></i> Cancel
+                    
+                    <a href="{% url 'applicant_detail' applicant.pk %}" class="btn-pro-cancel">
+                        Cancel and Go Back
                     </a>
-                </form>
-            </div>
+                </div>
+            </form>
         </div>
     </div>
 </div>
