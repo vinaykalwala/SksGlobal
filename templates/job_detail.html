@@ -1005,6 +1005,19 @@ benefits, and growth. AWS, Kubernetes, Terraform required. Apply today.{% endblo
             border-radius: 16px;
         }
     }
+    .facebook-share:hover{
+    background:#1877F2;
+    transform:translateY(-3px);
+}
+
+.facebook-share:hover span,
+.facebook-share:hover small,
+.facebook-share:hover i{
+    color:white;
+}
+.linkedin-share:hover {
+    background: #0A66C2;
+}
 </style>
 {% endblock %}
 
@@ -1049,7 +1062,7 @@ benefits, and growth. AWS, Kubernetes, Terraform required. Apply today.{% endblo
             <div class="hero-apply-card">
 
                 <div class="apply-mini-card">
-                    <h5>✨ Interested in this role?</h5>
+                    <h5><i class="fas fa-wand-magic-sparkles"></i> Interested in this role?</h5>
 
                     {% if not request.user.is_staff %}
                     <a href="{% url 'apply_for_job' job.slug %}" class="btn-apply">
@@ -1170,39 +1183,41 @@ benefits, and growth. AWS, Kubernetes, Terraform required. Apply today.{% endblo
 
                     <div class="share-grid">
 
-                        <a href="#" class="modern-share linkedin-share" onclick="shareOnLinkedIn()">
+                        <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ request.build_absolute_uri }}"
+   target="_blank"
+   class="modern-share linkedin-share">
 
-                            <i class="fab fa-linkedin"></i>
+    <i class="fab fa-linkedin-in"></i>
 
-                            <div>
-                                <span>LinkedIn</span>
-                                <small>Professional Network</small>
-                            </div>
+    <div>
+        <span>LinkedIn</span>
+        <small>Share professionally</small>
+    </div>
 
-                        </a>
+</a>
+                        <a href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri }}&text={{ job.title }}"
+   target="_blank"
+   class="modern-share twitter-share">
 
-                        <a href="#" class="modern-share twitter-share" onclick="shareOnTwitter()">
+    <i class="fab fa-twitter"></i>
 
-                            <i class="fab fa-twitter"></i>
+    <div>
+        <span>Twitter / X</span>
+        <small>Tweet this opportunity</small>
+    </div>
 
-                            <div>
-                                <span>Twitter</span>
-                                <small>Share with followers</small>
-                            </div>
+</a>
+                        <a href="mailto:?subject={{ job.title }}&body=Check this job opportunity: {{ request.build_absolute_uri }}"
+   class="modern-share email-share">
 
-                        </a>
+    <i class="fas fa-envelope"></i>
 
-                        <a href="#" class="modern-share email-share" onclick="shareByEmail()">
+    <div>
+        <span>Email</span>
+        <small>Send to a friend</small>
+    </div>
 
-                            <i class="fas fa-envelope"></i>
-
-                            <div>
-                                <span>Email</span>
-                                <small>Send directly</small>
-                            </div>
-
-                        </a>
-
+</a>
                     </div>
 
                 </div>

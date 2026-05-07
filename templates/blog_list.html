@@ -1087,17 +1087,17 @@ IT Staffing Insights & Tech Career Blog | Sks Global IT Services
                 <div class="hero-side-card">
 
                     <div class="mini-card">
-                        <span>🔥 Trending</span>
+                        <span><i class="fas fa-fire"></i> Trending</span>
                         <h4>Top 10 Remote Hiring Trends in 2025</h4>
                     </div>
 
                     <div class="mini-card">
-                        <span>📈 Salary Guide</span>
+                        <span><i class="fas fa-chart-line"></i> Salary Guide</span>
                         <h4>AI Engineer Salaries Increased 38%</h4>
                     </div>
 
                     <div class="mini-card">
-                        <span>💼 Career Tips</span>
+                        <span><i class="fas fa-briefcase"></i> Career Tips</span>
                         <h4>Resume Mistakes Freshers Still Make</h4>
                     </div>
 
@@ -1118,7 +1118,7 @@ IT Staffing Insights & Tech Career Blog | Sks Global IT Services
 
             <!-- LEFT -->
 
-            <div class="col-lg-9">
+            <div class="col-lg-12">
 
                 <div class="section-heading">
                     <div>
@@ -1326,106 +1326,6 @@ col-lg-6
 
             <!-- RIGHT -->
 
-            <div class="col-lg-3">
-
-                <!-- SEARCH -->
-
-                <div class="sidebar-box">
-
-                    <h3 class="sidebar-title">
-                        <i class="fas fa-search"></i>
-                        Search Articles
-                    </h3>
-
-                    <input type="text" class="search-input" placeholder="Search blog posts...">
-
-                </div>
-
-                <!-- CATEGORIES -->
-
-                <div class="sidebar-box">
-
-                    <h3 class="sidebar-title">
-                        <i class="fas fa-layer-group"></i>
-                        Categories
-                    </h3>
-
-                    <ul class="category-list">
-
-                        <li>
-                            <a href="#">
-                                For Employers
-                                <span>→</span>
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="#">
-                                For Job Seekers
-                                <span>→</span>
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="#">
-                                Industry Trends
-                                <span>→</span>
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="#">
-                                Salary & Data
-                                <span>→</span>
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="#">
-                                Nearshore Staffing
-                                <span>→</span>
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="#">
-                                Case Studies
-                                <span>→</span>
-                            </a>
-                        </li>
-
-                    </ul>
-
-                </div>
-
-                <!-- TAGS -->
-
-                <div class="sidebar-box">
-
-                    <h3 class="sidebar-title">
-                        <i class="fas fa-tags"></i>
-                        Popular Tags
-                    </h3>
-
-                    <div class="tag-wrapper">
-
-                        <span class="tag">#ITStaffing</span>
-                        <span class="tag">#HireDevelopers</span>
-                        <span class="tag">#DevOpsJobs</span>
-                        <span class="tag">#RemoteITJobs</span>
-                        <span class="tag">#TechHiring</span>
-                        <span class="tag">#ITRecruitment</span>
-                        <span class="tag">#SalaryGuide</span>
-                        <span class="tag">#JobSearchTips</span>
-
-                    </div>
-
-                </div>
-
-                <!-- NEWSLETTER -->
-
-
-            </div>
 
         </div>
 
@@ -1434,39 +1334,7 @@ col-lg-6
 
         <!-- DOWNLOAD -->
 
-        <div class="download-section">
 
-            <div class="download-content">
-
-                <h2>
-                    Featured Download:
-                    2025 IT Salary Guide
-                </h2>
-                <p>
-                    Get instant access to salary data for
-                    50+ IT roles — including Developers,
-                    DevOps Engineers, Cloud Architects,
-                    Data Analysts, Security Specialists,
-                    and AI Engineers.
-                </p>
-
-                <form class="download-form">
-
-                    <input type="text" placeholder="Full Name">
-
-                    <input type="email" placeholder="Email Address">
-
-                    <input type="text" placeholder="Company (Optional)">
-
-                    <button type="submit">
-                        Download Now
-                    </button>
-
-                </form>
-
-            </div>
-
-        </div>
         <div class="guest-section">
 
             <div class="guest-image">
@@ -1511,7 +1379,7 @@ col-lg-6
 
                 </div>
 
-                <a href="#" class="read-btn">
+                <a href="{% url 'contact' %}" class="read-btn">
                     Write for Us
                 </a>
 
@@ -1533,32 +1401,36 @@ col-lg-6
                 and exclusive remote IT opportunities.
             </p>
 
-            <form class="newsletter-form">
+            <form method="POST"
+      action="{% url 'newsletter_subscribe' %}"
+      class="newsletter-form">
 
-                <input type="email" placeholder="Enter your email address">
+    {% csrf_token %}
 
-                <button type="submit">
-                    Subscribe
-                </button>
+    <input type="email"
+           name="email"
+           placeholder="Enter your email address"
+           required>
 
-            </form>
+    <button type="submit">
+        Subscribe
+    </button>
 
+</form>
 
 
             <div class="social-icons">
 
-                <a href="#">
+                <a href="https://www.linkedin.com/" target="_blank">
                     <i class="fab fa-linkedin-in"></i>
                 </a>
-
-                <a href="#">
+                <a href="https://twitter.com/" target="_blank">
                     <i class="fab fa-twitter"></i>
                 </a>
 
-                <a href="#">
+                <a href="https://www.facebook.com/" target="_blank">
                     <i class="fab fa-facebook-f"></i>
                 </a>
-
             </div>
 
         </div>

@@ -380,39 +380,6 @@
 
             </div>
 
-            <hr class="section-divider">
-
-            <div class="comment-box">
-
-                <h4 class="comment-title">
-                    <i class="fas fa-comments"></i>
-                    Leave a Comment
-                </h4>
-
-                <form>
-
-                    <div class="mb-3">
-                        <label for="name" class="form-label">Name</label>
-                        <input type="text" class="form-control" id="name">
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="email">
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="comment" class="form-label">Comment</label>
-                        <textarea class="form-control" id="comment" rows="5"></textarea>
-                    </div>
-
-                    <button type="submit" class="btn btn-custom">
-                        Post Comment
-                    </button>
-
-                </form>
-
-            </div>
 
         </div>
 
@@ -439,16 +406,26 @@
 
                 <div class="share-buttons">
 
-                    <a href="#" class="share-btn">
-                        <i class="fab fa-facebook-f"></i> Facebook
-                    </a>
+                    <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}"
+                        target="_blank" class="share-btn">
 
-                    <a href="#" class="share-btn">
-                        <i class="fab fa-twitter"></i> Twitter
-                    </a>
+                        <i class="fab fa-facebook-f"></i>
+                        Facebook
 
-                    <a href="#" class="share-btn">
-                        <i class="fab fa-linkedin-in"></i> LinkedIn
+                    </a>
+                    <a href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri }}&text={{ blog.title }}"
+                        target="_blank" class="share-btn">
+
+                        <i class="fab fa-twitter"></i>
+                        Twitter
+
+                    </a>
+                    <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ request.build_absolute_uri }}"
+                        target="_blank" class="share-btn">
+
+                        <i class="fab fa-linkedin-in"></i>
+                        LinkedIn
+
                     </a>
 
                 </div>

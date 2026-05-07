@@ -1057,8 +1057,8 @@ Explore top IT jobs in USA with SKS Global IT Services. Apply now.
         <p>Whether you are a Java developer, cloud engineer, data scientist, or cybersecurity analyst – we connect you
             with top US employers offering competitive pay, benefits, and career growth.</p>
         <div class="hero-buttons">
-            <a href="#" class="btn-primary-coral"><i class="fas fa-search"></i> Search Open Jobs →</a>
-            <a href="#" class="btn-outline-light"><i class="fas fa-upload"></i> Submit Your Resume →</a>
+            <a href="{% url 'job_list' %}" class="btn-primary-coral"><i class="fas fa-search"></i> Search Open Jobs →</a>
+            <a href="{% url 'job_list' %}" class="btn-outline-light"><i class="fas fa-upload"></i> Submit Your Resume →</a>
         </div>
     </div>
 
@@ -1109,20 +1109,28 @@ Explore top IT jobs in USA with SKS Global IT Services. Apply now.
                 </ul>
             </div>
             <!-- FAQ Section -->
+             <div class="right-extra-section">
+            <div class="info-card">
+                <div class="card-title">
+                    <i class="fas fa-question-circle"></i> FAQs
+                </div>
 
+                <div class="faq-item">
+                    <div class="faq-question">Do I need to be a US citizen?</div>
+                    <div class="faq-answer">No. All work authorizations accepted. (No H1-B)</div>
+                </div>
 
-            <!-- Join Talent Network -->
-            <div class="info-card" style="background: linear-gradient(115deg, #FEF9F7, white);">
-                <div class="card-title"><i class="fas fa-envelope"></i> Talent Network</div>
-                <p style="font-size: 0.75rem; margin-bottom: 0.8rem;">Get job alerts & free "Top 50 Interview Questions"
-                    PDF.</p>
-                <div style="display: flex; gap: 6px; flex-wrap: wrap;">
-                    <input type="email" placeholder="Your email" class="modern-input"
-                        style="flex:2; font-size:0.75rem;">
-                    <button class="btn-coral-full"
-                        style="flex:1; width: auto; padding: 0 0.8rem; font-size:0.7rem;">Subscribe</button>
+                <div class="faq-item">
+                    <div class="faq-question">How much do you pay?</div>
+                    <div class="faq-answer">$40–110/hr based on experience</div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">Is there any cost?</div>
+                    <div class="faq-answer">100% free for job seekers</div>
                 </div>
             </div>
+        </div>
         </aside>
 
         <!-- RIGHT SIDE: ONLY JOBS LIST SCROLLS HERE -->
@@ -1163,7 +1171,7 @@ single-job-featured
             </div>
             {% if forloop.counter == 3 %}
             <div class="featured-card">
-                <h3>🔥 Featured Categories</h3>
+                <h3><i class="fas fa-fire"></i> Featured Categories</h3>
                 <div class="roles-badge-grid">
                     <span class="role-badge special">Remote Jobs</span>
                     <span class="role-badge special">Contract Jobs</span>
@@ -1204,11 +1212,7 @@ single-job-featured
                         Reset Filters
                     </a>
 
-                    <a href="#" class="btn-outline-mint">
-                        <i class="fas fa-upload"></i>
-                        Upload Resume
-                    </a>
-
+                    
                 </div>
 
             </div>
@@ -1247,30 +1251,7 @@ single-job-featured
             {% endif %}
 
         </div>
-        # Right Extra Section (Optional)
-        <div class="right-extra-section">
-            <div class="info-card">
-                <div class="card-title">
-                    <i class="fas fa-question-circle"></i> FAQs
-                </div>
-
-                <div class="faq-item">
-                    <div class="faq-question">Do I need to be a US citizen?</div>
-                    <div class="faq-answer">No. All work authorizations accepted. (No H1-B)</div>
-                </div>
-
-                <div class="faq-item">
-                    <div class="faq-question">How much do you pay?</div>
-                    <div class="faq-answer">$40–110/hr based on experience</div>
-                </div>
-
-                <div class="faq-item">
-                    <div class="faq-question">Is there any cost?</div>
-                    <div class="faq-answer">100% free for job seekers</div>
-                </div>
-            </div>
-        </div>
-
+        
 
 
 

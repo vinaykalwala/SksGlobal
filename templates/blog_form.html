@@ -1,340 +1,597 @@
 {% extends 'base.html' %}
 
-{% block title %}{% if form.instance.pk %}Edit Blog{% else %}Create Blog Post{% endif %} - Admin{% endblock %}
+{% block title %}
+{% if form.instance.pk %}
+Edit Blog
+{% else %}
+Create Blog Post
+{% endif %}
+- Admin
+{% endblock %}
 
 {% block extra_css %}
+
 <style>
     :root {
-        --primary-orange: #F15A24;
-        --orange-light: #FF7F4F;
-        --primary-blue: #0B2B5E;
-        --blue-dark: #071F44;
-        --blue-accent: #1B4A8A;
-        --gray-bg: #F8FAFF;
-        --gray-text: #5A6B7C;
-        --dark-text: #1A2A3A;
-        --border-light: #E8EDF2;
-        --white: #FFFFFF;
+        --primary: #0B2B5E;
+        --secondary: #F15A24;
+        --bg: #f4f7fb;
+        --white: #ffffff;
+        --text: #101828;
+        --muted: #667085;
+        --border: #e4e7ec;
     }
 
-    /* Form Container Styles */
-    .blog-form-container {
-        background: var(--gray-bg);
-        min-height: calc(100vh - 100px);
-        padding: 2rem 0;
+    /* PAGE */
+
+    body {
+        background: var(--bg);
     }
+
+    /* MAIN */
+
+    .blog-page {
+        max-width: 1450px;
+        margin: auto;
+    }
+
+    /* HERO */
+
+    .blog-hero {
+        position: relative;
+        overflow: hidden;
+
+        background:
+            linear-gradient(rgba(11, 43, 94, .82),
+                rgba(11, 43, 94, .82)),
+            url('https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?q=80&w=1400');
+
+        background-size: cover;
+        background-position: center;
+
+        border-radius: 32px;
+
+        padding: 60px 55px;
+
+        margin-bottom: 35px;
+    }
+
+    .blog-hero::after {
+        content: '';
+        position: absolute;
+        width: 350px;
+        height: 350px;
+        background: rgba(255, 255, 255, .05);
+        border-radius: 50%;
+        right: -100px;
+        top: -120px;
+    }
+
+    /* HERO CONTENT */
+
+    .hero-content {
+        position: relative;
+        z-index: 2;
+    }
+
+    .hero-content h1 {
+        font-size: 3rem;
+        font-weight: 900;
+        color: white;
+        margin-bottom: 18px;
+        line-height: 1.2;
+    }
+
+    .hero-content p {
+        color: rgba(255, 255, 255, .85);
+        font-size: 16px;
+        line-height: 1.9;
+        max-width: 720px;
+        margin: 0;
+    }
+
+    /* CARD */
 
     .blog-card {
-        border: none;
-        border-radius: 1rem;
-        box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.08);
+        background: white;
+        border-radius: 30px;
         overflow: hidden;
-        background: var(--white);
+        box-shadow: 0 12px 40px rgba(0, 0, 0, .05);
     }
+
+    /* HEADER */
 
     .blog-card-header {
-        background: linear-gradient(135deg, var(--primary-blue) 0%, var(--blue-dark) 100%);
-        padding: 1.5rem 2rem;
-        border-bottom: 3px solid var(--primary-orange);
-    }
+        padding: 35px 40px;
+        border-bottom: 1px solid var(--border);
 
-    .blog-card-header h3 {
-        font-size: 1.5rem;
-        font-weight: 600;
-        letter-spacing: -0.3px;
-        color: var(--white);
-        margin: 0;
         display: flex;
+        justify-content: space-between;
         align-items: center;
-        gap: 0.75rem;
+        gap: 20px;
+        flex-wrap: wrap;
     }
 
-    .blog-card-header h3 i {
-        color: var(--primary-orange);
-        font-size: 1.6rem;
+    .header-left h3 {
+        margin: 0;
+        font-size: 2rem;
+        font-weight: 800;
+        color: var(--primary);
     }
 
-    /* Form Styles */
+    .header-left p {
+        margin: 10px 0 0;
+        color: var(--muted);
+        font-size: 15px;
+    }
+
+    /* STATUS */
+
+    .header-badge {
+        background: #fff4ed;
+        color: var(--secondary);
+        padding: 12px 20px;
+        border-radius: 50px;
+        font-weight: 700;
+        font-size: 14px;
+    }
+
+    /* FORM */
+
     .blog-form {
-        padding: 2rem;
+        padding: 40px;
     }
+
+    /* GRID */
+
+    .form-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 26px;
+    }
+
+    /* FULL WIDTH */
+
+    .full-width {
+        grid-column: 1/-1;
+    }
+
+    /* GROUP */
 
     .form-group {
-        margin-bottom: 1.75rem;
+        position: relative;
     }
 
+    /* LABEL */
+
     .form-label {
-        font-weight: 600;
-        color: var(--primary-blue);
-        margin-bottom: 0.5rem;
-        font-size: 0.9rem;
-        letter-spacing: -0.2px;
-        display: flex;
-        align-items: center;
-        gap: 0.25rem;
+        display: block;
+        margin-bottom: 10px;
+        font-weight: 700;
+        color: var(--text);
+        font-size: 14px;
     }
 
     .required-star {
-        color: var(--primary-orange);
-        font-size: 1rem;
-        margin-left: 0.125rem;
+        color: red;
     }
+
+    /* INPUT */
 
     .form-control {
-        border: 1.5px solid var(--border-light);
-        border-radius: 0.75rem;
-        padding: 0.7rem 1rem;
-        font-size: 0.95rem;
-        color: var(--dark-text);
-        background: var(--white);
-        transition: all 0.2s ease;
-    }
-
-    .form-control:focus {
-        border-color: var(--primary-orange);
-        box-shadow: 0 0 0 3px rgba(241, 90, 36, 0.1);
+        width: 100%;
+        border: 1px solid var(--border);
+        background: #fafbfd;
+        border-radius: 18px;
+        padding: 15px 18px;
+        font-size: 15px;
+        color: var(--text);
+        transition: .3s;
         outline: none;
     }
 
-    textarea.form-control {
-        resize: vertical;
-        line-height: 1.6;
+    .form-control:focus {
+        border-color: var(--secondary);
+        background: white;
+        box-shadow: 0 0 0 5px rgba(241, 90, 36, .10);
     }
 
-    /* File Input Styling */
+    /* TEXTAREA */
+
+    textarea.form-control {
+        resize: vertical;
+        min-height: 180px;
+        line-height: 1.7;
+    }
+
+    /* CONTENT BOX SMALLER */
+
+    #id_content {
+        min-height: 240px;
+        height: 240px;
+        max-width: 100%;
+        line-height: 1.8;
+    }
+
+    /* FILE */
+
     .custom-file-wrapper {
         position: relative;
     }
 
     .current-file {
-        background: var(--gray-bg);
-        padding: 0.5rem 0.75rem;
-        border-radius: 0.5rem;
-        margin-bottom: 0.75rem;
-        font-size: 0.85rem;
-        color: var(--gray-text);
-        border: 1px solid var(--border-light);
+        background: #f8fafc;
+        border: 1px solid var(--border);
+        padding: 12px 15px;
+        border-radius: 14px;
+        margin-bottom: 12px;
+        font-size: 14px;
     }
 
     .current-file a {
-        color: var(--primary-orange);
+        color: var(--secondary);
         text-decoration: none;
-        font-weight: 500;
+        font-weight: 600;
     }
 
-    .current-file a:hover {
-        text-decoration: underline;
-    }
+    /* CHECKBOX */
 
-    /* Checkbox Styling */
     .form-check {
+        background: #f8fafc;
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        padding: 18px;
         display: flex;
         align-items: center;
-        gap: 0.5rem;
-        padding-left: 0;
-        min-height: auto;
+        gap: 12px;
     }
 
     .form-check-input {
-        width: 1.2rem;
-        height: 1.2rem;
-        margin-top: 0;
-        cursor: pointer;
-        accent-color: var(--primary-orange);
-        border: 1.5px solid var(--border-light);
-        border-radius: 0.3rem;
-    }
-
-    .form-check-input:checked {
-        background-color: var(--primary-orange);
-        border-color: var(--primary-orange);
+        width: 18px;
+        height: 18px;
+        accent-color: var(--secondary);
     }
 
     .form-check-label {
-        color: var(--dark-text);
-        font-weight: 500;
-        cursor: pointer;
+        font-weight: 600;
+        color: var(--text);
     }
 
-    /* Error Styling */
+    /* HELP */
+
+    .form-text {
+        display: block;
+        margin-top: 8px;
+        color: var(--muted);
+        font-size: 13px;
+    }
+
+    /* ERRORS */
+
     .errorlist {
-        color: #dc2626;
         list-style: none;
         padding: 0;
-        margin: 0.5rem 0 0;
-        font-size: 0.8rem;
-        font-weight: 500;
+        margin: 8px 0;
     }
 
     .errorlist li {
-        margin-bottom: 0.25rem;
+        color: #dc2626;
+        font-size: 13px;
+        font-weight: 500;
     }
 
-    /* Help Text */
-    .form-text {
-        font-size: 0.75rem;
-        color: var(--gray-text);
-        margin-top: 0.375rem;
-    }
+    /* BUTTON AREA */
 
-    /* Button Styles */
-    .btn-primary-custom {
-        background-color: var(--primary-orange);
-        border: none;
-        padding: 0.7rem 1.75rem;
-        border-radius: 0.75rem;
-        font-weight: 600;
-        font-size: 0.9rem;
-        color: var(--white);
-        transition: all 0.25s ease;
-        display: inline-flex;
+    .button-group {
+        margin-top: 40px;
+        padding-top: 30px;
+        border-top: 1px solid var(--border);
+
+        display: flex;
+        justify-content: space-between;
         align-items: center;
-        gap: 0.5rem;
+        gap: 20px;
+        flex-wrap: wrap;
+    }
+
+    /* LEFT */
+
+    .button-left {
+        display: flex;
+        gap: 16px;
+        flex-wrap: wrap;
+    }
+
+    /* BUTTONS */
+
+    .btn-primary-custom {
+        border: none;
+        background: linear-gradient(135deg, var(--secondary), #ff7b42);
+        color: white;
+        padding: 15px 28px;
+        border-radius: 18px;
+        font-weight: 700;
+        transition: .3s;
     }
 
     .btn-primary-custom:hover {
-        background-color: var(--orange-light);
-        transform: translateY(-1px);
-        box-shadow: 0 4px 12px rgba(241, 90, 36, 0.25);
-    }
-
-    .btn-primary-custom:active {
-        transform: translateY(0);
+        transform: translateY(-2px);
+        box-shadow: 0 12px 25px rgba(241, 90, 36, .25);
     }
 
     .btn-secondary-custom {
-        background-color: var(--gray-bg);
-        border: 1.5px solid var(--border-light);
-        padding: 0.7rem 1.75rem;
-        border-radius: 0.75rem;
-        font-weight: 600;
-        font-size: 0.9rem;
-        color: var(--gray-text);
-        transition: all 0.2s ease;
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
+        border: 1px solid var(--border);
+        background: white;
+        color: var(--text);
+        padding: 15px 28px;
+        border-radius: 18px;
+        font-weight: 700;
+        text-decoration: none;
+        transition: .3s;
     }
 
     .btn-secondary-custom:hover {
-        background-color: var(--border-light);
-        border-color: var(--gray-text);
-        color: var(--dark-text);
+        border-color: var(--secondary);
+        color: var(--secondary);
     }
 
-    .button-group {
-        display: flex;
-        gap: 1rem;
-        margin-top: 2rem;
-        padding-top: 0.5rem;
-        border-top: 1px solid var(--border-light);
+    /* RIGHT TEXT */
+
+    .save-note {
+        color: var(--muted);
+        font-size: 14px;
     }
 
-    /* Responsive Adjustments */
-    @media (max-width: 768px) {
-        .blog-form-container {
-            padding: 1rem;
-        }
+    /* MOBILE */
 
-        .blog-card-header h3 {
-            font-size: 1.25rem;
+    @media(max-width:991px) {
+
+        .form-grid {
+            grid-template-columns: 1fr;
         }
 
         .blog-form {
-            padding: 1.5rem;
+            padding: 28px;
+        }
+
+        .blog-card-header {
+            padding: 28px;
+        }
+
+        .hero-content h1 {
+            font-size: 2.3rem;
+        }
+
+    }
+
+    @media(max-width:768px) {
+
+        .blog-hero {
+            padding: 40px 30px;
         }
 
         .button-group {
             flex-direction: column;
+            align-items: flex-start;
         }
 
-        .btn-primary-custom,
-        .btn-secondary-custom {
-            justify-content: center;
-        }
     }
 </style>
+
 {% endblock %}
 
 {% block content %}
-<div class="blog-form-container">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-10 col-lg-9">
-                <div class="blog-card">
-                    <div class="blog-card-header">
-                        <h3>
-                            <i class="fas fa-{% if form.instance.pk %}edit{% else %}plus-circle{% endif %}"></i>
-                            {% if form.instance.pk %}Edit Blog Post{% else %}Create New Blog Post{% endif %}
-                        </h3>
-                    </div>
-                    <div class="blog-form">
-                        <form method="post" enctype="multipart/form-data">
-                            {% csrf_token %}
 
-                            {% for field in form %}
-                            <div class="form-group">
-                                <label for="{{ field.id_for_label }}" class="form-label">
-                                    {% if field.field.widget.input_type == 'checkbox' %}
-                                    <!-- Checkbox label handled separately -->
-                                    {% else %}
-                                    {{ field.label }}
-                                    {% if field.field.required %}<span class="required-star">*</span>{% endif %}
-                                    {% endif %}
-                                </label>
-                                {{ field.errors }}
+<div class="container py-5">
 
-                                {% if field.field.widget.input_type == 'textarea' %}
-                                <textarea name="{{ field.name }}" id="{{ field.id_for_label }}" class="form-control"
-                                    rows="{% if field.name == 'content' %}10{% else %}3{% endif %}">{{ field.value|default:'' }}</textarea>
+    <div class="blog-page">
 
-                                {% elif field.field.widget.input_type == 'file' %}
-                                <div class="custom-file-wrapper">
-                                    {% if field.value %}
-                                    <div class="current-file">
-                                        <i class="fas fa-paperclip"></i> Current: <a href="{{ field.value.url }}">{{
-                                            field.value.name }}</a>
-                                    </div>
-                                    {% endif %}
-                                    <input type="file" name="{{ field.name }}" id="{{ field.id_for_label }}"
-                                        class="form-control">
-                                </div>
+        <!-- HERO -->
 
-                                {% elif field.field.widget.input_type == 'checkbox' %}
-                                <div class="form-check">
-                                    <input type="checkbox" name="{{ field.name }}" id="{{ field.id_for_label }}"
-                                        class="form-check-input" {% if field.value %}checked{% endif %}>
-                                    <label class="form-check-label" for="{{ field.id_for_label }}">
-                                        {{ field.label }}
-                                        {% if field.field.required %}<span class="required-star">*</span>{% endif %}
-                                    </label>
-                                </div>
+        <div class="blog-hero">
 
-                                {% else %}
-                                <input type="{{ field.field.widget.input_type }}" name="{{ field.name }}"
-                                    id="{{ field.id_for_label }}" class="form-control"
-                                    value="{{ field.value|default:'' }}">
-                                {% endif %}
+            <div class="hero-content">
 
-                                {% if field.help_text %}
-                                <small class="form-text">{{ field.help_text }}</small>
-                                {% endif %}
-                            </div>
-                            {% endfor %}
+                <h1>
+                    Blog Management Dashboard
+                </h1>
 
-                            <div class="button-group">
-                                <button type="submit" class="btn-primary-custom">
-                                    <i class="fas fa-save"></i> Save Blog Post
-                                </button>
-                                <a href="{% url 'blog_list' %}" class="btn-secondary-custom">
-                                    <i class="fas fa-times"></i> Cancel
-                                </a>
-                            </div>
-                        </form>
-                    </div>
-                </div>
+                <p>
+                    Create engaging blog posts, publish company updates,
+                    share industry insights, and manage content professionally
+                    with a modern publishing workflow.
+                </p>
+
             </div>
+
         </div>
+
+        <!-- CARD -->
+
+        <div class="blog-card">
+
+            <!-- HEADER -->
+
+            <div class="blog-card-header">
+
+                <div class="header-left">
+
+                    <h3>
+
+                        {% if form.instance.pk %}
+                        Edit Blog Post
+                        {% else %}
+                        Create New Blog Post
+                        {% endif %}
+
+                    </h3>
+
+                    <p>
+                        Fill all required information carefully before publishing.
+                    </p>
+
+                </div>
+
+                <div class="header-badge">
+
+                    <i class="fas fa-pen-nib"></i>
+
+                    Content Portal
+
+                </div>
+
+            </div>
+
+            <!-- FORM -->
+
+            <div class="blog-form">
+
+                <form method="post" enctype="multipart/form-data">
+
+                    {% csrf_token %}
+
+                    <div class="form-grid">
+
+                        {% for field in form %}
+
+                        <div class="form-group
+                        
+            {% if field.name == 'title' or field.name == 'content' or field.field.widget.input_type == 'checkbox' or field.field.widget.input_type == 'file' %}
+full-width
+{% endif %}
+                        
+                        ">
+
+                            {% if field.field.widget.input_type != 'checkbox' %}
+
+                            <label for="{{ field.id_for_label }}" class="form-label">
+
+                                {{ field.label }}
+
+                                {% if field.field.required %}
+                                <span class="required-star">*</span>
+                                {% endif %}
+
+                            </label>
+
+                            {% endif %}
+
+                            {{ field.errors }}
+
+                            {% if field.field.widget.input_type == 'textarea' %}
+
+                            <textarea name="{{ field.name }}" id="{{ field.id_for_label }}" class="form-control"
+                                rows="{% if field.name == 'content' %}12{% else %}4{% endif %}">{{ field.value|default:'' }}</textarea>
+
+                            {% elif field.field.widget.input_type == 'file' %}
+
+                            <div class="custom-file-wrapper">
+
+                                {% if field.value %}
+
+                                <div class="current-file">
+
+                                    <i class="fas fa-paperclip"></i>
+
+                                    Current:
+                                    <a href="{{ field.value.url }}">
+
+                                        {{ field.value.name }}
+
+                                    </a>
+
+                                </div>
+
+                                {% endif %}
+
+                                <input type="file" name="{{ field.name }}" id="{{ field.id_for_label }}"
+                                    class="form-control">
+
+                            </div>
+
+                            {% elif field.field.widget.input_type == 'checkbox' %}
+
+                            <div class="form-check">
+
+                                <input type="checkbox" name="{{ field.name }}" id="{{ field.id_for_label }}"
+                                    class="form-check-input" {% if field.value %}checked{% endif %}>
+
+                                <label class="form-check-label" for="{{ field.id_for_label }}">
+
+                                    {{ field.label }}
+
+                                    {% if field.field.required %}
+                                    <span class="required-star">*</span>
+                                    {% endif %}
+
+                                </label>
+
+                            </div>
+
+                            {% else %}
+
+                            <input type="{{ field.field.widget.input_type }}" name="{{ field.name }}"
+                                id="{{ field.id_for_label }}" class="form-control" value="{{ field.value|default:'' }}">
+
+                            {% endif %}
+
+                            {% if field.help_text %}
+
+                            <small class="form-text">
+
+                                {{ field.help_text }}
+
+                            </small>
+
+                            {% endif %}
+
+                        </div>
+
+                        {% endfor %}
+
+                    </div>
+
+                    <!-- BUTTONS -->
+
+                    <div class="button-group">
+
+                        <div class="button-left">
+
+                            <button type="submit" class="btn-primary-custom">
+
+                                <i class="fas fa-save"></i>
+
+                                Save Blog Post
+
+                            </button>
+
+                            <a href="{% url 'blog_list' %}" class="btn-secondary-custom">
+
+                                <i class="fas fa-arrow-left"></i>
+
+                                Cancel
+
+                            </a>
+
+                        </div>
+
+                        <div class="save-note">
+
+                            <i class="fas fa-shield-check"></i>
+
+
+                        </div>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
     </div>
+
 </div>
+
 {% endblock %}
